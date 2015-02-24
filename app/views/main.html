@@ -1,29 +1,25 @@
-<div class="jumbotron" >
-	<button ng-click="ctl.msg()" > test button</button>
-	<p translate="HI_THERE" ></p>
-	<p >{{ ctl.test | translate }}</p>
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">
-        <img src="images/yeoman.png" alt="I'm Yeoman">
-        <br>Always a pleasure scaffolding your apps.
-    </p>
-    <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a>
-    </p>
-</div>
-
-<div class="row marketing">
-    <h4>HTML5 Boilerplate</h4>
-    <p>
-        HTML5 Boilerplate is a professional front-end template for building fast, robust,
-        and adaptable web apps or sites.
-    </p>
-
-    <h4>Angular</h4>
-    <p>
-        AngularJS is a toolset for building the framework most suited to your application
-        development.
-    </p>
-
-    <h4>Karma</h4>
-    <p>Spectacular Test Runner for JavaScript.</p>
+<div>
+    <form novalidate class="simple-form">
+        <label for='i1' class="col-sm-2 control-label" translate>DISPENSA.LABEL.NAME</label>
+        <input id='i1' type="text" ng-model="item.name" />
+        <br/>
+        <label for='i2' class="col-sm-2 control-label" translate>DISPENSA.LABEL.BRAND</label>
+        <input id='i2' type="text" ng-model="item.brand" />
+        <br/>
+        <label for='i3' class="col-sm-2 control-label" translate>DISPENSA.LABEL.TYPE</label>
+        <input id='i3' type="text" ng-model="item.type" />
+        <br/>
+        <label for='i4' class="col-sm-2 control-label" translate>DISPENSA.LABEL.QNT</label>
+        <input id='i4' type="text" ng-model="item.quantity" />
+        <br/>
+        <label for='i5' class="col-sm-2 control-label" translate>DISPENSA.LABEL.PRICE</label>
+        <input id='i5' type="text" ng-model="item.price" />
+        <br/>
+        <label for='i6' class="col-sm-2 control-label" translate>DISPENSA.LABEL.STORE</label>
+        <input id='i6' type="text" ng-model="item.store" />
+        <br/>
+		<button ng-click="reset()" translate >DISPENSA.LABEL.BTN_RESET</button>
+		<button type="submit" ng-click="update(item)" translate >DISPENSA.LABEL.BTN_SAVE</button>
+    </form>
+    <pre>form = {{item | json}}</pre>  <pre>master = {{master | json}}</pre> 
 </div>

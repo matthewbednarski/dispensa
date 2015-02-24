@@ -15,6 +15,8 @@ require.config({
         'angular-translate-storage-cookie': '../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie',
         bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
         pouchdb: '../../bower_components/pouchdb/dist/pouchdb',
+        moment: '../../bower_components/moment/moment',
+        lodash: '../../bower_components/lodash/lodash',
         'angular-growl-v2': '../../bower_components/angular-growl-v2/build/angular-growl'
     },
     shim: {
@@ -74,29 +76,31 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = 'NG_DEFER_BOOTSTRAP!';
 
-require([
-    'angular',
-    'app',
-    'angular-route',
-    'angular-cookies',
-    'angular-messages',
-    'angular-sanitize',
-    'angular-resource',
-    'angular-animate',
-    'angular-touch',
-    'angular-growl-v2',
-    'angular-translate',
-    'pouchdb'
-], function(angular, app, ngRoutes, ngCookies, ngMessages,
-    ngSanitize, ngResource, ngAnimate, ngTouch, ngGrowl, ngTranslate, pouchdb) {
-    'use strict';
-    window.PouchDB = pouchdb;
-    window.growl = ngGrowl;
-    window.translate = ngTranslate;
-    /* jshint ignore:start */
-    var $html = angular.element(document.getElementsByTagName('html')[0]);
-    /* jshint ignore:end */
-    angular.element().ready(function() {
-        angular.resumeBootstrap([app.name]);
+require(['pouchdb', 'moment', 'lodash'], function(pouchdb, moment, lodash) {
+	console.info("Loaded PouchDB, moment and lodash");
+	window.moment = moment;
+
+    require([
+        'angular',
+        'app',
+        'angular-route',
+        'angular-cookies',
+        'angular-messages',
+        'angular-sanitize',
+        'angular-resource',
+        'angular-animate',
+        'angular-touch',
+        'angular-growl-v2',
+        'angular-translate',
+        'angular-translate-loader-static-files'
+    ], function(angular, app, ngRoutes, ngCookies, ngMessages,
+        ngSanitize, ngResource, ngAnimate, ngTouch, ngGrowl, ngTranslate) {
+        'use strict';
+        /* jshint ignore:start */
+        var $html = angular.element(document.getElementsByTagName('html')[0]);
+        /* jshint ignore:end */
+        angular.element().ready(function() {
+            angular.resumeBootstrap([app.name]);
+        });
     });
 });

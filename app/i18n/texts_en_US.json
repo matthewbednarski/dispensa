@@ -1,0 +1,15 @@
+{
+    "DISPENSA": {
+        "TITLE": "Dispenssa",
+        "LABEL": {
+            "NAME": "Name",
+            "BRAND": "Brand",
+            "TYPE": "Type",
+            "QNT": "Quantity",
+            "PRICE": "Price",
+            "STORE": "Store",
+            "BTN_RESET": "Reset",
+            "BTN_SAVE": "Save"
+        }
+    }
+}

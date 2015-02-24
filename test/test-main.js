@@ -27,6 +27,8 @@ requirejs.config({
         'angular-translate-storage-cookie': '../../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie',
         bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
         pouchdb: '../../bower_components/pouchdb/dist/pouchdb',
+        moment: '../../bower_components/moment/moment',
+        lodash: '../../bower_components/lodash/lodash',
         'angular-growl-v2': '../../bower_components/angular-growl-v2/build/angular-growl'
     },
 

@@ -25,13 +25,13 @@ define(['angular', 'controllers/main', 'controllers/about'] /*deps*/ , function(
             'angular-growl'
         ])
         .config(function($translateProvider) {
-            // register translation table
-            $translateProvider.translations( 'en', {
-                'HEADLINE_TEXT': 'Hey Guys, this is a headline!',
-                'SOME_TEXT': 'A text anywhere in the app.',
-                'HI_THERE': 'Hi there!!!'
-            });
-            $translateProvider.preferredLanguage('en');
+
+			$translateProvider.useStaticFilesLoader({
+				prefix: 'i18n/texts_',
+				suffix: '.json'
+			});
+
+            $translateProvider.preferredLanguage('en_US');
         })
         .config(function($routeProvider) {
             $routeProvider
