@@ -1,42 +1,44 @@
 'use strict';
-
 require.config({
-	paths: {
-		// +AMD
-		jquery: 'libs/jquery/dist/jquery',
-		lodash: 'libs/lodash/lodash',
-		moment: 'libs/moment/moment',
-		i18next: 'libs/i18next/i18next.amd.withJQuery.js',
-		offline: 'libs/offline/offline.min.js',
+    paths: {
+        // +AMD
+        jquery: 'libs/jquery/dist/jquery',
+        lodash: 'libs/lodash/lodash',
+        moment: 'libs/moment/moment',
+        i18next: 'libs/i18next/i18next.amd.withJQuery',
+        offline: 'libs/offline/offline.min',
 
-		// -AMD
-		angular: 'libs/angular/angular',
-		bootstrap: 'libs/bootstrap/dist/js/bootstrap',
+        // -AMD
+        angular: 'libs/angular/angular',
+        'angular-i18n': 'libs/angular-i18n/angular-locale_en-us',
+        bootstrap: 'libs/bootstrap/dist/js/bootstrap',
 
-	},
-	shim: {
-		angular : {
-			deps: ['jquery'],
-			exports: 'angular'
-		},
-		bootstrap : {
-			deps: ['jquery']
-		},
-		app : {
-			deps: ['angular', 'bootstrap'],
-			exports: 'app'
-		}
-	}
+    },
+    shim: {
+        angular: {
+            deps: ['jquery'],
+            exports: 'angular'
+        },
+        'angular-i18n': {
+            deps: ['angular']
+        },
+        bootstrap: {
+            deps: ['jquery']
+        }
+    }
 });
 
 
 
 
-require(['jquery', 'bootstrap'], function($){
-    // DOM ready
-    $(function(){
-
-        // Twitter Bootstrap 3 carousel plugin
-        $("#element").carousel();
+require(['app'], function(app) {
+    console.log(app);
+    app.controller('ctrl', ['$scope',
+        function($scope) {
+            $scope.greetMe = 'World';
+        }
+    ]);
+    angular.element(document).ready(function() {
+        angular.bootstrap(document, ['dispensa']);
     });
 });
