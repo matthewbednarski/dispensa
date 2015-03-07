@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
 	"directory": "src/js/libs"
+=======
+  "directory": "bower_components"
+>>>>>>> e9bc9e00cb5cd1ab61d120bddb84bb3b1962639a
 }
