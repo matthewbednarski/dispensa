@@ -51,15 +51,63 @@ require(['app', 'pouchdb', 'moment', 'bootstrap', 'bootstrap-datepicker'], funct
                 $scope.greetMe = 'World';
             }
         ])
-    app.service('persistSvc', [
-
-        function() {
+    app.service('persistSvc', ['$q',
+        function($q) {
+        	var persist = this;
             this.getDb = function() {
                 if (this.db === undefined) {
                     this.db = new pouchdb("dispensa");
-
                 }
                 return this.db;
+            };
+            this.remove = function(key) {
+                var defer = $q.defer();
+                this.getDb().get(key)
+                    .then(function(doc) {
+						persist.getDb().remove(doc)
+							.then(defer.resolve)
+							.catch(defer.reject);
+                    })
+                    .catch(function(error) {
+                        defer.resolve( "No doc with id: " + key + ' found');
+                    });
+                return defer.promise;
+            };
+            this.store = function(key, obj) {
+                var defer = $q.defer();
+                var sData = JSON.stringify(obj);
+                this.getDb().get(key)
+                    .then(function(doc) {
+                    	doc.data = sData;
+                        persist.getDb().put(doc)
+                        	.then(defer.resolve)
+                        	.catch(defer.reject);
+                    })
+                    .catch(function(error) {
+                        persist.getDb().put({
+                            '_id': key,
+                            'data': sData
+                        })
+                        .then(defer.resolve)
+						.catch(defer.reject);
+                    });
+                return defer.promise;
+            };
+            this.retrieve = function(key) {
+                var defer = $q.defer();
+                this.getDb().get(key)
+                    .then(function(doc) {
+                        if (doc.hasOwnProperty('data')) {
+                            var data = JSON.parse(doc.data);
+                            defer.resolve(data);
+                        } else {
+                            defer.resolve(doc);
+                        }
+                    })
+                    .catch(function(error) {
+                        defer.reject(error);
+                    });
+                return defer.promise;
             };
         }
     ])
@@ -67,6 +115,7 @@ require(['app', 'pouchdb', 'moment', 'bootstrap', 'bootstrap-datepicker'], funct
     .service('itemsSvc', ['$http', '$q', 'persistSvc',
             function($http, $q, persistSvc) {
 
+				this.persist_key = 'items';
                 this.getCurrentReciept = function() {
                     if (this.getModel().reciept === undefined) {
                         this.getModel().reciept = {
@@ -114,10 +163,7 @@ require(['app', 'pouchdb', 'moment', 'bootstrap', 'bootstrap-datepicker'], funct
                         }
                     }
                     this.getItems().push(toAdd);
-                    persistSvc.getDb().put({
-                        '_id': 'test',
-                        'doc': JSON.stringify(toAdd)
-                    });
+                    persistSvc.store(this.persist_key, this.getModel());
                 };
                 this.hasItem = function(item) {
                     var existing = _.chain(this.getItems())
@@ -170,6 +216,15 @@ require(['app', 'pouchdb', 'moment', 'bootstrap', 'bootstrap-datepicker'], funct
                         this.model = {
                             items: []
                         };
+                        var model = this.model;
+                        persistSvc.retrieve(this.persist_key)
+                        	.then(function(data){
+                        		// model.items.push.apply(model.items, model.items.concat.apply( [], data.items));
+                        		// data.items = undefined;
+                        		// delete data.items;
+                        		_.assign(model.items, data.items);
+                        		
+							});
                     }
                     return this.model;
                 };
