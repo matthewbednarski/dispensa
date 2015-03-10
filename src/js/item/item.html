@@ -19,6 +19,11 @@
         <label for="price" class="col-sm-2 control-label" translate>item.price</label>
         <input id="price" type="number" ng-model="item.price" />
         <br />
+        <label for="on_deal" class="col-sm-2 control-label" translate>item.on_deal</label>
+        <input id="on_deal" type="checkbox" ng-model="item.on_deal" ng-true-value="1" ng-false-value="0"
+        />
+        <br/>
+        <br />
         <input type="button" ng-click="reset()" translate value="{{ 'action.reset' | translate}}"
         />
         <input type="submit" ng-click="update(item)" translate value="{{ 'action.save' | translate}}"

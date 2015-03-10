@@ -21,6 +21,12 @@
 							<i class="fa fa-sort"></i>
                         </a>
                 </th>
+                <th class="name">
+                    <a ng-click="predicate = 'reciept'; reverse = !reverse;">
+						{{ 'item.reciept' | translate }}
+							<i class="fa fa-sort"></i>
+                        </a>
+                </th>
                 <th class="brand">
                     <a ng-click="predicate = 'brand'; reverse = !reverse;">
 						{{ 'item.brand' | translate }}
@@ -45,8 +51,7 @@
 							<i class="fa fa-sort"></i>
                         </a>
                 </th>
-                <th class="date">
-                    <a ng-click="predicate = 'date'; reverse = !reverse;">
+                <th class="date"> <a ng-click="predicate = 'date'; reverse = !reverse;">
 						{{ 'item.date' | translate }}
 							<i class="fa fa-sort"></i>
                         </a>
@@ -75,13 +80,29 @@
             <!-- <tr ng&#45;repeat="item in items"> -->
             <tr ng-repeat="item in items track by $index| orderBy:predicate:reverse" ng-click="setSelected(item);">
                 <!-- <td>{{item.id}}</td> -->
-                <td>{{item.store}}</td>
+                
+                <td>
+					<div ng-if="!item.city" class="inline-block">
+						{{item.store }}
+					</div>
+					<div ng-if="item.city" class="inline-block">
+						{{item.store + ' (' + item.city + ')'}}
+					</div>
+				</td>
                 <td>{{item.name}}</td>
+                <td>{{item.reciept}}</td>
                 <td>{{item.brand}}</td>
                 <td>{{item.label}} {{item.store_label}}
                 </td>
                 <td>{{item.count}}</td>
-                <td>{{item.price | currency:'€ '}}</td>
+                <td>
+					<div ng-if="item.on_deal === 0" class="inline-block">
+						{{item.price | currency:'€ ' }}
+					</div>
+					<div ng-if="item.on_deal === 1" class="inline-block">
+						{{item.price + ' ( !!! )'}}
+					</div>
+				</td>
                 <td>{{item.date}}</td>
             </tr>
         </tbody>

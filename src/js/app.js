@@ -17,6 +17,7 @@ define(['angular',
                 item: {
                     id: "Id",
                     name: "Name",
+                    city: "City",
                     store: "Store",
                     brand: "Brand",
                     label: "Label",
@@ -24,6 +25,7 @@ define(['angular',
                     price: "Price",
                     reciept: "Rec. #",
                     date: "Date",
+                    on_deal: "On Deal"
                 },
                 action: {
                     save: "Save",
