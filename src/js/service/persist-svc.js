@@ -1,10 +1,12 @@
-require(['app', 'pouchdb'], function(app, pouchdb) {
+define(['angular', 'pouchdb', 'app'], function(angular, pouchdb) {
+	window.PouchDB = pouchdb;
+	var app = angular.module('dispensa');
     app.service('persistSvc', ['$q',
         function($q) {
             var persist = this;
             this.getDb = function() {
                 if (this.db === undefined) {
-                    this.db = new pouchdb("dispensa");
+                    this.db = new PouchDB("dispensa");
                 }
                 return this.db;
             };
@@ -59,4 +61,5 @@ require(['app', 'pouchdb'], function(app, pouchdb) {
             };
         }
     ]);
+    return app;
 });

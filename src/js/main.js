@@ -18,6 +18,7 @@ require.config({
         angular: 'libs/angular/angular',
         'angular-translate': 'libs/angular-translate/angular-translate',
         'angular-route': 'libs/angular-route/angular-route',
+        'angular-ui-router': 'libs/angular-ui-router/release/angular-ui-router',
         'angular-i18n': 'libs/angular-i18n/angular-locale_en-us',
         bootstrap: 'libs/bootstrap/dist/js/bootstrap',
         'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
@@ -28,6 +29,9 @@ require.config({
         angular: {
             deps: ['jquery'],
             exports: 'angular'
+        },
+        'angular-ui-router': {
+            deps: ['angular']
         },
         'angular-route': {
             deps: ['angular']
@@ -53,23 +57,41 @@ require.config({
 
 
 
-require(['app', 'moment', 'persist-svc', 'items-svc', 'bootstrap', 'bootstrap-datepicker'], function(app, moment) {
-    var r = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
-        app.config(['$routeProvider',
-            function($routeProvider) {
-                $routeProvider.when('/', {
-                    templateUrl: 'js/item/item.html',
-                    controller: 'ItemController'
-                });
+require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker'], function(app, moment) {
+    require(['persist-svc', 'items-svc'], function(app, moment) {
+        var myApp = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
+            var app = angular.module('dispensa');
+            app.config(function($stateProvider, $urlRouterProvider) {
+                //
+                // For any unmatched url, redirect to /state1
+                $urlRouterProvider.otherwise("/");
+                //
+                // Now set up the states
+                $stateProvider
+                    .state('state1', {
+                        url: "/",
+                        views: {
+                            'items': {
+                                templateUrl: "js/items/items.html",
+                                controller: 'ItemsController'
+                            },
+                            'item': {
+                                templateUrl: "js/item/item.html",
+                                controller: 'ItemController'
+                            },
+                            'reciept': {
+                                templateUrl: "js/reciept/reciept.html",
+                                controller: 'RecieptController'
+                            }
+                        }
+                    })
+            });
 
-                $routeProvider.otherwise({
-                    redirectTo: '/'
-                });
-            }
-        ]);
-        angular.element(document).ready(function() {
-            angular.bootstrap(document, ['dispensa']);
+            console.log('2.) ' + app);
+            angular.element(document).ready(function() {
+                angular.bootstrap(document, ['dispensa']);
+            });
+            return app;
         });
-        return app;
     });
 });

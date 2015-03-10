@@ -14,8 +14,14 @@
 <body>
     <script data-main="js/main" src="js/libs/requirejs/require.js"></script>
     <h1>{{ 'app.title' | translate }}</h1>
-	<div ng-view/>
 
+    <div class="row col-xs-12 form-group">
+        <div ui-view="item" ></div>
+        <div ui-view="reciept" ></div>
+    </div>
+    <div class="row col-xs-12">
+        <div ui-view="items" class="col-xs-10 center"></div>
+    </div>
 
 </body>
 

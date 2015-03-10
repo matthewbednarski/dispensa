@@ -1,7 +1,7 @@
 'use strict';
-require(['app', 'moment', 'lodash', 'items-svc'], function(app, moment, _) {
-    app
-        .controller('RecieptController', ['$scope', 'itemsSvc',
+define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, moment, _) {
+    var app = angular.module('dispensa');
+        app.controller('RecieptController', ['$scope', 'itemsSvc',
             function($scope, itemsSvc) {
                 $scope.item = itemsSvc.getCurrentReciept();
                 $scope.reset = function() {
@@ -67,4 +67,5 @@ require(['app', 'moment', 'lodash', 'items-svc'], function(app, moment, _) {
 
             }
         ]);
+        return app;
 });

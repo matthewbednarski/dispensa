@@ -1,7 +1,8 @@
 'use strict';
 
-require(['app', 'moment', 'lodash', 'items-svc'],
-    function(app, moment, _) {
+define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
+    function(angular, moment, _) {
+        var app = angular.module('dispensa');
         app.controller('ItemController', ['$scope', 'itemsSvc',
             function($scope, itemsSvc) {
                 $scope.names = ['test', 'test2', 'abc', 'bd'];
@@ -106,4 +107,5 @@ require(['app', 'moment', 'lodash', 'items-svc'],
                 });
             }
         ]);
+        return app;
     });

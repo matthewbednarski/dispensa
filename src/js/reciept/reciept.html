@@ -1,0 +1,30 @@
+<!-- <div ng&#45;controller="RecieptController" class="col&#45;xs&#45;6"> -->
+<div class="col-xs-6">
+    <form novalidate class="simple-form">
+        <label for="store" class="col-sm-2 control-label" translate>item.store</label>
+        <input id="store" type="text" ng-model="item.store" list="stores" />
+        <datalist id="stores">
+            <option ng-repeat="item in stores" value="{{ item }}"></option>
+        </datalist>
+        <br />
+        <label for="store-label" class="col-sm-2 control-label" translate>item.label</label>
+        <input id="store-label" type="text" ng-model="item.store_label" list="store_labels"
+        />
+        <datalist id="store_labels">
+            <option ng-repeat="item in store_labels" value="{{ item }}"></option>
+        </datalist>
+        <br />
+        <label for="date" required="true" class="col-sm-2 control-label" translate>item.date</label>
+        <div class="input-append date">
+            <input data-provide="datepicker" required="required" data-date-format="yyyy-mm-dd"
+            ng-model="item.date" value="">
+            <i class="fa fa-calendar"></i>
+            </input>
+        </div>
+        <label for="price" class="col-sm-2 control-label" translate>item.price</label>
+        <input id="price" type="number" ng-model="item.price" currency />
+        <br />
+        <input type="button" ng-click="reset()" translate value="{{ 'action.reset' | translate}}"
+        />
+    </form>
+</div>

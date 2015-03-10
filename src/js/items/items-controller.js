@@ -1,6 +1,7 @@
 'use strict';
-require(['app', 'moment', 'lodash', 'items-svc'],
-    function(app, moment, _) {
+define(['angular', 'moment', 'lodash', 'app','items-svc'],
+    function(angular, moment, _) {
+        var app = angular.module('dispensa');
         app
             .controller('ItemsController', ['$scope', '$filter', 'itemsSvc',
                 function($scope, $filter, itemsSvc) {
@@ -23,4 +24,5 @@ require(['app', 'moment', 'lodash', 'items-svc'],
                     // $scope.order('-name', false);
                 }
             ]);
+        return app;
     });
