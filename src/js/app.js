@@ -15,12 +15,14 @@ define(['angular',
                     title: "Dispensa v2"
                 },
                 item: {
+                    id: "Id",
                     name: "Name",
                     store: "Store",
                     brand: "Brand",
                     label: "Label",
                     count: "Count",
                     price: "Price",
+                    reciept: "Rec. #",
                     date: "Date",
                 },
                 action: {

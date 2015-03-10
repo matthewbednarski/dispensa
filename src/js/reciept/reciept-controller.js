@@ -6,6 +6,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
                 $scope.item = itemsSvc.getCurrentReciept();
                 $scope.reset = function() {
                     itemsSvc.resetReciept();
+                	$scope.item = itemsSvc.getCurrentReciept();
                 };
                 $scope.loadType = function(type, field) {
                     var vals = _.chain(itemsSvc.getItems())

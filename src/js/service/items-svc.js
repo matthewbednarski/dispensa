@@ -12,6 +12,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     this.getModel().reciept = {
                         store: undefined,
                         store_label: undefined,
+                        reciept: 1,
                         date: moment().format('YYYY-MM-DD')
                     };
                 }
@@ -23,6 +24,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     r[p] = undefined;
                     if (p === 'date') {
                         r[p] = moment().format('YYYY-MM-DD');
+                    }
+                    if (p === 'reciept') {
+                        r[p] = 1;
                     }
                 }
             };
