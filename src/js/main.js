@@ -17,6 +17,7 @@ require.config({
         // -AMD
         angular: 'libs/angular/angular',
         'angular-translate': 'libs/angular-translate/angular-translate',
+        'angular-route': 'libs/angular-route/angular-route',
         'angular-i18n': 'libs/angular-i18n/angular-locale_en-us',
         bootstrap: 'libs/bootstrap/dist/js/bootstrap',
         'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
@@ -27,6 +28,9 @@ require.config({
         angular: {
             deps: ['jquery'],
             exports: 'angular'
+        },
+        'angular-route': {
+            deps: ['angular']
         },
         'angular-i18n': {
             deps: ['angular']
@@ -50,9 +54,22 @@ require.config({
 
 
 require(['app', 'moment', 'persist-svc', 'items-svc', 'bootstrap', 'bootstrap-datepicker'], function(app, moment) {
-    require(['item-controller', 'items-controller', 'reciept-controller'], function() {
+    var r = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
+        app.config(['$routeProvider',
+            function($routeProvider) {
+                $routeProvider.when('/', {
+                    templateUrl: 'js/item/item.html',
+                    controller: 'ItemController'
+                });
+
+                $routeProvider.otherwise({
+                    redirectTo: '/'
+                });
+            }
+        ]);
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['dispensa']);
         });
+        return app;
     });
 });
