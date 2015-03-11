@@ -6,6 +6,44 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
     app.service('itemsSvc', ['$http', '$q', 'persistSvc',
         function($http, $q, persistSvc) {
 
+            this.url = 'rest/item';
+            this.getItemsRest = function() {
+                var defer = $q.defer();
+
+                $http({
+                        method: 'GET',
+                        url: this.url
+                    })
+                    .success(function(results) {
+                        defer.resolve(results);
+                        console.log(results);
+                    });
+                return defer.promise;
+            };
+            this.syncItemsRest = function() {
+                var defer = $q.defer();
+                var items = this.getItems();
+
+				var service = this;
+                var promises = _.chain(items)
+                    .map(function(item) {
+                        return $http({
+                            method: 'POST',
+                            url: service.url,
+                            data: item
+                        })
+                    })
+                    .value();
+
+                $q.all(promises)
+                    .then(function(all) {
+                        defer.resolve(results);
+                        console.log(results);
+                    });
+                return defer.promise;
+            };
+
+
             this.persist_key = 'items';
             this.getCurrentReciept = function() {
                 if (this.getModel().reciept === undefined) {
@@ -100,6 +138,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 toAdd.id = generateUUID();
                 this.getItems().push(toAdd);
                 persistSvc.store(this.persist_key, this.getModel());
+                this.syncItemsRest();
             };
             this.hasItem = function(item) {
                 var existing = _.chain(this.getItems())
