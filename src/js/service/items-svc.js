@@ -7,41 +7,106 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
         function($http, $q, persistSvc) {
 
             this.url = 'rest/item';
+            var service = this;
+            this.deleteItem = function(item) {
+                var defer = $q.defer();
+                item.is_delete = true;
+                var res = _.chain(service.getItems())
+                    .remove(function(it) {
+                        return it.is_delete;
+                    })
+                    .value();
+                var p = [];
+                _.forEach(res, function(it) {
+                    p.push(this.deleteItemRest(it));
+                }, this);
+                $q.all(p)
+                    .then(function() {
+                        defer.resolve("Finished Deleting");
+                        service.persist();
+                    });
+                return defer.promise;
+            };
+            this.deleteItemRest = function(item) {
+                var defer = $q.defer();
+                $http({
+                        method: 'DELETE',
+                        url: this.url + '/' + item.id
+                    })
+                    .success(function(results) {
+                        defer.resolve(item);
+                        console.log(results);
+                    });
+                return defer.promise;
+            };
             this.getItemsRest = function() {
                 var defer = $q.defer();
-
                 $http({
                         method: 'GET',
                         url: this.url
                     })
                     .success(function(results) {
-                        defer.resolve(results);
+                        var res = _.chain(service.getItems())
+                            .remove(function(item) {
+                                var resKeys = _.chain(results)
+                                    .filter(function(rItem) {
+                                        return rItem.id === item.id;
+                                    })
+                                    .value();
+                                return resKeys !== undefined && resKeys.length > 0;
+                            })
+                            .value();
+
+                        merge(service.getItems(), results);
+                        defer.resolve(service.getItems());
                         console.log(results);
                     });
                 return defer.promise;
             };
-            this.syncItemsRest = function() {
+            this.addItem = function(item) {
+                var toAdd = _.cloneDeep(item);
+                var r = this.getCurrentReciept();
+                for (var p in r) {
+                    if (p !== 'price') {
+                        toAdd[p] = r[p];
+                    }
+                }
+                toAdd.id = UUID();
+                this.getItems().push(toAdd);
+                this.persist();
+                return this.putItemRest(toAdd);
+            };
+            this.putItemRest = function(item) {
                 var defer = $q.defer();
-                var items = this.getItems();
-
-				var service = this;
-                var promises = _.chain(items)
-                    .map(function(item) {
-                        return $http({
-                            method: 'POST',
-                            url: service.url,
-                            data: item
+                var p = $http({
+                    method: 'PUT',
+                    url: service.url + '/' + item.id,
+                    data: item
+                });
+                p.success(function(item) {
+                    var res = _.chain(service.getItems())
+                        .remove(function(it) {
+                            return item.id === it.id;
                         })
-                    })
-                    .value();
-
-                $q.all(promises)
-                    .then(function(all) {
-                        defer.resolve(results);
-                        console.log(results);
-                    });
+                        .value();
+                    item.sync = true;
+                    service.getItems().push(item);
+                    defer.resolve(item);
+                    service.persist();
+                }).error(function(data) {
+                    defer.reject(new Error(data));
+                });
                 return defer.promise;
             };
+
+            function merge(arr1, arr2) {
+                return _.assign(arr1, _.union(arr1, arr2));
+
+            }
+            this.persist = _.bind(function() {
+                return persistSvc.store(this.persist_key, this.getModel());
+
+            }, this);
 
 
             this.persist_key = 'items';
@@ -56,6 +121,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 }
                 return this.getModel().reciept;
             };
+            this.setCurrentReciept = function(item) {
+                this.getModel().reciept = item;
+            };
             this.resetReciept = function() {
                 var r = this.getCurrentReciept();
                 for (var p in r) {
@@ -68,6 +136,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     }
                 }
             };
+            this.setCurrentItem = function(item) {
+                this.getModel().item = item;
+            };
             this.getCurrentItem = function() {
                 if (this.getModel().item === undefined) {
                     this.getModel().item = this.newItem();
@@ -78,36 +149,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 _.assign(this.getItem(), this.newItem());
             };
 
-            this.s4 = function() {
-                console.log(Math.random());
-                var b = Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-                return b;
-            };
-            this.uuid = function() {
-                var s4 = this.s4;
-                var a = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
-                return a;
-            };
 
-            function e2() {
-                var u = '',
-                    m = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx',
-                    i = 0,
-                    rb = Math.random() * 0xffffffff | 0;
-                while (i++ < 36) {
-                    var c = m[i - 1],
-                        r = rb & 0xf,
-                        v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    u += (c == '-' || c == '4') ? c : v.toString(16);
-                    rb = i % 8 == 0 ? Math.random() * 0xffffffff | 0 : rb >> 4
-                }
-                return u
-            };
 
-            function generateUUID() {
+            function UUID() {
                 var d = new Date().getTime();
                 var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                     var r = (d + Math.random() * 16) % 16 | 0;
@@ -118,27 +162,14 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             };
             this.newItem = function() {
                 var item = {
-                    id: generateUUID(),
+                    id: UUID(),
                     name: undefined,
                     brand: undefined,
                     label: undefined,
-                    count: 1,
-                    price: 0.00
+                    count: undefined,
+                    price: undefined,
                 };
                 return item;
-            };
-            this.addItem = function(item) {
-                var toAdd = _.cloneDeep(item);
-                var r = this.getCurrentReciept();
-                for (var p in r) {
-                    if (p !== 'price') {
-                        toAdd[p] = r[p];
-                    }
-                }
-                toAdd.id = generateUUID();
-                this.getItems().push(toAdd);
-                persistSvc.store(this.persist_key, this.getModel());
-                this.syncItemsRest();
             };
             this.hasItem = function(item) {
                 var existing = _.chain(this.getItems())
@@ -177,15 +208,11 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         items: []
                     };
                     var model = this.model;
-                    persistSvc.store(this.persist_key, this.model);
-                    // persistSvc.retrieve(this.persist_key)
-                    //     .then(function(data) {
-                    //         // model.items.push.apply(model.items, model.items.concat.apply( [], data.items));
-                    //         // data.items = undefined;
-                    //         // delete data.items;
-                    //         _.assign(model.items, data.items);
-                    //
-                    //     });
+                    persistSvc.retrieve(this.persist_key)
+                        .then(function(data) {
+                            _.assign(model.items, data.items);
+                            service.getItemsRest();
+                        });
                 }
                 return this.model;
             };

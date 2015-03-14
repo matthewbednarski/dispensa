@@ -3,14 +3,8 @@
     <table class="table table-striped table-condensed table-hover">
         <thead>
             <tr>
-                <!-- <th> -->
-                <!--     <a ng&#45;click="predicate = 'id'; reverse = !reverse;"> -->
-				<!-- 		ID -->
-				<!-- 			<i class="fa fa&#45;sort"></i> -->
-                <!--         </a> -->
-                <!-- </th> -->
                 <th>
-                    <a ng-click="predicate = 'store'; reverse = !reverse;">
+                    <a ng-click="predicate = 'reciept.store'; reverse = !reverse;">
 							{{ 'item.store' | translate }}
 							<i class="fa fa-sort"></i>
                         </a>
@@ -22,7 +16,7 @@
                         </a>
                 </th>
                 <th class="name">
-                    <a ng-click="predicate = 'reciept'; reverse = !reverse;">
+                    <a ng-click="predicate = 'reciept.reciept'; reverse = !reverse;">
 						{{ 'item.reciept' | translate }}
 							<i class="fa fa-sort"></i>
                         </a>
@@ -51,7 +45,7 @@
 							<i class="fa fa-sort"></i>
                         </a>
                 </th>
-                <th class="date"> <a ng-click="predicate = 'date'; reverse = !reverse;">
+                <th class="date"> <a ng-click="predicate = 'reciept.date'; reverse = !reverse;">
 						{{ 'item.date' | translate }}
 							<i class="fa fa-sort"></i>
                         </a>
@@ -80,15 +74,15 @@
             <!-- <tr ng&#45;repeat="item in items"> -->
             <tr ng-repeat="item in items track by $index| orderBy:predicate:reverse" ng-click="setSelected(item);">
                 <!-- <td>{{item.id}}</td> -->
-                
+
                 <td>
-					<div ng-if="!item.city" class="inline-block">
-						{{item.store }}
-					</div>
-					<div ng-if="item.city" class="inline-block">
-						{{item.store + ' (' + item.city + ')'}}
-					</div>
-				</td>
+                    <div ng-if="!item.city" class="inline-block">
+                        {{item.store }}
+                    </div>
+                    <div ng-if="item.city" class="inline-block">
+                        {{item.store + ' (' + item.city + ')'}}
+                    </div>
+                </td>
                 <td>{{item.name}}</td>
                 <td>{{item.reciept}}</td>
                 <td>{{item.brand}}</td>
@@ -96,14 +90,25 @@
                 </td>
                 <td>{{item.count}}</td>
                 <td>
-					<div ng-if="item.on_deal === 0" class="inline-block">
-						{{item.price | currency:'€ ' }}
-					</div>
-					<div ng-if="item.on_deal === 1" class="inline-block">
-						{{item.price + ' ( !!! )'}}
-					</div>
-				</td>
+                    <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
+                        {{item.price | currency:'€ ' }}
+                    </div>
+                    <div ng-if="item.on_deal === 1" class="inline-block">
+                        {{item.price | currency:'€ ' }} ( !!! )
+                    </div>
+                </td>
                 <td>{{item.date}}</td>
+                <td>
+                    <div class="form-group center">
+                        <button ng-click="delete(item)" tooltip="{{ 'action.delete' | translate}}">
+                            <i class="fa fa-trash-o fa-2x">
+			</i>
+                        </button>
+            <!--             <button ng&#45;click="edit(item)" tooltip="{{ 'action.edit' | translate}}"> -->
+            <!--                 <i class="fa fa&#45;pencil fa&#45;2x"> -->
+			<!-- </i> -->
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>

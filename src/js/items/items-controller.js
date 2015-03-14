@@ -21,7 +21,12 @@ define(['angular', 'moment', 'lodash', 'app','items-svc'],
                         itemsSvc.getCurrentItem().count = item.count;
                         itemsSvc.getCurrentItem().price = item.price;
                     };
-                    // $scope.order('-name', false);
+                    $scope.delete = function(item){
+                    	return itemsSvc.deleteItem(item);
+					};
+                    $scope.edit = function(item){
+                    	itemsSvc.setCurrentItem(item);
+					};
                 }
             ]);
         return app;

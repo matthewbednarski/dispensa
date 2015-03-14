@@ -21,11 +21,15 @@ define(['angular',
                     store: "Store",
                     brand: "Brand",
                     label: "Label",
+                    store_label: "Label",
                     count: "Count",
                     price: "Price",
                     reciept: "Rec. #",
                     date: "Date",
                     on_deal: "On Deal"
+                },
+                symbol: {
+                    currency: "€"
                 },
                 action: {
                     save: "Save",
