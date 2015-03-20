@@ -1,10 +1,13 @@
 <div>
-	<!-- <button ng&#45;click="exportData()">export</button> -->
+    <!-- <button ng&#45;click="exportData()">export</button> -->
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
             <tr class="sortable">
                 <th st-sort="store">
                     {{ 'item.store' | translate }}
+                </th>
+                <th st-sort="city">
+                    {{ 'item.city' | translate }}
                 </th>
                 <th st-sort="name">
                     {{ 'item.name' | translate }}
@@ -24,6 +27,9 @@
                 <th st-sort="price">
                     {{ 'item.price' | translate }}
                 </th>
+                <th st-sort="total_price">
+                    {{ 'item.total_price' | translate }}
+                </th>
                 <th st-sort="date">
                     {{ 'item.date' | translate }}
                 </th>
@@ -31,22 +37,25 @@
                     {{ 'action' | translate }}
                 </th>
             </tr>
+            <tr>
+                <th>
+                    <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
+                    type="search" />
+                </th>
+                <th colspan="8">
+                    <input st-search placeholder="{{ 'app.search_global' | translate }}" class="input-sm form-control"
+                    type="search" />
+                </th>
+            </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in disItems track by item.id " ng-click="setSelected(item);">
-                <td>
-                    <div ng-if="!item.city" class="inline-block">
-                        {{item.store }}
-                    </div>
-                    <div ng-if="item.city" class="inline-block">
-                        {{item.store + ' (' + item.city + ')'}}
-                    </div>
-                </td>
+                <td>{{item.store }}</td>
+                <td>{{item.city}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.receipt}}</td>
                 <td>{{item.brand}}</td>
-                <td>{{item.label}} {{item.store_label}}
-                </td>
+                <td>{{item.label}} {{item.store_label}}</td>
                 <td>{{item.count}}</td>
                 <td>
                     <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
@@ -55,6 +64,9 @@
                     <div ng-if="item.on_deal === 1" class="inline-block">
                         {{item.price | currency:'€ ' }} ( !!! )
                     </div>
+                </td>
+                <td>
+                    {{item.price * item.count | currency:'€ ' }}
                 </td>
                 <td>{{item.date}}</td>
                 <td>
@@ -67,5 +79,12 @@
                 </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>

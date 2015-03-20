@@ -9,6 +9,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                     $scope.model = itemsSvc.getModel();
                     $scope.items = itemsSvc.getItems();
                     $scope.itemsSvc = itemsSvc;
+                    $scope.itemsByPage = 15;
                     $scope.setSelected = function(item) {
                         itemsSvc.getCurrentReciept().date = item.date;
                         itemsSvc.getCurrentReciept().store = item.store;
