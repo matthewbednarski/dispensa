@@ -4,39 +4,27 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
     app.controller('RecieptController', ['$scope', 'itemsSvc',
         function($scope, itemsSvc) {
             $scope.item = itemsSvc.getCurrentReciept();
+            $scope.test = function(item) {
+                var found = _.chain(itemsSvc.getStores())
+                    .find(function(it) {
+                        return it.key === item.store;
+                    })
+                    .value();
+                if (found !== undefined ) {
+                    itemsSvc.getCurrentReciept().store = found.store;
+                    itemsSvc.getCurrentReciept().store_label = found.store_label;
+                    itemsSvc.getCurrentReciept().city = found.city;
+                    $scope.item = itemsSvc.getCurrentReciept();
+                }
+            };
             $scope.reset = function() {
                 itemsSvc.resetReciept();
                 $scope.item = itemsSvc.getCurrentReciept();
                 $scope.receiptForm.$setPristine();
             };
-            $scope.loadType = function(type, field) {
-                var vals = _.chain(itemsSvc.getItems())
-                    .map(function(item) {
-                        if (item.hasOwnProperty(field)) {
-                            return item[field];
-                        }
-                    })
-                    .unique()
-                    .sort()
-                    .value();
-                while ($scope[type].length > 0) {
-                    $scope[type].pop();
-                }
-                _.forEach(vals, function(item) {
-                    if (this.indexOf(item) < 0) {
-                        this.push(item);
-                    }
-                }, $scope[type]);
-                return $scope[type];
-            };
-            $scope.store_labels = [];
-            $scope.loadStoreLabels = function() {
-                return $scope.loadType('store_labels', 'store_label');
-            };
-            $scope.stores = [];
-            $scope.loadStores = function() {
-                return $scope.loadType('stores', 'store');
-            };
+            $scope.cities = itemsSvc.getCities();
+            $scope.store_labels = itemsSvc.getStoreLabels();
+            $scope.stores = itemsSvc.getStores();
             $scope.findPreviousLabel = function() {
                 var r = itemsSvc.getCurrentReciept();
                 var hasReciept = (r.store !== undefined && r.store !== "") ? true : false;
@@ -54,13 +42,15 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
 
                 return vals;
             };
-            $scope.$watch( function(){
-				return $scope.receiptForm.$valid;
-			}, function(n, o){
-				if(n !== o){
-					itemsSvc.canEditItem = n;
-				}
-			});
+            $scope.$watch(function() {
+                return $scope.receiptForm.$valid;
+            }, function(n, o) {
+                if (n !== o) {
+                    itemsSvc.canEditItem = n;
+                }
+            });
+
+
         }
     ]);
     return app;

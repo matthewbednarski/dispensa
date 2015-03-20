@@ -94,6 +94,10 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         merge(service.getItems(), results);
                         defer.resolve(service.getItems());
                         console.log(results);
+                    })
+                    .error(function(err) {
+                        console.error(err);
+                        defer.reject(err);
                     });
                 return defer.promise;
             };
@@ -178,6 +182,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             };
             this.resetItem = function() {
                 _.assign(this.getCurrentItem(), this.newItem());
+                return this.getCurrentItem();
             };
 
 
@@ -242,10 +247,97 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     persistSvc.retrieve(this.persist_key)
                         .then(function(data) {
                             _.assign(model.items, data.items);
-                            service.getItemsRest();
+                            service.getItemsRest()
+                                .finally(
+                                    function() {
+                                        console.log("got it");
+                                        service.loadStores();
+                                    }
+                                );
                         });
                 }
                 return this.model;
+            };
+            this.loadTypes = function(type, fields) {
+                var vals = _.chain(this.getItems())
+                    .uniq(function(item) {
+                        var o = "";
+                        _.forEach(fields, function(field) {
+                            if (this.hasOwnProperty(field)) {
+                                o += this[field];
+                            }
+                        }, item);
+                        return o;
+                    })
+                    .sortBy(function(item) {
+                        var o = "";
+                        _.forEach(fields, function(field) {
+                            if (this.hasOwnProperty(field)) {
+                                o += this[field];
+                            }
+                        }, item);
+                        return o;
+                    })
+                    .map(function(item) {
+                        var o = _.clone(item);
+                        _.forEach(fields, function(field) {
+                            if (this.hasOwnProperty(field)) {
+                                if (o.key === undefined) {
+                                	o.key = this[field];
+                                } else {
+                                    o.key += ' - ' + this[field];
+                                }
+                            }
+                        }, item);
+                        return o;
+                    })
+                    .value();
+                _.assign(this.getModel()[type], vals);
+                return this.getModel()[type];
+            };
+            this.loadType = function(type, field) {
+                var vals = _.chain(this.getItems())
+                    .map(function(item) {
+                        if (item.hasOwnProperty(field)) {
+                            return item[field];
+                        }
+                    })
+                    .uniq(function(item) {
+                        return item[field];
+                    })
+                    .sortBy(function(item) {
+                        return item[field];
+                    })
+                    .value();
+                _.assign(this.getModel()[type], vals);
+                return this.getModel()[type];
+            };
+            this.getCities = function() {
+                if (this.getModel().cities === undefined) {
+                    this.getModel().cities = [];
+                }
+                return this.getModel().cities;
+            };
+            this.getStores = function() {
+                if (this.getModel().stores === undefined) {
+                    this.getModel().stores = [];
+                }
+                return this.getModel().stores;
+            };
+            this.getStoreLabels = function() {
+                if (this.getModel().store_labels === undefined) {
+                    this.getModel().store_labels = [];
+                }
+                return this.getModel().store_labels;
+            };
+            this.loadCities = function() {
+                return this.loadType('cities', 'city');
+            };
+            this.loadStoreLabels = function() {
+                return this.loadType('store_labels', 'store_label');
+            };
+            this.loadStores = function() {
+                return this.loadTypes('stores', ['store', 'city']);
             };
         }
     ]);

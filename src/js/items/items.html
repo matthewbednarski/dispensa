@@ -2,6 +2,12 @@
     <!-- <button ng&#45;click="exportData()">export</button> -->
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
+            <tr >
+                <th colspan="12" class="text-center">
+                    <!-- <div st&#45;pagination="" st&#45;items&#45;by&#45;page="itemsByPage" st&#45;displayed&#45;pages="15"></div> -->
+                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                </th>
+            </tr>
             <tr class="sortable">
                 <th st-sort="store">
                     {{ 'item.store' | translate }}
@@ -34,7 +40,7 @@
                     {{ 'item.date' | translate }}
                 </th>
                 <th>
-                    {{ 'action' | translate }}
+                    {{ 'action.actions' | translate }}
                 </th>
             </tr>
             <tr>
@@ -42,7 +48,7 @@
                     <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
                     type="search" />
                 </th>
-                <th colspan="8">
+                <th colspan="10">
                     <input st-search placeholder="{{ 'app.search_global' | translate }}" class="input-sm form-control"
                     type="search" />
                 </th>
@@ -81,7 +87,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="12" class="text-center">
                     <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
                 </td>
             </tr>

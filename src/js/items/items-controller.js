@@ -19,8 +19,8 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                         itemsSvc.getCurrentItem().name = item.name;
                         itemsSvc.getCurrentItem().brand = item.brand;
                         itemsSvc.getCurrentItem().label = item.label;
-                        itemsSvc.getCurrentItem().count = item.count;
-                        itemsSvc.getCurrentItem().price = item.price;
+                        itemsSvc.getCurrentItem().count = parseFloat(item.count);
+                        itemsSvc.getCurrentItem().price = parseFloat(item.price);
                         itemsSvc.getCurrentItem().on_deal = item.on_deal;
                     };
 

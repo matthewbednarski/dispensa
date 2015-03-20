@@ -40,7 +40,9 @@ define(['angular',
                     currency: "€"
                 },
                 action: {
+					actions: "Actions",
                     save: "Save",
+                    delete: "Delete",
                     reset: "Reset"
 
                 }
