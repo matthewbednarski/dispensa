@@ -7,6 +7,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
             $scope.reset = function() {
                 itemsSvc.resetReciept();
                 $scope.item = itemsSvc.getCurrentReciept();
+                $scope.recieptForm.$setPristine();
             };
             $scope.loadType = function(type, field) {
                 var vals = _.chain(itemsSvc.getItems())
@@ -53,6 +54,13 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
 
                 return vals;
             };
+            $scope.$watch( function(){
+				return $scope.recieptForm.$valid;
+			}, function(n, o){
+				if(n !== o){
+					itemsSvc.canEditItem = n;
+				}
+			});
         }
     ]);
     return app;

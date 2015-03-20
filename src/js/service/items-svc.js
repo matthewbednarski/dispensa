@@ -12,19 +12,50 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 var defer = $q.defer();
                 item.is_delete = true;
                 var res = _.chain(service.getItems())
-                    .remove(function(it) {
+                    .filter(function(it) {
                         return it.is_delete;
                     })
                     .value();
                 var p = [];
                 _.forEach(res, function(it) {
-                    p.push(this.deleteItemRest(it));
+                    var toDelete = this.deleteItemRest(it);
+                    toDelete.then(function(item) {
+                            var res = _.chain(service.getItems())
+                                .remove(function(it) {
+                                    return it.is_delete && it.id === item.id;
+                                })
+                                .value();
+                            if (res !== undefined && res.length > 0) {
+                                service.persist();
+                            }
+                        })
+                        .catch(function(errorArr) {
+                            console.log(errorArr);
+                            if (errorArr.length > 1 && errorArr[1] === 404) {
+                                console.log("Got 404 Not Found, deleting locally");
+                                var res = _.chain(service.getItems())
+                                    .remove(function(removeit) {
+                                        return removeit.is_delete && removeit.id === it.id;
+                                    })
+                                    .value();
+                                if (res !== undefined && res.length > 0) {
+                                    service.persist();
+                                }
+                            }
+                        });
+                    p.push(toDelete);
                 }, this);
-                $q.all(p)
-                    .then(function() {
-                        defer.resolve("Finished Deleting");
-                        service.persist();
-                    });
+                var pAll = $q.all(p);
+                pAll.then(
+                    function(it) {
+                        console.log("Finished Deleting ");
+                        defer.resolve("Finished Deleting ");
+                    }).catch(
+                    function(it) {
+                        console.error("Finished Deleting: " + it);
+                        defer.reject("Finished Deleting ");
+                    }
+                );
                 return defer.promise;
             };
             this.deleteItemRest = function(item) {
@@ -36,6 +67,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     .success(function(results) {
                         defer.resolve(item);
                         console.log(results);
+                    })
+                    .error(function(err, e1, e2, e3) {
+                        defer.reject([err, e1, e2, e3]);
                     });
                 return defer.promise;
             };
@@ -115,7 +149,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     this.getModel().reciept = {
                         store: undefined,
                         store_label: undefined,
-                        reciept: 1,
+                        reciept: undefined,
                         date: moment().format('YYYY-MM-DD')
                     };
                 }
@@ -131,9 +165,6 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     if (p === 'date') {
                         r[p] = moment().format('YYYY-MM-DD');
                     }
-                    if (p === 'reciept') {
-                        r[p] = 1;
-                    }
                 }
             };
             this.setCurrentItem = function(item) {
@@ -146,7 +177,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 return this.getModel().item;
             };
             this.resetItem = function() {
-                _.assign(this.getItem(), this.newItem());
+                _.assign(this.getCurrentItem(), this.newItem());
             };
 
 

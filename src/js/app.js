@@ -5,14 +5,19 @@ define(['angular',
         'lodash',
         'angular-route',
         'angular-ui-router',
+        'angular-smart-table',
         'allmighty-autocomplete'
     ],
     function(angular, ngTranslate, _) {
-        var app = angular.module('dispensa', ['ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete']);
+        var app = angular.module('dispensa', ['ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
         app.config(function($translateProvider) {
             $translateProvider.translations('en-US', {
                 app: {
-                    title: "Dispensa v2"
+                    title: "Dispensa v2",
+                    home: "Home",
+                    insert: "Insert Reciept",
+                    view: "View Table",
+                    items: "Items"
                 },
                 item: {
                     id: "Id",

@@ -13,10 +13,14 @@ require.config({
         'item-controller': 'item/item-controller',
         'items-controller': 'items/items-controller',
         'reciept-controller': 'reciept/reciept-controller',
+        'alasql': 'alasql.min',
+        'xlsx.core': 'libs/js-xlsx/dist/xlsx.core.min',
+        'd3': 'libs/d3/d3',
 
         // -AMD
         angular: 'libs/angular/angular',
         'angular-translate': 'libs/angular-translate/angular-translate',
+        'angular-smart-table': 'libs/angular-smart-table/dist/smart-table',
         'angular-route': 'libs/angular-route/angular-route',
         'angular-ui-router': 'libs/angular-ui-router/release/angular-ui-router',
         'angular-i18n': 'libs/angular-i18n/angular-locale_en-us',
@@ -50,6 +54,9 @@ require.config({
         },
         'bootstrap-datepicker': {
             deps: ['bootstrap']
+        },
+        'angular-smart-table': {
+            deps: ['angular']
         }
     }
 });
@@ -57,7 +64,10 @@ require.config({
 
 
 
-require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker'], function(app, moment) {
+require(['app', 'moment', 'alasql', 'xlsx.core', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment, alasql, JSZip) {
+	window.JSZip = JSZip;
+	window.jszip = JSZip;
+	console.log(JSZip);
     require(['persist-svc', 'items-svc'], function(app, moment) {
         var myApp = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
@@ -85,6 +95,15 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker'], function(app, mo
                             }
                         }
                     })
+                    .state('state2', {
+                        url: "/profile",
+                        views: {
+                            'items': {
+                                templateUrl: "js/items/items.html",
+                                controller: 'ItemsController'
+                            }
+                        }
+                    });
             });
 
             console.log('2.) ' + app);

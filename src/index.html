@@ -6,23 +6,41 @@
     <link rel="stylesheet" href="js/libs/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="js/libs/bootstrap-datepicker/css/datepicker3.css"
     />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="js/libs/font-awesome/css/font-awesome.min.css" />
     <title>Dispensa</title>
 </head>
 
-<body>
+<body ng-cloak>
     <script data-main="js/main" src="js/libs/requirejs/require.js"></script>
-    <h1>{{ 'app.title' | translate }}</h1>
-
-    <div class="row col-xs-12 form-group">
-        <div ui-view="item" ></div>
-        <div ui-view="reciept" ></div>
+    <style>
+        .sortable {
+            cursor: pointer;
+        }
+        .st-sort-ascent:before {
+            content: '\25B2';
+        }
+        .st-sort-descent:before {
+            content: '\25BC';
+        }
+    </style>
+    <nav class="collapse navbar-collapse bs-navbar-collapse">
+        <ul class="nav nav-tabs">
+            <li><a href="#/"> {{ 'app.insert' | translate }}</a>
+            </li>
+            <li><a href="#/profile">{{ 'app.view' | translate }}</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid" ng-cloak>
+        <div class="row col-xs-12 form-group">
+            <h1 ng-cloak>{{ 'app.title' | translate }}</h1>
+            <div ui-view="item"></div>
+            <div ui-view="reciept"></div>
+        </div>
+        <div class="row col-xs-12">
+            <div ui-view="items" class="col-xs-10 center"></div>
+        </div>
     </div>
-    <div class="row col-xs-12">
-        <div ui-view="items" class="col-xs-10 center"></div>
-    </div>
-
 </body>
 
 </html>
