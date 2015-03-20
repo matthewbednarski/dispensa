@@ -145,18 +145,18 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
 
             this.persist_key = 'items';
             this.getCurrentReciept = function() {
-                if (this.getModel().reciept === undefined) {
-                    this.getModel().reciept = {
+                if (this.getModel().receipt === undefined) {
+                    this.getModel().receipt = {
                         store: undefined,
                         store_label: undefined,
-                        reciept: undefined,
+                        receipt: undefined,
                         date: moment().format('YYYY-MM-DD')
                     };
                 }
-                return this.getModel().reciept;
+                return this.getModel().receipt;
             };
             this.setCurrentReciept = function(item) {
-                this.getModel().reciept = item;
+                this.getModel().receipt = item;
             };
             this.resetReciept = function() {
                 var r = this.getCurrentReciept();

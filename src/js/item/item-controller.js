@@ -50,7 +50,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                     var vals = _.chain(itemsSvc.getItems())
                         .filter(function(item) {
                             if (hasItem && hasReciept) {
-                                return item.name === i.name && item.reciept.store === r.store;
+                                return item.name === i.name && item.receipt.store === r.store;
                             }
                             return false;
                         })

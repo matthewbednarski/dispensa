@@ -12,7 +12,7 @@ require.config({
         'items-svc': 'service/items-svc',
         'item-controller': 'item/item-controller',
         'items-controller': 'items/items-controller',
-        'reciept-controller': 'reciept/reciept-controller',
+        'receipt-controller': 'receipt/receipt-controller',
         'd3': 'libs/d3/d3',
 
         // -AMD
@@ -64,7 +64,7 @@ require.config({
 
 require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
     require(['persist-svc', 'items-svc'], function(app, moment) {
-        var myApp = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
+        var myApp = require(['app', 'items-controller', 'receipt-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
             app.config(function($stateProvider, $urlRouterProvider) {
                 //
@@ -84,8 +84,8 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(a
                                 templateUrl: "js/item/item.html",
                                 controller: 'ItemController'
                             },
-                            'reciept': {
-                                templateUrl: "js/reciept/reciept.html",
+                            'receipt': {
+                                templateUrl: "js/receipt/receipt.html",
                                 controller: 'RecieptController'
                             }
                         }

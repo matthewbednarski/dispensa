@@ -29,7 +29,7 @@ define(['angular',
                     store_label: "Label",
                     count: "Count",
                     price: "Price",
-                    reciept: "Rec. #",
+                    receipt: "Rec. #",
                     date: "Date",
                     on_deal: "On Deal"
                 },

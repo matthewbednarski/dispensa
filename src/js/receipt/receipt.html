@@ -1,7 +1,7 @@
 <!-- <div ng&#45;controller="RecieptController" class="col&#45;xs&#45;6"> -->
 <div class="col-xs-6">
-    <form novalidate name="recieptForm" class="simple-form">
-        <div class="form-group" ng-class="{ 'has-error' : recieptForm.store.$invalid && !recieptForm.store.$pristine }">
+    <form novalidate name="receiptForm" class="simple-form">
+        <div class="form-group" ng-class="{ 'has-error' : receiptForm.store.$invalid && !receiptForm.store.$pristine }">
             <input name="store" class="form-control" placeholder="{{ 'item.store' | translate }}"
             type="text" ng-model="item.store" list="stores" required ng-model-options="{ updateOn: 'blur' }"
             />
@@ -9,7 +9,7 @@
                 <option ng-repeat="item in stores" value="{{ item }}"></option>
             </datalist>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : recieptForm.store_label.$invalid && !recieptForm.store_label.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error' : receiptForm.store_label.$invalid && !receiptForm.store_label.$pristine }">
             <input name="store_label" class="form-control" placeholder="{{ 'item.store_label' | translate }}"
             type="text" ng-model="item.store_label" ng-model-options="{ updateOn: 'blur' }"
             list="store_labels" required />
@@ -17,7 +17,7 @@
                 <option ng-repeat="item in store_labels" value="{{ item }}"></option>
             </datalist>
         </div>
-        <div class="input-group form-group" ng-class="{ 'has-error' : recieptForm.date.$invalid && !recieptForm.date.$pristine }">
+        <div class="input-group form-group" ng-class="{ 'has-error' : receiptForm.date.$invalid && !receiptForm.date.$pristine }">
             <span class="input-group-addon">
 				<i class="fa fa-calendar"></i>
 			</span>
@@ -27,21 +27,21 @@
                 </input>
             </div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : recieptForm.city.$invalid && !recieptForm.city.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error' : receiptForm.city.$invalid && !receiptForm.city.$pristine }">
             <input name="city" class="form-control" placeholder="{{ 'item.city' | translate }}"
             type="text" ng-model="item.city" required ng-model-options="{ updateOn: 'blur' }"
             />
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : recieptForm.reciept.$invalid && !recieptForm.reciept.$pristine }">
-            <input name="reciept" class="form-control" placeholder="{{ 'item.reciept' | translate }}"
-            type="text" ng-model="item.reciept" />
+        <div class="form-group" ng-class="{ 'has-error' : receiptForm.receipt.$invalid && !receiptForm.receipt.$pristine }">
+            <input name="receipt" class="form-control" placeholder="{{ 'item.receipt' | translate }}"
+            type="text" ng-model="item.receipt" />
         </div>
         <div class="form-group">
             <input name="price" class="form-control" placeholder="{{ 'item.price' | translate }}"
             type="number" ng-model="item.price" currency />
         </div>
         <div class="button-group">
-            <button ng-show="!recieptForm.$pristine" class="btn" ng-click="reset()" tooltip="{{ 'action.reset' | translate}}">
+            <button ng-show="!receiptForm.$pristine" class="btn" ng-click="reset()" tooltip="{{ 'action.reset' | translate}}">
                 <i class="fa fa-eraser fa-2x">
 				</i>
             </button>

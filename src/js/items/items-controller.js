@@ -14,7 +14,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                         itemsSvc.getCurrentReciept().store = item.store;
                         itemsSvc.getCurrentReciept().store_label = item.store_label;
                         itemsSvc.getCurrentReciept().city = item.city;
-                        itemsSvc.getCurrentReciept().reciept = item.reciept;
+                        itemsSvc.getCurrentReciept().receipt = item.receipt;
                         itemsSvc.getCurrentItem().name = item.name;
                         itemsSvc.getCurrentItem().brand = item.brand;
                         itemsSvc.getCurrentItem().label = item.label;
