@@ -13,11 +13,14 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                         itemsSvc.getCurrentReciept().date = item.date;
                         itemsSvc.getCurrentReciept().store = item.store;
                         itemsSvc.getCurrentReciept().store_label = item.store_label;
+                        itemsSvc.getCurrentReciept().city = item.city;
+                        itemsSvc.getCurrentReciept().reciept = item.reciept;
                         itemsSvc.getCurrentItem().name = item.name;
                         itemsSvc.getCurrentItem().brand = item.brand;
                         itemsSvc.getCurrentItem().label = item.label;
                         itemsSvc.getCurrentItem().count = item.count;
                         itemsSvc.getCurrentItem().price = item.price;
+                        itemsSvc.getCurrentItem().on_deal = item.on_deal;
                     };
 
                     $scope.delete = function(item) {
