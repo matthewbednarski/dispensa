@@ -1,80 +1,39 @@
 <div>
-    <!-- ng&#45;controller="ItemsController"> -->
-    <table class="table table-striped table-condensed table-hover">
+	<!-- <button ng&#45;click="exportData()">export</button> -->
+    <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
-            <tr>
+            <tr class="sortable">
+                <th st-sort="store">
+                    {{ 'item.store' | translate }}
+                </th>
+                <th st-sort="name">
+                    {{ 'item.name' | translate }}
+                </th>
+                <th st-sort="reciept">
+                    {{ 'item.reciept' | translate }}
+                </th>
+                <th st-sort="brand">
+                    {{ 'item.brand' | translate }}
+                </th>
+                <th st-sort="label">
+                    {{ 'item.label' | translate }}
+                </th>
+                <th st-sort="count">
+                    {{ 'item.count' | translate }}
+                </th>
+                <th st-sort="price">
+                    {{ 'item.price' | translate }}
+                </th>
+                <th st-sort="date">
+                    {{ 'item.date' | translate }}
+                </th>
                 <th>
-                    <a ng-click="predicate = 'reciept.store'; reverse = !reverse;">
-							{{ 'item.store' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="name">
-                    <a ng-click="predicate = 'name'; reverse = !reverse;">
-						{{ 'item.name' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="name">
-                    <a ng-click="predicate = 'reciept.reciept'; reverse = !reverse;">
-						{{ 'item.reciept' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="brand">
-                    <a ng-click="predicate = 'brand'; reverse = !reverse;">
-						{{ 'item.brand' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="labl">
-                    <a ng-click="predicate = 'label'; reverse = !reverse;">
-						{{ 'item.label' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="count">
-                    <a ng-click="predicate = 'count'; reverse = !reverse;">
-						{{ 'item.count' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="price">
-                    <a ng-click="predicate = 'price'; reverse = !reverse;">
-						{{ 'item.price' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
-                </th>
-                <th class="date"> <a ng-click="predicate = 'reciept.date'; reverse = !reverse;">
-						{{ 'item.date' | translate }}
-							<i class="fa fa-sort"></i>
-                        </a>
+                    {{ 'action' | translate }}
                 </th>
             </tr>
         </thead>
-        <!-- <tfoot> -->
-        <!--     <td colspan="6"> -->
-        <!--         <div class="pagination pull&#45;right"> -->
-        <!--             <ul> -->
-        <!--                 <li ng&#45;class="{disabled: currentPage == 0}"> -->
-        <!--                     <a href ng&#45;click="prevPage()">« Prev</a> -->
-        <!--                 </li> -->
-        <!--                 <li ng&#45;repeat="n in range(items.length)" ng&#45;class="{active: n == currentPage}" -->
-        <!--                 ng&#45;click="setPage()"> -->
-        <!--                     <a href ng&#45;bind="n + 1">1</a> -->
-        <!--                 </li> -->
-        <!--                 <li ng&#45;class="{disabled: currentPage == items.length &#45; 1}"> -->
-        <!--                     <a href ng&#45;click="nextPage()">Next »</a> -->
-        <!--                 </li> -->
-        <!--             </ul> -->
-        <!--         </div> -->
-        <!--     </td> -->
-        <!-- </tfoot> -->
         <tbody>
-            <!-- <tr ng&#45;repeat="item in items"> -->
-            <tr ng-repeat="item in items track by $index| orderBy:predicate:reverse" ng-click="setSelected(item);">
-                <!-- <td>{{item.id}}</td> -->
-
+            <tr ng-repeat="item in disItems track by item.id " ng-click="setSelected(item);">
                 <td>
                     <div ng-if="!item.city" class="inline-block">
                         {{item.store }}
@@ -104,9 +63,6 @@
                             <i class="fa fa-trash-o fa-2x">
 			</i>
                         </button>
-            <!--             <button ng&#45;click="edit(item)" tooltip="{{ 'action.edit' | translate}}"> -->
-            <!--                 <i class="fa fa&#45;pencil fa&#45;2x"> -->
-			<!-- </i> -->
                     </div>
                 </td>
             </tr>

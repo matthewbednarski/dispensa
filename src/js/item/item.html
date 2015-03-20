@@ -1,49 +1,47 @@
 <!-- <div ng&#45;controller="ItemController" class="col&#45;xs&#45;6"> -->
-<div class="col-xs-6">
-    <form novalidate class="simple-form">
-        <!-- <label for="name" class="col&#45;sm&#45;2 control&#45;label" translate>item.name</label> -->
-        <input id="name" type="text" class="form-control" placeholder="{{ 'item.name' | translate }}"
-        ng-model="item.name" list="names" />
-        <datalist id="names">
-            <option ng-repeat="item in names" value="{{ item }}"></option>
-        </datalist>
-        <br />
-        <!-- <label for="brand" class="col&#45;sm&#45;2 control&#45;label" translate>item.brand</label> -->
-        <input id="brand" class="form-control" placeholder="{{ 'item.brand' | translate }}"
-        type="text" ng-model="item.brand" />
-        <br />
-        <!-- <label for="label" class="col&#45;sm&#45;2 control&#45;label" translate>item.label</label> -->
-        <input id="label" 
-			class="form-control" 
-			placeholder="{{ 'item.label' | translate }}"
-        type="text" ng-model="item.label" />
-        <br />
-        <!-- <label for="count" class="col&#45;sm&#45;2 control&#45;label" translate>item.count</label> -->
-        <input id="count" class="form-control" placeholder="{{ 'item.count' | translate }}"
-        type="number" ng-model="item.count" />
-        <br />
-        <div class="input-group">
-            <span class="input-group-addon">{{ 'symbol.currency' | translate }}</span>
-            <input id="price" placeholder="{{ 'item.price' | translate }}" class="form-control"
-            type="text" ng-model="item.price" />
+<div ng-show="itemsSvc.canEditItem" class="col-xs-6">
+    <form novalidate name="itemForm" class="simple-form">
+        <div class="form-group" ng-class="{ 'has-error' : itemForm.name.$invalid && !itemForm.name.$pristine }">
+            <input name="name" type="text" class="form-control" placeholder="{{ 'item.name' | translate }}"
+            ng-model="item.name" list="names" required />
+            <datalist id="names">
+                <option ng-repeat="item in names" value="{{ item }}"></option>
+            </datalist>
         </div>
-        <br />
-        <div class="input-group">
+        <div class="form-group" ng-class="{ 'has-error' : itemForm.brand.$invalid && !itemForm.brand.$pristine }">
+            <input name="brand" class="form-control" placeholder="{{ 'item.brand' | translate }}"
+            type="text" ng-model="item.brand" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : itemForm.label.$invalid && !itemForm.label.$pristine }">
+            <input name="label" class="form-control" placeholder="{{ 'item.label' | translate }}"
+            type="text" ng-model="item.label" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : itemForm.count.$invalid && !itemForm.count.$pristine }">
+            <input name="count" class="form-control" placeholder="{{ 'item.count' | translate }}"
+            min="1" type="number" ng-model="item.count" required />
+        </div>
+        <div class="input-group form-group" ng-class="{ 'has-error' : itemForm.price.$invalid && !itemForm.price.$pristine }">
+            <span class="input-group-addon">{{ 'symbol.currency' | translate }}</span>
+            <input name="price" placeholder="{{ 'item.price' | translate }}" class="form-control"
+            type="number" 
+            min="0.01"
+			ng-model="item.price" currency required />
+        </div>
+        <div class="input-group form-group" ng-class="{ 'has-error' : itemForm.on_deal.$invalid && !itemForm.on_deal.$pristine }">
             <span class="input-group-addon">
-            <input id="on_deal" 
+            <input name="on_deal" 
 				    placeholder="{{ 'item.on_deal' | translate }}"
             		type="checkbox" ng-model="item.on_deal" ng-true-value="1" ng-false-value="0"
             /></span>
             <input class="form-control" placeholder="{{ 'item.on_deal' | translate }}" />
-            <!-- {{ 'item.on_deal' | translate }} -->
         </div>
-        <br/>
-        <div class="form-group center">
-            <button ng-click="reset()" tooltip="{{ 'action.reset' | translate}}">
+        <div class="button-group center">
+            <button ng-show="!itemForm.$pristine" class="btn" ng-click="reset()" tooltip="{{ 'action.reset' | translate}}">
                 <i class="fa fa-eraser fa-2x">
 			</i>
             </button>
-            <button ng-click="update(item)" tooltip="{{ 'action.save' | translate}}">
+
+            <button ng-show="itemForm.$valid" class="btn" ng-click="update(item)" tooltip="{{ 'action.save' | translate}}">
                 <i class="fa fa-save fa-2x">
 			</i>
         </div>

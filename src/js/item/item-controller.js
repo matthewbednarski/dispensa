@@ -7,11 +7,13 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
             function($scope, itemsSvc) {
                 $scope.names = ['test', 'test2', 'abc', 'bd'];
                 $scope.item = itemsSvc.getCurrentItem();
+                $scope.itemsSvc = itemsSvc;
                 $scope.update = function(item) {
                     itemsSvc.addItem(item);
                 };
                 $scope.reset = function() {
                     $scope.item = itemsSvc.resetItem();
+                    $scope.itemForm.$setPristine();
                 };
                 $scope.names = [];
                 $scope.loadNames = function() {
