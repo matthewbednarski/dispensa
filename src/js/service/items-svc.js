@@ -109,8 +109,17 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         toAdd[p] = r[p];
                     }
                 }
-                toAdd.id = UUID();
-                this.getItems().push(toAdd);
+                // toAdd.id = UUID();
+                var found = _.chain(this.getItems())
+                    .find(function(item) {
+                        return item.id === toAdd.id;
+                    })
+                    .value();
+                if (found) {
+                    _.assign(found, toAdd);
+                } else {
+                    this.getItems().push(toAdd);
+                }
                 this.persist();
                 return this.putItemRest(toAdd);
             };
@@ -154,6 +163,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         store: undefined,
                         store_label: undefined,
                         receipt: undefined,
+                        city: undefined,
                         date: moment().format('YYYY-MM-DD')
                     };
                 }
@@ -164,12 +174,15 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             };
             this.resetReciept = function() {
                 var r = this.getCurrentReciept();
-                for (var p in r) {
-                    r[p] = undefined;
-                    if (p === 'date') {
-                        r[p] = moment().format('YYYY-MM-DD');
-                    }
-                }
+                var new_r = {
+                    store: undefined,
+                    store_label: undefined,
+                    receipt: undefined,
+                    city: undefined,
+                    date: moment().format('YYYY-MM-DD')
+                };
+                _.assign(this.getModel().receipt, new_r);
+                return this.getCurrentReciept();
             };
             this.setCurrentItem = function(item) {
                 this.getModel().item = item;
@@ -283,7 +296,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         _.forEach(fields, function(field) {
                             if (this.hasOwnProperty(field)) {
                                 if (o.key === undefined) {
-                                	o.key = this[field];
+                                    o.key = this[field];
                                 } else {
                                     o.key += ' - ' + this[field];
                                 }
@@ -312,6 +325,18 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 _.assign(this.getModel()[type], vals);
                 return this.getModel()[type];
             };
+            this.getBrands = function() {
+                if (this.getModel().brands === undefined) {
+                    this.getModel().brands = [];
+                }
+                return this.getModel().brands;
+            };
+            this.getNames = function() {
+                if (this.getModel().names === undefined) {
+                    this.getModel().names = [];
+                }
+                return this.getModel().names;
+            };
             this.getCities = function() {
                 if (this.getModel().cities === undefined) {
                     this.getModel().cities = [];
@@ -330,6 +355,44 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 }
                 return this.getModel().store_labels;
             };
+            this.loadBrands = function() {
+                var store = this.getCurrentReciept().store;
+                var brands = _.chain(this.getItems())
+                    .filter(function(item) {
+                        return item.store === store;
+                    })
+                    .uniq(function(item) {
+                        return item.brand;
+                    })
+                    .sortBy(function(item) {
+                        return item.brand;
+                    })
+                    .map(function(item) {
+                        return item.brand;
+                    })
+                    .value();
+                _.assign(this.getModel().brands, brands);
+                return this.getBrands();
+            };
+            this.loadNames = function() {
+                var store = this.getCurrentReciept().store;
+                var names = _.chain(this.getItems())
+                    .filter(function(item) {
+                        return item.store === store;
+                    })
+                    .uniq(function(item) {
+                        return item.name;
+                    })
+                    .sortBy(function(item) {
+                        return item.name;
+                    })
+                    .map(function(item) {
+                        return item.name;
+                    })
+                    .value();
+                _.assign(this.getModel().names, names);
+                return this.getNames();
+            };
             this.loadCities = function() {
                 return this.loadType('cities', 'city');
             };
@@ -338,6 +401,37 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             };
             this.loadStores = function() {
                 return this.loadTypes('stores', ['store', 'city']);
+            };
+            this.getLabels = function(){
+				if(this.getModel().labels === undefined){
+					this.getModel().labels = [];
+				}
+				return this.getModel().labels;
+			};
+            this.labels = function() {
+                var labels = _.chain(this.getItems())
+                    .groupBy("label")
+                    .map(function(value, key) {
+                        return [key, _.reduce(value, function(result, currentObject) {
+                            return {
+                                price: result.price + (currentObject.price * currentObject.count)
+                            }
+                        }, {
+                            price: 0
+                        })];
+                    })
+                    .object()
+                    .value();
+                labels = _.chain(_.keys(labels))
+                    .map(function(key) {
+                        return {
+                            label: key,
+                            price: labels[key].price
+                        }
+                    })
+                    .value();
+                    _.assign(this.getLabels(), labels);
+                    return this.getLabels();
             };
         }
     ]);

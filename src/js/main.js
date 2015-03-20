@@ -13,6 +13,7 @@ require.config({
         'item-controller': 'item/item-controller',
         'items-controller': 'items/items-controller',
         'receipt-controller': 'receipt/receipt-controller',
+        'graphic-controller': 'graphic/graphic-controller',
         'd3': 'libs/d3/d3',
 
         // -AMD
@@ -64,7 +65,7 @@ require.config({
 
 require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
     require(['persist-svc', 'items-svc'], function(app, moment) {
-        var myApp = require(['app', 'items-controller', 'receipt-controller', 'item-controller'], function(app) {
+        var myApp = require(['app', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
             app.config(function($stateProvider, $urlRouterProvider) {
                 //
@@ -74,7 +75,7 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(a
                 // Now set up the states
                 $stateProvider
                     .state('state1', {
-                        url: "/",
+                        url: "/insert",
                         views: {
                             'items': {
                                 templateUrl: "js/items/items.html",
@@ -91,11 +92,20 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(a
                         }
                     })
                     .state('state2', {
-                        url: "/profile",
+                        url: "/",
                         views: {
                             'items': {
                                 templateUrl: "js/items/items.html",
                                 controller: 'ItemsController'
+                            }
+                        }
+                    })
+                    .state('state3', {
+                        url: "/graphic",
+                        views: {
+                            'graphic': {
+                                templateUrl: "js/graphic/graphic.html",
+                                controller: 'GraphicController'
                             }
                         }
                     });

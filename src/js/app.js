@@ -17,6 +17,7 @@ define(['angular',
                     home: "Home",
                     insert: "Insert Reciept",
                     view: "View Table",
+                    graphic: "View Graphic",
                     items: "Items",
                     search_store : "Filter stores",
                     search_global : "Filter by any text",
@@ -43,7 +44,8 @@ define(['angular',
 					actions: "Actions",
                     save: "Save",
                     delete: "Delete",
-                    reset: "Reset"
+                    reset: "Reset",
+                    new: "Create New"
 
                 }
             });

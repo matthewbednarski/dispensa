@@ -4,13 +4,20 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
     app.controller('RecieptController', ['$scope', 'itemsSvc',
         function($scope, itemsSvc) {
             $scope.item = itemsSvc.getCurrentReciept();
-            $scope.test = function(item) {
+            $scope.storeSelected = function(item) {
                 var found = _.chain(itemsSvc.getStores())
                     .find(function(it) {
                         return it.key === item.store;
                     })
                     .value();
-                if (found !== undefined ) {
+                if (found === undefined) {
+                    found = _.chain(itemsSvc.getStores())
+                        .find(function(it) {
+                            return it.store === item.store;
+                        })
+                        .value();
+                }
+                if (found !== undefined) {
                     itemsSvc.getCurrentReciept().store = found.store;
                     itemsSvc.getCurrentReciept().store_label = found.store_label;
                     itemsSvc.getCurrentReciept().city = found.city;
@@ -19,7 +26,6 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
             };
             $scope.reset = function() {
                 itemsSvc.resetReciept();
-                $scope.item = itemsSvc.getCurrentReciept();
                 $scope.receiptForm.$setPristine();
             };
             $scope.cities = itemsSvc.getCities();
@@ -42,6 +48,7 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
 
                 return vals;
             };
+
             $scope.$watch(function() {
                 return $scope.receiptForm.$valid;
             }, function(n, o) {

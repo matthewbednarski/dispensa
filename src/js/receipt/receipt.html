@@ -3,11 +3,12 @@
     <form novalidate name="receiptForm" class="simple-form">
         <div class="form-group" ng-class="{ 'has-error' : receiptForm.store.$invalid && !receiptForm.store.$pristine }">
             <input name="store" class="form-control" placeholder="{{ 'item.store' | translate }}"
-            type="text" ng-model="item.store" list="stores" required 
- 			ng-change="test(item)" 
+            type="text" 
+			ng-model="item.store" list="stores" required 
+						 ng-change="storeSelected(item)"
             />
             <datalist id="stores">
-				<option ng-repeat="it in stores" value="{{ it.store + ' - ' + it.city }}" data-obj="{{ it }}"></option>
+                <option ng-repeat="it in stores" value="{{ it.store + ' - ' + it.city }}" data-obj="{{ it }}"></option>
             </datalist>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : receiptForm.store_label.$invalid && !receiptForm.store_label.$pristine }">
@@ -15,7 +16,7 @@
             type="text" ng-model="item.store_label" ng-model-options="{ updateOn: 'blur' }"
             list="store_labels" required />
             <datalist id="store_labels">
-                <option ng-repeat="item in loadStoreLabels()" value="{{ item }}"></option>
+                <option ng-repeat="item in store_labels" value="{{ item }}"></option>
             </datalist>
         </div>
         <div class="input-group form-group" ng-class="{ 'has-error' : receiptForm.date.$invalid && !receiptForm.date.$pristine }">
@@ -24,8 +25,7 @@
 			</span>
             <div class="input-append date">
                 <input data-provide="datepicker" class="form-control" name="date" data-date-format="yyyy-mm-dd"
-                ng-model="item.date" required>
-                </input>
+                ng-model="item.date" required/>
             </div>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : receiptForm.city.$invalid && !receiptForm.city.$pristine }">
@@ -33,7 +33,7 @@
             type="text" ng-model="item.city" required ng-model-options="{ updateOn: 'blur' }"
             list="cities" />
             <datalist id="cities">
-                <option ng-repeat="item in loadCities()" value="{{ item }}"></option>
+                <option ng-repeat="item in cities" value="{{ item }}"></option>
             </datalist>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : receiptForm.receipt.$invalid && !receiptForm.receipt.$pristine }">
@@ -45,8 +45,10 @@
             type="number" ng-model="item.price" currency />
         </div>
         <div class="button-group">
-            <button ng-show="!receiptForm.$pristine || receiptForm.$valid" class="btn" ng-click="reset()"
-            tooltip="{{ 'action.reset' | translate}}">
+            <button ng-show="!receiptForm.$pristine || receiptForm.$valid" 
+			type="rst" class="btn"
+            ng-click="reset()" 
+			tooltip="{{ 'action.reset' | translate}}">
                 <i class="fa fa-eraser fa-2x">
 				</i>
             </button>

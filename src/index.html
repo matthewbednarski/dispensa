@@ -13,6 +13,10 @@
 <body ng-cloak>
     <script data-main="js/main" src="js/libs/requirejs/require.js"></script>
     <style>
+        .slice text {
+            font-size: 16pt;
+            font-family: Arial;
+        }
         .sortable {
             cursor: pointer;
         }
@@ -25,9 +29,11 @@
     </style>
     <nav class="collapse navbar-collapse bs-navbar-collapse">
         <ul class="nav nav-tabs">
-            <li><a href="#/"> {{ 'app.insert' | translate }}</a>
+            <li><a href="#/">{{ 'app.view' | translate }}</a>
             </li>
-            <li><a href="#/profile">{{ 'app.view' | translate }}</a>
+            <li><a href="#/insert"> {{ 'app.insert' | translate }}</a>
+            </li>
+            <li><a href="#/graphic">{{ 'app.graphic' | translate }}</a>
             </li>
         </ul>
     </nav>
@@ -39,6 +45,9 @@
         </div>
         <div class="row col-xs-12">
             <div ui-view="items" class="col-xs-12 center"></div>
+        </div>
+        <div class="row col-xs-12">
+            <div ui-view="graphic" class="col-xs-12 center"></div>
         </div>
     </div>
 </body>

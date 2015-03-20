@@ -11,7 +11,8 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                     $scope.itemsSvc = itemsSvc;
                     $scope.itemsByPage = 15;
                     $scope.setSelected = function(item) {
-                        itemsSvc.getCurrentReciept().date = item.date;
+                        itemsSvc.resetItem();
+                        itemsSvc.resetReciept();
                         itemsSvc.getCurrentReciept().store = item.store;
                         itemsSvc.getCurrentReciept().store_label = item.store_label;
                         itemsSvc.getCurrentReciept().city = item.city;
@@ -23,12 +24,24 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                         itemsSvc.getCurrentItem().price = parseFloat(item.price);
                         itemsSvc.getCurrentItem().on_deal = item.on_deal;
                     };
+                    $scope.edit = function(item) {
+                        itemsSvc.getCurrentReciept().date = item.date;
+                        itemsSvc.getCurrentReciept().store = item.store;
+                        itemsSvc.getCurrentReciept().store_label = item.store_label;
+                        itemsSvc.getCurrentReciept().city = item.city;
+                        itemsSvc.getCurrentReciept().receipt = item.receipt;
+                        itemsSvc.getCurrentItem().name = item.name;
+                        itemsSvc.getCurrentItem().id = item.id;
+                        itemsSvc.getCurrentItem().brand = item.brand;
+                        itemsSvc.getCurrentItem().label = item.label;
+                        itemsSvc.getCurrentItem().count = parseFloat(item.count);
+                        itemsSvc.getCurrentItem().price = parseFloat(item.price);
+                        itemsSvc.getCurrentItem().on_deal = item.on_deal;
+                    };
+
 
                     $scope.delete = function(item) {
                         return itemsSvc.deleteItem(item);
-                    };
-                    $scope.edit = function(item) {
-                        itemsSvc.setCurrentItem(item);
                     };
                 }
             ]);

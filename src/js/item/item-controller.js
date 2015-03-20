@@ -9,102 +9,55 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                 $scope.item = itemsSvc.getCurrentItem();
                 $scope.itemsSvc = itemsSvc;
                 $scope.update = function(item) {
-                    itemsSvc.addItem(item);
+                    itemsSvc.addItem(item)
+                        .then(function() {
+                            itemsSvc.resetItem();
+                        });
                 };
                 $scope.reset = function() {
                     $scope.item = itemsSvc.resetItem();
                     $scope.itemForm.$setPristine();
                 };
-                $scope.names = [];
-                $scope.loadNames = function() {
-                    var r = itemsSvc.getCurrentReciept();
-                    var hasStore = (r.store !== undefined && r.store !== "") ? true : false;
-                    var vals = _.chain(itemsSvc.getItems())
-                        .filter(function(item) {
-                            if (hasStore) {
-                                return item.store === r.store;
-                            }
-                            return true;
-                        })
-                        .map(function(item) {
-                            return item.name;
-                        })
-                        .unique()
-                        .sort()
-                        .value();
-                    while ($scope.names.length > 0) {
-                        $scope.names.pop();
-                    }
-                    _.forEach(vals, function(item) {
-                        if (this.indexOf(item) < 0) {
-                            this.push(item);
-                        }
-                    }, $scope.names);
-                    return $scope.names;
-                };
-                $scope.findPreviousItem = function() {
-                    var i = itemsSvc.getCurrentItem();
-                    var r = itemsSvc.getCurrentReciept();
-                    var hasItem = (r.name !== undefined && r.name !== "") ? true : false;
-                    var hasReciept = (r.store !== undefined && r.store !== "") ? true : false;
-                    var vals = _.chain(itemsSvc.getItems())
-                        .filter(function(item) {
-                            if (hasItem && hasReciept) {
-                                return item.name === i.name && item.receipt.store === r.store;
-                            }
-                            return false;
+                $scope.names = itemsSvc.getNames();
+                $scope.brands = itemsSvc.getBrands();
+
+                // $scope.$watch(function() {
+                //     return itemsSvc.model.item.name;
+                // }, function() {
+                //     var _items = $scope.findPreviousItem();
+                //     if (_items.length > 0) {
+                //         var it = _items[0];
+                //         itemsSvc.model.item.brand = it.brand;
+                //         itemsSvc.model.item.count = it.count;
+                //         itemsSvc.model.item.label = it.label;
+                //         itemsSvc.model.item.price = it.price;
+                //     }
+                // });
+                $scope.nameSelected = function(item) {
+                    var found = _.chain(itemsSvc.getItems())
+                        .find(function(it) {
+                            return it.name === item.name;
                         })
                         .value();
-                    return vals;
-                };
-                $scope.brands = [];
-                $scope.loadBrands = function() {
-                    var r = itemsSvc.getCurrentItem();
-                    var hasItem = (r.name !== undefined && r.name !== "") ? true : false;
-                    var vals = _.chain(itemsSvc.getItems())
-                        .filter(function(item) {
-                            if (hasItem) {
-                                return item.name === r.name;
-                            }
-                            return true;
-                        })
-                        .map(function(item) {
-                            return item.brand;
-                        })
-                        .unique()
-                        .sort()
-                        .value();
-                    while ($scope.brands.length > 0) {
-                        $scope.brands.pop();
+                    if (found !== undefined) {
+                        itemsSvc.getCurrentItem().brand = found.brand;
+                        itemsSvc.getCurrentItem().label = found.label;
+                        itemsSvc.getCurrentItem().price = parseFloat(found.price);
+                        itemsSvc.getCurrentItem().count = parseFloat(found.count);
+                        itemsSvc.getCurrentItem().on_deal = found.on_deal;
                     }
-                    _.forEach(vals, function(item) {
-                        if (this.indexOf(item) < 0) {
-                            this.push(item);
-                        }
-                    }, $scope.brands);
-                    return $scope.brands;
                 };
-                $scope.$watch(function() {
-                    return itemsSvc.model.item.name;
-                }, function() {
-                    var _items = $scope.findPreviousItem();
-                    if (_items.length > 0) {
-                        var it = _items[0];
-                        itemsSvc.model.item.brand = it.brand;
-                        itemsSvc.model.item.count = it.count;
-                        itemsSvc.model.item.label = it.label;
-                        itemsSvc.model.item.price = it.price;
-                    }
-                });
                 $scope.$watch(function() {
                     return itemsSvc.getCurrentReciept().store;
                 }, function() {
-                    $scope.loadNames();
+                    itemsSvc.loadNames();
+                    itemsSvc.loadBrands();
                 });
                 $scope.$watch(function() {
                     return itemsSvc.model.items.length;
                 }, function() {
-                    $scope.loadNames();
+                    itemsSvc.loadNames();
+                    itemsSvc.loadBrands();
                 });
             }
         ]);

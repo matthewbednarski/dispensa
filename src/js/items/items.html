@@ -2,7 +2,7 @@
     <!-- <button ng&#45;click="exportData()">export</button> -->
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
-            <tr >
+            <tr>
                 <th colspan="12" class="text-center">
                     <!-- <div st&#45;pagination="" st&#45;items&#45;by&#45;page="itemsByPage" st&#45;displayed&#45;pages="15"></div> -->
                     <div st-pagination="" st-items-by-page="itemsByPage"></div>
@@ -55,7 +55,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in disItems track by item.id " ng-click="setSelected(item);">
+			<tr ng-repeat="item in disItems track by item.id " >
+				<!-- ng&#45;click="setSelected(item);"> -->
                 <td>{{item.store }}</td>
                 <td>{{item.city}}</td>
                 <td>{{item.name}}</td>
@@ -76,9 +77,25 @@
                 </td>
                 <td>{{item.date}}</td>
                 <td>
-                    <div class="form-group center">
-                        <button ng-click="delete(item)" tooltip="{{ 'action.delete' | translate}}">
+                    <div class="button-group center">
+                        <button 
+                         class="btn"
+						 ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
                             <i class="fa fa-trash-o fa-2x">
+			</i>
+                        </button>
+                        <button
+                         class="btn"
+							   ng-click="edit(item)" type="edit" 
+								tooltip="{{ 'action.edit' | translate}}">
+                            <i class="fa fa-pencil-square-o fa-2x">
+			</i>
+                        </button>
+                        <button
+                         class="btn"
+							   ng-click="setSelected(item)" type="edit" 
+								tooltip="{{ 'action.new' | translate}}">
+                            <i class="fa fa-external-link fa-2x">
 			</i>
                         </button>
                     </div>
