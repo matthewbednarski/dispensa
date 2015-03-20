@@ -6,7 +6,7 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
     app.service('itemsSvc', ['$http', '$q', 'persistSvc',
         function($http, $q, persistSvc) {
 
-            this.url = 'rest/item';
+            this.url = 'api/item';
             var service = this;
             this.deleteItem = function(item) {
                 var defer = $q.defer();

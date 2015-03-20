@@ -1,6 +1,6 @@
 'use strict';
-define(['angular', 'moment', 'lodash','alasql','xlsx.core', 'app', 'items-svc'],
-    function(angular, moment, _, alasql, XLSX) {
+define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
+    function(angular, moment, _) {
         var app = angular.module('dispensa');
         app
             .controller('ItemsController', ['$scope', '$filter', 'itemsSvc',
@@ -19,9 +19,7 @@ define(['angular', 'moment', 'lodash','alasql','xlsx.core', 'app', 'items-svc'],
                         itemsSvc.getCurrentItem().count = item.count;
                         itemsSvc.getCurrentItem().price = item.price;
                     };
-                    $scope.exportData = function() {
-                        alasql('SELECT * INTO XLSX("dispensa.xlsx",{headers:true}) FROM ?', [$scope.items]);
-                    };
+
                     $scope.delete = function(item) {
                         return itemsSvc.deleteItem(item);
                     };

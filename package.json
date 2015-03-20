@@ -2,9 +2,13 @@
   "name": "Dispensa",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "lib/index.html",
+  "directories": {
+    "lib": "./lib"
+  },
   "scripts": {
-    "test": "npm start -- ?"
+    "test": "npm start -- ?",
+    "start": "node lib/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +25,18 @@
     "gulp": "^3.8.11",
     "gulp-manifest": "0.0.6",
     "yargs": "^3.4.5"
+  },
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "connect": "^3.3.5",
+    "everyauth": "^0.4.9",
+    "lodash": "^3.5.0",
+    "moment": "^2.9.0",
+    "morgan": "^1.5.2",
+    "node-uuid": "^1.4.2",
+    "q": "^1.2.0",
+    "restify": "^2.8.5",
+    "save": "^2.0.0",
+    "serve-static": "^1.9.2"
   }
 }

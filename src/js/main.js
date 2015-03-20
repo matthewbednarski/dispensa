@@ -13,8 +13,6 @@ require.config({
         'item-controller': 'item/item-controller',
         'items-controller': 'items/items-controller',
         'reciept-controller': 'reciept/reciept-controller',
-        'alasql': 'alasql.min',
-        'xlsx.core': 'libs/js-xlsx/dist/xlsx.core.min',
         'd3': 'libs/d3/d3',
 
         // -AMD
@@ -64,10 +62,7 @@ require.config({
 
 
 
-require(['app', 'moment', 'alasql', 'xlsx.core', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment, alasql, JSZip) {
-	window.JSZip = JSZip;
-	window.jszip = JSZip;
-	console.log(JSZip);
+require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
     require(['persist-svc', 'items-svc'], function(app, moment) {
         var myApp = require(['app', 'items-controller', 'reciept-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
