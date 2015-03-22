@@ -20,29 +20,30 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                 _.forEach(res, function(it) {
                     var toDelete = this.deleteItemRest(it);
                     toDelete.then(function(item) {
+                        var res = _.chain(service.getItems())
+                            .remove(function(it) {
+                                return it.is_delete && it.id === item.id;
+                            })
+                            .value();
+                        if (res !== undefined && res.length > 0) {
+                            service.persist();
+                        }
+                    })
+                        .
+                    catch (function(errorArr) {
+                        console.log(errorArr);
+                        if (errorArr.length > 1 && errorArr[1] === 404) {
+                            console.log("Got 404 Not Found, deleting locally");
                             var res = _.chain(service.getItems())
-                                .remove(function(it) {
-                                    return it.is_delete && it.id === item.id;
+                                .remove(function(removeit) {
+                                    return removeit.is_delete && removeit.id === it.id;
                                 })
                                 .value();
                             if (res !== undefined && res.length > 0) {
                                 service.persist();
                             }
-                        })
-                        .catch(function(errorArr) {
-                            console.log(errorArr);
-                            if (errorArr.length > 1 && errorArr[1] === 404) {
-                                console.log("Got 404 Not Found, deleting locally");
-                                var res = _.chain(service.getItems())
-                                    .remove(function(removeit) {
-                                        return removeit.is_delete && removeit.id === it.id;
-                                    })
-                                    .value();
-                                if (res !== undefined && res.length > 0) {
-                                    service.persist();
-                                }
-                            }
-                        });
+                        }
+                    });
                     p.push(toDelete);
                 }, this);
                 var pAll = $q.all(p);
@@ -50,7 +51,8 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                     function(it) {
                         console.log("Finished Deleting ");
                         defer.resolve("Finished Deleting ");
-                    }).catch(
+                    }).
+                catch (
                     function(it) {
                         console.error("Finished Deleting: " + it);
                         defer.reject("Finished Deleting ");
@@ -61,9 +63,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             this.deleteItemRest = function(item) {
                 var defer = $q.defer();
                 $http({
-                        method: 'DELETE',
-                        url: this.url + '/' + item.id
-                    })
+                    method: 'DELETE',
+                    url: this.url + '/' + item.id
+                })
                     .success(function(results) {
                         defer.resolve(item);
                         console.log(results);
@@ -76,9 +78,9 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             this.getItemsRest = function() {
                 var defer = $q.defer();
                 $http({
-                        method: 'GET',
-                        url: this.url
-                    })
+                    method: 'GET',
+                    url: this.url
+                })
                     .success(function(results) {
                         var res = _.chain(service.getItems())
                             .remove(function(item) {
@@ -93,7 +95,8 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
 
                         merge(service.getItems(), results);
                         defer.resolve(service.getItems());
-                        console.log(results);
+                        service.persist();
+                     //   console.log(results);
                     })
                     .error(function(err) {
                         console.error(err);
@@ -261,13 +264,21 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         .then(function(data) {
                             _.assign(model.items, data.items);
                             service.getItemsRest()
-                                .finally(
-                                    function() {
-                                        console.log("got it");
-                                        service.loadStores();
-                                    }
-                                );
+                                .
+                            finally(function() {
+                                console.log("got it no catch");
+                                service.loadStores();
+                            });
+                        })
+                        .
+                    catch (function(err) {
+                        service.getItemsRest()
+                            .
+                        finally(function() {
+                            console.log("got it catch");
+                            service.loadStores();
                         });
+                    });
                 }
                 return this.model;
             };
@@ -402,12 +413,12 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
             this.loadStores = function() {
                 return this.loadTypes('stores', ['store', 'city']);
             };
-            this.getLabels = function(){
-				if(this.getModel().labels === undefined){
-					this.getModel().labels = [];
-				}
-				return this.getModel().labels;
-			};
+            this.getLabels = function() {
+                if (this.getModel().labels === undefined) {
+                    this.getModel().labels = [];
+                }
+                return this.getModel().labels;
+            };
             this.labels = function() {
                 var labels = _.chain(this.getItems())
                     .groupBy("label")
@@ -430,8 +441,8 @@ define(['angular', 'moment', 'lodash', 'persist-svc', 'app'], function(angular, 
                         }
                     })
                     .value();
-                    _.assign(this.getLabels(), labels);
-                    return this.getLabels();
+                _.assign(this.getLabels(), labels);
+                return this.getLabels();
             };
         }
     ]);
