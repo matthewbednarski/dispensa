@@ -3,21 +3,14 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
     function(angular, moment, _) {
         var app = angular.module('dispensa');
         app
-            .controller('ItemsController', ['$scope', '$filter', 'itemsSvc',
+            .controller('ReceiptItemsController', ['$scope', '$filter', 'itemsSvc',
                 function($scope, $filter, itemsSvc) {
                     // var orderBy = $filter('orderBy');
                     $scope.model = itemsSvc.getModel();
                     $scope.items = itemsSvc.getItems();
                     $scope.itemsSvc = itemsSvc;
-                    $scope.itemsByPage = 15;
-                    $scope.filter = {
-                       	is_receipt: false
-                    };
 
                     $scope.isReceipt = function(value, index) {
-                    	if(!$scope.filter.is_receipt){
-                    		return true;
-						}
                         var props = ['store', 'date', 'city', 'receipt'];
                         var receipt = itemsSvc.getCurrentReciept();
                         var isReceipt = true;

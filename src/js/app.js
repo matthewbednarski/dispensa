@@ -35,7 +35,8 @@ define(['angular',
                     total_price: "Price Paid",
                     receipt: "Rec. #",
                     date: "Date",
-                    on_deal: "On Deal"
+                    on_deal: "On Deal",
+                    is_receipt: "Show receipt"
                 },
                 symbol: {
                     currency: "€"

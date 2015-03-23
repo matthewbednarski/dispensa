@@ -12,6 +12,7 @@ require.config({
         'items-svc': 'service/items-svc',
         'item-controller': 'item/item-controller',
         'items-controller': 'items/items-controller',
+        'receipt-items-controller': 'receipt-items/receipt-items-controller',
         'receipt-controller': 'receipt/receipt-controller',
         'graphic-controller': 'graphic/graphic-controller',
         'd3': 'libs/d3/d3',
@@ -65,7 +66,7 @@ require.config({
 
 require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
     require(['persist-svc', 'items-svc'], function(app, moment) {
-        var myApp = require(['app', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
+        var myApp = require(['app', 'receipt-items-controller', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
             app.config(function($stateProvider, $urlRouterProvider) {
                 //
@@ -78,8 +79,8 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(a
                         url: "/insert",
                         views: {
                             'items': {
-                                templateUrl: "js/items/items.html",
-                                controller: 'ItemsController'
+                                templateUrl: "js/receipt-items/receipt-items.html",
+                                controller: 'ReceiptItemsController'
                             },
                             'item': {
                                 templateUrl: "js/item/item.html",
