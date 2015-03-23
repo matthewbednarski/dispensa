@@ -49,6 +49,36 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, mo
                 return vals;
             };
 
+            $scope.receiptTotal = function() {
+                var total = _.chain(itemsSvc.getItems())
+                    .filter(function(item) {
+                        var props = ['store', 'date', 'city', 'receipt'];
+                        var receipt = itemsSvc.getCurrentReciept();
+                        var isReceipt = true;
+                        for (var i = 0; i < props.length; i++) {
+                            var prop = props[i];
+                            if (item[prop] !== receipt[prop]) {
+                                isReceipt = false;
+                                break;
+                            }
+                        }
+                        return isReceipt;
+                    })
+                    .reduce(function(memo, item, index, col) {
+                        if (memo === undefined) {
+                            memo = {};
+
+                        }
+                        if (memo.price === undefined) {
+                            memo.price = 0;
+                        }
+                        var p = item.count * item.price;
+                        memo.price += p;
+                        return memo;
+                    }, {})
+                    .value();
+                return total.price;
+            };
             $scope.$watch(function() {
                 return $scope.receiptForm.$valid;
             }, function(n, o) {

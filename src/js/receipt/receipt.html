@@ -3,9 +3,7 @@
     <form novalidate name="receiptForm" class="simple-form">
         <div class="form-group" ng-class="{ 'has-error' : receiptForm.store.$invalid && !receiptForm.store.$pristine }">
             <input name="store" class="form-control" placeholder="{{ 'item.store' | translate }}"
-            type="text" 
-			ng-model="item.store" list="stores" required 
-						 ng-change="storeSelected(item)"
+            type="text" ng-model="item.store" list="stores" required ng-change="storeSelected(item)"
             />
             <datalist id="stores">
                 <option ng-repeat="it in stores" value="{{ it.store + ' - ' + it.city }}" data-obj="{{ it }}"></option>
@@ -42,13 +40,11 @@
         </div>
         <div class="form-group">
             <input name="price" class="form-control" placeholder="{{ 'item.price' | translate }}"
-            type="number" ng-model="item.price" currency />
+													 type="text" currency value="{{ receiptTotal() | currency }}" />
         </div>
         <div class="button-group">
-            <button ng-show="!receiptForm.$pristine || receiptForm.$valid" 
-			type="rst" class="btn"
-            ng-click="reset()" 
-			tooltip="{{ 'action.reset' | translate}}">
+            <button ng-show="!receiptForm.$pristine || receiptForm.$valid" type="rst" class="btn"
+            ng-click="reset()" tooltip="{{ 'action.reset' | translate}}">
                 <i class="fa fa-eraser fa-2x">
 				</i>
             </button>

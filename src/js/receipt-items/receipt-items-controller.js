@@ -10,19 +10,20 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                     $scope.items = itemsSvc.getItems();
                     $scope.itemsSvc = itemsSvc;
 
-                    $scope.isReceipt = function(value, index) {
-                        var props = ['store', 'date', 'city', 'receipt'];
-                        var receipt = itemsSvc.getCurrentReciept();
-                        var isReceipt = true;
-                        for (var i = 0; i < props.length; i++) {
-                            var prop = props[i];
-                            if (value[prop] !== receipt[prop]) {
-                                isReceipt = false;
-                                break;
+                    $scope.isReceipt =
+                        function(item, index) {
+                            var props = ['store', 'date', 'city', 'receipt'];
+                            var receipt = itemsSvc.getCurrentReciept();
+                            var isReceipt = true;
+                            for (var i = 0; i < props.length; i++) {
+                                var prop = props[i];
+                                if (item[prop] !== receipt[prop]) {
+                                    isReceipt = false;
+                                    break;
+                                }
                             }
-                        }
-                        return isReceipt;
-                    };
+                            return isReceipt;
+                        };
 
                     $scope.setSelected = function(item) {
                         $scope.itemsByPage += 1;
@@ -55,10 +56,10 @@ define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
                         itemsSvc.getCurrentItem().on_deal = item.on_deal;
                     };
 
-
                     $scope.delete = function(item) {
                         return itemsSvc.deleteItem(item);
                     };
+
                 }
             ]);
         return app;
