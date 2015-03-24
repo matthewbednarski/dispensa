@@ -16,11 +16,13 @@ define(['angular',
                     title: "Dispensa v2",
                     home: "Home",
                     insert: "Insert Reciept",
+                    receipt: "Reciept",
+                    item: "Article",
                     view: "View Table",
                     graphic: "View Graphic",
                     items: "Items",
-                    search_store : "Filter stores",
-                    search_global : "Filter by any text",
+                    search_store: "Filter stores",
+                    search_global: "Filter by any text",
                 },
                 item: {
                     id: "Id",
@@ -42,7 +44,7 @@ define(['angular',
                     currency: "€"
                 },
                 action: {
-					actions: "Actions",
+                    actions: "Actions",
                     save: "Save",
                     delete: "Delete",
                     reset: "Reset",
@@ -51,6 +53,51 @@ define(['angular',
                 }
             });
             $translateProvider.preferredLanguage('en-US');
+        });
+        app.config(function($stateProvider, $urlRouterProvider) {
+            //
+            // For any unmatched url, redirect to /state1
+            $urlRouterProvider.otherwise("/");
+            //
+            // Now set up the states
+            $stateProvider
+                .state('insert', {
+                    url: "/insert",
+                    views: {
+                        'items': {
+                            templateUrl: "js/receipt-items/receipt-items.html",
+                            controller: 'ReceiptItemsController'
+                        },
+                        'item': {
+                            templateUrl: "js/item/item.html",
+                            controller: 'ItemController',
+                            controllerAs: 'ctl'
+                        },
+                        'receipt': {
+                            templateUrl: "js/receipt/receipt.html",
+                            controller: 'RecieptController',
+                            controllerAs: 'ctl'
+                        }
+                    }
+                })
+                .state('table', {
+                    url: "/",
+                    views: {
+                        'items': {
+                            templateUrl: "js/items/items.html",
+                            controller: 'ItemsController'
+                        }
+                    }
+                })
+                .state('report', {
+                    url: "/graphic",
+                    views: {
+                        'graphic': {
+                            templateUrl: "js/graphic/graphic.html",
+                            controller: 'GraphicController'
+                        }
+                    }
+                });
         });
         console.log('1.) ' + app);
         return app;

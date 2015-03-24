@@ -68,51 +68,6 @@ require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(a
     require(['persist-svc', 'items-svc'], function(app, moment) {
         var myApp = require(['app', 'receipt-items-controller', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
-            app.config(function($stateProvider, $urlRouterProvider) {
-                //
-                // For any unmatched url, redirect to /state1
-                $urlRouterProvider.otherwise("/");
-                //
-                // Now set up the states
-                $stateProvider
-                    .state('state1', {
-                        url: "/insert",
-                        views: {
-                            'items': {
-                                templateUrl: "js/receipt-items/receipt-items.html",
-                                controller: 'ReceiptItemsController'
-                            },
-                            'item': {
-                                templateUrl: "js/item/item.html",
-                                controller: 'ItemController'
-                            },
-                            'receipt': {
-                                templateUrl: "js/receipt/receipt.html",
-                                controller: 'RecieptController'
-                            }
-                        }
-                    })
-                    .state('state2', {
-                        url: "/",
-                        views: {
-                            'items': {
-                                templateUrl: "js/items/items.html",
-                                controller: 'ItemsController'
-                            }
-                        }
-                    })
-                    .state('state3', {
-                        url: "/graphic",
-                        views: {
-                            'graphic': {
-                                templateUrl: "js/graphic/graphic.html",
-                                controller: 'GraphicController'
-                            }
-                        }
-                    });
-            });
-
-            console.log('2.) ' + app);
             angular.element(document).ready(function() {
                 angular.bootstrap(document, ['dispensa']);
             });
