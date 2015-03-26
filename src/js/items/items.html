@@ -1,4 +1,4 @@
-<div>
+<div class="panel panel-default">
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
             <tr>
@@ -59,7 +59,7 @@
             </tr>
         </thead>
         <tbody>
-			<tr ng-repeat="item in disItems">
+            <tr ng-repeat="item in disItems">
                 <td>{{item.store }}</td>
                 <td>{{item.city}}</td>
                 <td>{{item.name}}</td>
@@ -105,4 +105,5 @@
             </tr>
         </tfoot>
     </table>
+    <div ui-view="receipts"/>
 </div>

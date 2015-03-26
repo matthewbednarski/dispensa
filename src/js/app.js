@@ -20,6 +20,7 @@ define(['angular',
                     item: "Article",
                     view: "View Table",
                     graphic: "View Graphic",
+                    login: "Login",
                     items: "Items",
                     search_store: "Filter stores",
                     search_global: "Filter by any text",
@@ -86,6 +87,15 @@ define(['angular',
                         'items': {
                             templateUrl: "js/items/items.html",
                             controller: 'ItemsController'
+                        }
+                    }
+                })
+                .state('table.receipts', {
+                    url: "/receipts",
+                    views: {
+                        'receipts': {
+                            templateUrl: "js/receipt-items/receipt-items.html",
+                            controller: 'ReceiptItemsController'
                         }
                     }
                 })
