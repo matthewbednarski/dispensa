@@ -14,6 +14,7 @@ require.config({
         'items-controller': 'items/items-controller',
         'receipt-items-controller': 'receipt-items/receipt-items-controller',
         'receipt-controller': 'receipt/receipt-controller',
+        'navbar-controller': 'navbar/navbar-controller',
         'graphic-controller': 'graphic/graphic-controller',
         'd3': 'libs/d3/d3',
 
@@ -66,7 +67,7 @@ require.config({
 
 require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
     require(['persist-svc', 'items-svc'], function(app, moment) {
-        var myApp = require(['app', 'receipt-items-controller', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
+        var myApp = require(['app','navbar-controller', 'receipt-items-controller', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
             var app = angular.module('dispensa');
             angular.element(document).ready(function() {
                 angular.bootstrap(document, ['dispensa']);

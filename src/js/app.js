@@ -67,7 +67,8 @@ define(['angular',
                     views: {
                         'items': {
                             templateUrl: "js/receipt-items/receipt-items.html",
-                            controller: 'ReceiptItemsController'
+                            controller: 'ReceiptItemsController',
+                            controllerAs: 'receipt'
                         },
                         'item': {
                             templateUrl: "js/item/item.html",

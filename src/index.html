@@ -27,7 +27,7 @@
             content: '\25BC';
         }
     </style>
-    <nav role="navigation" class="navbar navbar-default">
+    <nav role="navigation" class="navbar navbar-default" ng-controller="NavbarController as ctrl">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -41,11 +41,11 @@
         <!-- Collection of nav links and other content for toggling -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#/">{{ 'app.view' | translate }}</a>
+				<li ng-class="{ active: ctrl.isActive('/') }"><a href="#/">{{ 'app.view' | translate }}</a>
                 </li>
-                <li><a href="#/insert"> {{ 'app.insert' | translate }}</a>
+				<li ng-class="{ active: ctrl.isActive('/insert') }"><a href="#/insert"> {{ 'app.insert' | translate }}</a>
                 </li>
-                <li><a href="#/graphic">{{ 'app.graphic' | translate }}</a>
+				<li ng-class="{ active: ctrl.isActive('/graphic') }"><a href="#/graphic">{{ 'app.graphic' | translate }}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
