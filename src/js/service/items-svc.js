@@ -448,7 +448,6 @@ function itemsService($http, $q, persistSvc) {
     this.getReceipts = function() {
         if (this.getModel().receipts === undefined) {
             this.getModel().receipts = [];
-            this.loadReceipts();
         }
         return this.getModel().receipts;
     };
@@ -457,7 +456,8 @@ function itemsService($http, $q, persistSvc) {
         _.assign(this.getModel().receipts, r);
     };
     this.receipts = function() {
-        var r = _.chain(this.getItems())
+        var items = this.getItems();
+        var r = _.chain(items)
             .map(function(item) {
                 return {
                     'store': item.store,
@@ -465,6 +465,7 @@ function itemsService($http, $q, persistSvc) {
                     'date': item.date,
                     'receipt': item.receipt,
                     'city': item.city
+
                 };
             })
             .uniq(function(item) {
@@ -472,9 +473,43 @@ function itemsService($http, $q, persistSvc) {
             })
             .sortBy('date')
             .value();
+
+        var r_total = _.chain(r)
+            .map(function(receipt) {
+                var items = this.getItems();
+                r_it = _.chain(items)
+                    .filter(function(item) {
+                        var props = ['store', 'date', 'city', 'receipt'];
+                        var isReceipt = true;
+                        for (var i = 0; i < props.length; i++) {
+                            var prop = props[i];
+                            if (item[prop] !== receipt[prop]) {
+                                isReceipt = false;
+                                break;
+                            }
+                        }
+                        return isReceipt;
+                    })
+                    .reduce(function(memo, item, index, col) {
+                        if (memo === undefined) {
+                            memo = {};
+
+                        }
+                        if (memo.price === undefined) {
+                            memo.price = 0;
+                        }
+                        var p = item.count * item.price;
+                        memo.price += p;
+                        return memo;
+                    }, {})
+                    .value();
+                receipt.price = r_it.price;
+                return receipt;
+            })
+            .value();
         return r;
     };
 }
-        angular
-            .module('dispensa')
-            .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService ]);
+angular
+    .module('dispensa')
+    .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService]);

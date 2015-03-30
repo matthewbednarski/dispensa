@@ -85,7 +85,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('table.receipts', {
+        .state('receipts', {
             url: "/receipts",
             views: {
                 'receipts': {

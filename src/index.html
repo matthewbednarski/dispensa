@@ -74,15 +74,17 @@
         <!-- Collection of nav links and other content for toggling -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: ctrl.isActive('/') }"><a href="#/">{{ 'app.view' | translate }}</a>
+                <li ng-class="{ active: ctrl.isActive('/') }"><a ui-sref="table">{{ 'app.view' | translate }}</a>
                 </li>
-                <li ng-class="{ active: ctrl.isActive('/insert') }"><a href="#/insert"> {{ 'app.insert' | translate }}</a>
+                <li ng-class="{ active: ctrl.isActive('/insert') }"><a ui-sref="insert"> {{ 'app.insert' | translate }}</a>
                 </li>
-                <li ng-class="{ active: ctrl.isActive('/graphic') }"><a href="#/graphic">{{ 'app.graphic' | translate }}</a>
+                <li ng-class="{ active: ctrl.isActive('/graphic') }"><a ui-sref="report">{{ 'app.graphic' | translate }}</a>
+                </li>
+                <li ng-class="{ active: ctrl.isActive('/receipts') }"><a ui-sref="receipts"> Receipts</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">{{ 'app.login' | translate }}</a>
+                <li><a ui-sref="home">{{ 'app.login' | translate }}</a>
                 </li>
             </ul>
         </div>
@@ -92,6 +94,7 @@
         <div class="row col-xs-12 form-group">
             <div ui-view="receipt"></div>
             <div ui-view="item"></div>
+        	<div ui-view="receipts"></div>
         </div>
         <div class="row col-xs-12">
             <div ui-view="items" class="col-xs-12 center"></div>
