@@ -44,9 +44,7 @@ function itemCtrl($scope, itemsSvc) {
         itemsSvc.loadBrands();
     });
 }
-define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
-    function(angular, moment, _) {
-        angular
-            .module('dispensa')
-            .controller('ItemController', ['$scope', 'itemsSvc', itemCtrl]);
-    });
+
+    angular
+        .module('dispensa')
+        .controller('ItemController', ['$scope', 'itemsSvc', itemCtrl]);

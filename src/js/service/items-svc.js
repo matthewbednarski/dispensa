@@ -475,9 +475,6 @@ function itemsService($http, $q, persistSvc) {
         return r;
     };
 }
-define(['angular', 'moment', 'lodash', 'persist-svc', 'app'],
-    function(angular, moment, _) {
         angular
             .module('dispensa')
             .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService ]);
-    });
