@@ -1,0 +1,98 @@
+<div class="panel panel-default">
+    <table st-table="disItems" st-safe-src="items" class="table table-striped">
+        <thead>
+            <tr class="sortable">
+                <th st-sort="store">
+                    {{ 'item.store' | translate }}
+                </th>
+                <th st-sort="city">
+                    {{ 'item.city' | translate }}
+                </th>
+                <th st-sort="name">
+                    {{ 'item.name' | translate }}
+                </th>
+                <th st-sort="receipt">
+                    {{ 'item.receipt' | translate }}
+                </th>
+                <th st-sort="brand">
+                    {{ 'item.brand' | translate }}
+                </th>
+                <th st-sort="label">
+                    {{ 'item.label' | translate }}
+                </th>
+                <th st-sort="count">
+                    {{ 'item.count' | translate }}
+                </th>
+                <th st-sort="price">
+                    {{ 'item.price' | translate }}
+                </th>
+                <th st-sort="total_price">
+                    {{ 'item.total_price' | translate }}
+                </th>
+                <th st-sort="date">
+                    {{ 'item.date' | translate }}
+                </th>
+                <th>
+                    {{ 'action.actions' | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
+                    type="search" />
+                </th>
+                <th colspan="10">
+                    <input st-search placeholder="{{ 'app.search_global' | translate }}" class="input-sm form-control"
+                    type="search" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in disItems">
+                <td>{{item.store }}</td>
+                <td>{{item.city}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.receipt}}</td>
+                <td>{{item.brand}}</td>
+                <td>{{item.label}} {{item.store_label}}</td>
+                <td>{{item.count}}</td>
+                <td>
+                    <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
+                        {{item.price | currency:'€ ' }}
+                    </div>
+                    <div ng-if="item.on_deal === 1" class="inline-block">
+                        {{item.price | currency:'€ ' }} ( !!! )
+                    </div>
+                </td>
+                <td>
+                    {{item.price * item.count | currency:'€ ' }}
+                </td>
+                <td>{{item.date}}</td>
+                <td>
+                    <div class="button-group center">
+                        <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
+                            <i class="fa fa-trash-o fa-2x">
+			</i>
+                        </button>
+                        <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
+                            <i class="fa fa-pencil-square-o fa-2x">
+			</i>
+                        </button>
+                        <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
+                            <i class="fa fa-external-link fa-2x">
+			</i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div ui-view="receipts"/>
+</div>
