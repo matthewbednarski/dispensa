@@ -9,22 +9,10 @@
                     {{ 'item.city' | translate }}
                 </th>
 				<th>
-                    {{ 'item.name' | translate }}
-                </th>
-				<th>
                     {{ 'item.receipt' | translate }}
                 </th>
 				<th>
-                    {{ 'item.brand' | translate }}
-                </th>
-				<th>
                     {{ 'item.label' | translate }}
-                </th>
-				<th>
-                    {{ 'item.count' | translate }}
-                </th>
-				<th>
-                    {{ 'item.price' | translate }}
                 </th>
 				<th>
                     {{ 'item.total_price' | translate }}
@@ -41,21 +29,10 @@
             <tr ng-repeat="item in items">
                 <td>{{item.store }}</td>
                 <td>{{item.city}}</td>
-                <td>{{item.name}}</td>
                 <td>{{item.receipt}}</td>
-                <td>{{item.brand}}</td>
                 <td>{{item.label}} {{item.store_label}}</td>
-                <td>{{item.count}}</td>
                 <td>
-                    <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
-                        {{item.price | currency:'€ ' }}
-                    </div>
-                    <div ng-if="item.on_deal === 1" class="inline-block">
-                        {{item.price | currency:'€ ' }} ( !!! )
-                    </div>
-                </td>
-                <td>
-                    {{item.price * item.count | currency:'€ ' }}
+                    {{item.price | currency:'€ ' }}
                 </td>
                 <td>{{item.date}}</td>
                 <td>

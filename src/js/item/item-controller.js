@@ -18,6 +18,9 @@ function itemCtrl($scope, itemsSvc) {
     this.brands = itemsSvc.getBrands();
 
     this.nameSelected = function(item) {
+    	if(item === undefined){
+			return;
+		}
         var found = _.chain(itemsSvc.getItems())
             .find(function(it) {
                 return it.name === item.name;

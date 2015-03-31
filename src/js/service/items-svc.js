@@ -269,6 +269,7 @@ function itemsService($http, $q, persistSvc) {
                     finally(function() {
                         console.log("got it no catch");
                         service.loadStores();
+                        service.loadReceipts();
                     });
                 })
                 .
@@ -278,6 +279,7 @@ function itemsService($http, $q, persistSvc) {
                 finally(function() {
                     console.log("got it catch");
                     service.loadStores();
+                    service.loadReceipts();
                 });
             });
         }
@@ -464,21 +466,16 @@ function itemsService($http, $q, persistSvc) {
                     'store_label': item.store_label,
                     'date': item.date,
                     'receipt': item.receipt,
-                    'city': item.city
-
+                    'city': item.city,
                 };
             })
             .uniq(function(item) {
                 return JSON.stringify(item);
             })
             .sortBy('date')
-            .value();
-
-        var r_total = _.chain(r)
-            .map(function(receipt) {
-                var items = this.getItems();
-                r_it = _.chain(items)
-                    .filter(function(item) {
+            .map(function(item) {
+                var price = _.chain(items)
+                    .filter(function(receipt) {
                         var props = ['store', 'date', 'city', 'receipt'];
                         var isReceipt = true;
                         for (var i = 0; i < props.length; i++) {
@@ -490,23 +487,18 @@ function itemsService($http, $q, persistSvc) {
                         }
                         return isReceipt;
                     })
-                    .reduce(function(memo, item, index, col) {
-                        if (memo === undefined) {
-                            memo = {};
-
-                        }
-                        if (memo.price === undefined) {
-                            memo.price = 0;
-                        }
-                        var p = item.count * item.price;
-                        memo.price += p;
+                    .reduce(function(memo, r_item, index, col) {
+                        var p = r_item.count * r_item.price;
+                        memo += p;
                         return memo;
-                    }, {})
+                    }, 0)
                     .value();
-                receipt.price = r_it.price;
-                return receipt;
+                item.price = price;
+                return item;
+
             })
             .value();
+
         return r;
     };
 }
