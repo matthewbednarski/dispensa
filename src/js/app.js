@@ -89,8 +89,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/receipts",
             views: {
                 'receipts': {
-                    templateUrl: "js/receipt-items/receipt-items.html",
-                    controller: 'ReceiptItemsController'
+                    templateUrl: "js/receipts/receipts.html",
+                    controller: 'ReceiptsController'
                 }
             }
         })

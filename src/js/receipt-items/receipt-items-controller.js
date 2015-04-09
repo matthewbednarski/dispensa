@@ -1,11 +1,24 @@
 'use strict';
 
-function ReceiptItems($scope, $filter, itemsSvc) {
+function ReceiptItems($scope, $filter, $state, itemsSvc) {
     // var orderBy = $filter('orderBy');
     $scope.model = itemsSvc.getModel();
-    $scope.items = itemsSvc.getReceipts();
+    $scope.items = itemsSvc.getItems();
     $scope.itemsSvc = itemsSvc;
 
+    $scope.isReceipt = function(value, index) {
+        var props = ['store', 'date', 'city', 'receipt'];
+        var receipt = itemsSvc.getCurrentReciept();
+        var isReceipt = true;
+        for (var i = 0; i < props.length; i++) {
+            var prop = props[i];
+            if (value[prop] !== receipt[prop]) {
+                isReceipt = false;
+                break;
+            }
+        }
+        return isReceipt;
+    };
 
     $scope.setSelected = function(item) {
         $scope.itemsByPage += 1;
@@ -38,11 +51,13 @@ function ReceiptItems($scope, $filter, itemsSvc) {
         itemsSvc.getCurrentItem().on_deal = item.on_deal;
     };
 
-    $scope.delete = function(item) {
-        return itemsSvc.deleteItem(item);
-    };
 
+    $scope.delete = function(receipt) {
+        return itemsSvc.deleteReceipt(receipt);
+	}
+
+	itemsSvc.loadReceipts();
 }
 var app = angular
     .module('dispensa')
-    .controller('ReceiptItemsController', ['$scope', '$filter', 'itemsSvc', ReceiptItems]);
+    .controller('ReceiptItemsController', ['$scope', '$filter', '$state', 'itemsSvc', ReceiptItems]);
