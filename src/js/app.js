@@ -35,6 +35,14 @@ app.config(function($translateProvider) {
             on_deal: "On Deal",
             is_receipt: "Show receipt"
         },
+        text: {
+			begin: "Begin",
+			end: "End  ",
+			city: "City",
+			store: "Store",
+			brand: "Brand",
+			label: "Label"
+		},
         symbol: {
             currency: "€"
         },
@@ -99,7 +107,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
             views: {
                 'graphic': {
                     templateUrl: "js/graphic/graphic.html",
-                    controller: 'GraphicController'
+                    controller: 'GraphicController',
+                    controllerAs: 'ctrl'
                 }
             }
         });

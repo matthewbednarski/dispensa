@@ -1,6 +1,62 @@
-<div >
-	Graphic
-	<!-- <bar&#45;chart/> -->
-	<div d3-bars data="items" bar-height="20" bar-padding="5"></div>
+<div>
+    <div class="col-xs-12 col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{ 'app.graphic' | translate }}</div>
+            <div class="panel-body">
+                <form novalidate name="form" class="simple-form">
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.begin' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.monthYears"
+                            ng-model="ctrl.begin_monthYear">
+                            </select>
+                        </div>
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.end' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.monthYears"
+                            ng-model="ctrl.end_monthYear">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.city' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.cities"
+                            ng-model="ctrl.city">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.store' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.stores"
+                            ng-model="ctrl.store">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.brand' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.brands"
+                            ng-model="ctrl.brand">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.label' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.labels"
+                            ng-model="ctrl.label">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- <bar&#45;chart/> -->
+    <div class="col-xs-12 col-md-9">
+        <div d3-bars data="ctrl.items" bar-height="20" bar-padding="5"></div>
+    </div>
 
 </div>
