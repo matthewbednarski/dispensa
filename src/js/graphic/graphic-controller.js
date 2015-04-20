@@ -1,90 +1,16 @@
 'use strict';
 
-function Graphic($scope, d3Svc, itemsSvc) {
+function Graphic($scope, d3Svc, itemsSvc, reportingSvc) {
     this.itemsSvc = itemsSvc;
+    this.svc = reportingSvc;
     this.items = itemsSvc.getItems();
-    this.monthYears = [];
-    var ctrl = this;
-    var props = ['brand', 'store', 'city', 'label'];
-    this.monthYearsF = function() {
-        var mY = _.chain(itemsSvc.getItems())
-            .map(function(item) {
-                return item.date;
-            })
-            .unique()
-            .map(function(date) {
-                return moment(date);
-            })
-            .map(function(moment) {
-                var key = moment.format('YYYY-MM');
-                var text = moment.format('MMM YYYY');
-                return {
-                    key: key,
-                    text: text
-                }
-            })
-            .unique(function(out) {
-                return out.key;
-            })
-            .sortBy(function(out) {
-                return out.key;
-            })
-            .value();
 
-        _.assign(this.monthYears, mY);
-        console.log(this.monthYears);
-        return this.monthYears;
-    }
-    this.propertyF = function(prop) {
-        var mY = _.chain(itemsSvc.getItems())
-            .map(function(item) {
-                return item[prop];
-            })
-            .unique()
-            .map(function(item) {
-                var key = item;
-                var text = item;
-                return {
-                    key: key,
-                    text: text
-                }
-            })
-            .sortBy(function(out) {
-                return out.key;
-            })
-            .value();
-
-        var propValArrName = prop + 's';
-        if (prop.indexOf('y') === (prop.length - 1)) {
-            var idx = prop.length - 1;
-            prop = prop.slice(0, idx);
-            prop += 'ies';
-            propValArrName = prop;
-        }
-        if (this[propValArrName] === undefined) {
-            this[propValArrName] = [];
-        }
-        _.assign(this[propValArrName], mY);
-        return this[propValArrName];
-    }
-    this.setupPropSelects = function() {
-        for (var i = 0; i < props.length; i++) {
-            ctrl.propertyF(props[i]);
-        }
-    }
-
-    $scope.watch(function() {
-        return this.items.length;
-    }, function() {
-        ctrl.monthYearsF();
-        ctrl.setupPropSelects();
-    });
-    this.monthYearsF();
-    this.setupPropSelects();
+    this.svc.setupPropSelects();
+    this.svc.extractMonthYears();
 
 }
 var app = angular.module('dispensa');
-app.controller('GraphicController', ['$scope', 'd3Svc', 'itemsSvc', Graphic]);
+app.controller('GraphicController', ['$scope', 'd3Svc', 'itemsSvc', 'reportingSvc', Graphic]);
 
 app.factory('d3Svc', [
 
@@ -98,22 +24,25 @@ app.directive('d3Bars', ['d3Svc', 'itemsSvc',
         return {
             restrict: 'EA',
             scope: {
-                data: '='
+                items: '@',
+                total: '='
             },
             link: function(scope, ele, attrs) {
-                console.log(d3);
+                // console.log(d3);
 
-                // var vis = d3.select(ele[0])
-                //     .append("svg")
-                //     .style("color", "black")
-                //     .style("background-color", "orange");
+                scope.data = scope.$eval(scope.items);
+                console.log(scope.data);
+
+
                 var width = 960,
                     height = 500,
                     radius = Math.min(width, height) / 2;
 
+                // var color = d3.scale.ordinal()
+                //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
                 var color = d3.scale.ordinal()
                     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
                 var arc = d3.svg.arc()
                     .outerRadius(radius - 10)
                     .innerRadius(0);
@@ -131,33 +60,72 @@ app.directive('d3Bars', ['d3Svc', 'itemsSvc',
                     .append("g")
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-                scope.$watch(function() {
-                    return scope.data.length;
-                }, function() {
-                    var labels = itemsSvc.labels();
-                    console.log(labels);
-                    var g = svg.selectAll(".arc")
-                        .data(pie(labels))
-                        .enter().append("g")
-                        .attr("class", "arc");
+                var d3path = svg.selectAll('path')
+                    .data(pie(scope.data))
+                    .enter()
+                    .append('path');
 
-                    g.append("path")
+                d3path.transition()
+                    .duration(500)
+                    .attr("d", arc)
+                    .style("fill", function(d) {
+                        return color(d.data.label);
+                    })
+                    .each(function(d) {
+                        this._current = d;
+                    });
+                // store the initial angles
+                // Store the displayed angles in _current.
+                // Then, interpolate from _current to the new angles.
+                // During the transition, _current is updated in -place by d3.interpolate.
+                var d3change = function(data) {
+                    d3path.data(pie(data));
+                    d3path.transition()
+                        .duration(750)
+                        .attrTween("d", d3arcTween) // redraw the arcs
                         .attr("d", arc)
                         .style("fill", function(d) {
+                        	console.log(d.data.label);
                             return color(d.data.label);
                         });
 
-                    g.append("text")
-                        .attr("transform", function(d) {
-                            return "translate(" + arc.centroid(d) + ")";
-                        })
-                        .attr("dy", ".35em")
-                        .style("text-anchor", "middle")
-                        .text(function(d) {
-                            return d.data.label;
-                        });
-                });
+                };
+                var d3arcTween = function(a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function(t) {
+                        return arc(i(t));
+                    };
+                };
 
+                scope.$watch(function() {
+                    return scope.items;
+                }, function(nItems) {
+                    scope.data = scope.$eval(nItems);
+                    console.log(scope.data);
+                    // var labels = itemsSvc.labels();
+                    // var g = svg.selectAll(".arc")
+                    //     .data(pie(labels))
+                    //     .enter().append("g")
+                    //     .attr("class", "arc");
+                    //
+                    // g.append("path")
+                    //     .attr("d", arc)
+                    //     .style("fill", function(d) {
+                    //         return color(d.data.label);
+                    //     });
+
+                    // g.append("text")
+                    //     .attr("transform", function(d) {
+                    //         return "translate(" + arc.centroid(d) + ")";
+                    //     })
+                    //     .attr("dy", ".35em")
+                    //     .style("text-anchor", "middle")
+                    //     .text(function(d) {
+                    //         return d.data.label;
+                    //     });
+                    d3change(scope.data);
+                });
             }
         }
     }

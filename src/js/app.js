@@ -41,7 +41,8 @@ app.config(function($translateProvider) {
 			city: "City",
 			store: "Store",
 			brand: "Brand",
-			label: "Label"
+			label: "Label",
+			store_type: "Store Type"
 		},
         symbol: {
             currency: "€"

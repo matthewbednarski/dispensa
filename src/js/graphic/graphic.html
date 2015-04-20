@@ -7,46 +7,61 @@
                     <div class="form-group">
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.begin' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.monthYears"
-                            ng-model="ctrl.begin_monthYear">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.month_years track by item.key"
+                            ng-model="ctrl.svc.filter.date.begin_monthYear">
+								<option value="">--</option>
                             </select>
                         </div>
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.end' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.monthYears"
-                            ng-model="ctrl.end_monthYear">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.month_years track by item.key"
+                            ng-model="ctrl.svc.filter.date.end_monthYear">
+								<option value="">--</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
+                            <span class="input-group-addon">{{ 'text.store_type' | translate}} </span>
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.store_label_list track by item.key"
+                            ng-model="ctrl.svc.filter.store_label">
+								<option value="">--</option>
+							</select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.city' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.cities"
-                            ng-model="ctrl.city">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.city_list track by item.key"
+                            ng-model="ctrl.svc.filter.city">
+                                <option value="">--</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.store' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.stores"
-                            ng-model="ctrl.store">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.store_list track by item.key"
+                            ng-model="ctrl.svc.filter.store">
+                                <option value="">--</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.brand' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.brands"
-                            ng-model="ctrl.brand">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.brand_list track by item.key"
+                            ng-model="ctrl.svc.filter.brand">
+                                <option value="">--</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
                             <span class="input-group-addon">{{ 'text.label' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.labels"
-                            ng-model="ctrl.label">
+                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.label_list track by item.key"
+                            ng-model="ctrl.svc.filter.label">
+                                <option value="">--</option>
                             </select>
                         </div>
                     </div>
@@ -56,7 +71,9 @@
     </div>
     <!-- <bar&#45;chart/> -->
     <div class="col-xs-12 col-md-9">
-        <div d3-bars data="ctrl.items" bar-height="20" bar-padding="5"></div>
+        <div d3-bars items="{{ctrl.items | filter:ctrl.svc.itemFilter }}" bar-height="20"
+        bar-padding="5" total="ctrl.total" ></div>
+		{{ ctrl.total | currency }}
     </div>
 
 </div>
