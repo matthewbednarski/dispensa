@@ -35,98 +35,54 @@ app.directive('d3Bars', ['d3Svc', 'itemsSvc',
 
 
                 var width = 960,
-                    height = 500,
-                    radius = Math.min(width, height) / 2;
+                    height = 500;
 
-                // var color = d3.scale.ordinal()
-                //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+                var svg = d3.select(ele[0])
+                    .append("svg")
+                    .attr("height", height)
+                    .attr("width", width);
+                var g = svg
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-                var color = d3.scale.ordinal()
-                    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-                var arc = d3.svg.arc()
-                    .outerRadius(radius - 10)
-                    .innerRadius(0);
+                var color = d3.scale.category20();
 
+                var min = Math.min(width, height);
+                var oRadius = min / 2 * 0.9;
+                var iRadius = min / 2 * 0.85;
+                // .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
                 var pie = d3.layout.pie()
                     .sort(null)
                     .value(function(d) {
                         return d.price;
                     });
 
-                var svg = d3.select(ele[0])
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .append("g")
-                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+                var arc = d3.svg.arc()
+                    .outerRadius(oRadius)
+                    .innerRadius(iRadius);
 
-                var d3path = svg.selectAll('path')
-                    .data(pie(scope.data))
+                var path = g.datum(scope.data)
+                    .selectAll('path')
+                    .data(pie)
                     .enter()
-                    .append('path');
-
-                d3path.transition()
-                    .duration(500)
-                    .attr("d", arc)
-                    .style("fill", function(d) {
-                        return color(d.data.label);
+                    .append('path')
+                    .attr("class", "piechart")
+                    .attr("fill", function(d, i) {
+                        return color(i);
                     })
+                    .attr("d", arc)
                     .each(function(d) {
-                        this._current = d;
+                        this._current = d
                     });
-                // store the initial angles
-                // Store the displayed angles in _current.
-                // Then, interpolate from _current to the new angles.
-                // During the transition, _current is updated in -place by d3.interpolate.
-                var d3change = function(data) {
-                    d3path.data(pie(data));
-                    d3path.transition()
-                        .duration(750)
-                        .attrTween("d", d3arcTween) // redraw the arcs
-                        .attr("d", arc)
-                        .style("fill", function(d) {
-                        	console.log(d.data.label);
-                            return color(d.data.label);
-                        });
-
-                };
-                var d3arcTween = function(a) {
-                    var i = d3.interpolate(this._current, a);
-                    this._current = i(0);
-                    return function(t) {
-                        return arc(i(t));
-                    };
-                };
 
                 scope.$watch(function() {
                     return scope.items;
                 }, function(nItems) {
                     scope.data = scope.$eval(nItems);
                     console.log(scope.data);
-                    // var labels = itemsSvc.labels();
-                    // var g = svg.selectAll(".arc")
-                    //     .data(pie(labels))
-                    //     .enter().append("g")
-                    //     .attr("class", "arc");
-                    //
-                    // g.append("path")
-                    //     .attr("d", arc)
-                    //     .style("fill", function(d) {
-                    //         return color(d.data.label);
-                    //     });
-
-                    // g.append("text")
-                    //     .attr("transform", function(d) {
-                    //         return "translate(" + arc.centroid(d) + ")";
-                    //     })
-                    //     .attr("dy", ".35em")
-                    //     .style("text-anchor", "middle")
-                    //     .text(function(d) {
-                    //         return d.data.label;
-                    //     });
-                    d3change(scope.data);
                 });
             }
         }
     }
 ]);
+// http://jonsadka.com/blog/how-to-create-adaptive-pie-charts-with-transitions-in-d3/
