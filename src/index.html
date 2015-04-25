@@ -12,6 +12,21 @@
 </head>
 
 <body ng-cloak>
+    <style>
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+        path.slice {
+            stroke-width: 2px;
+        }
+        polyline {
+            opacity: .3;
+            stroke: black;
+            stroke-width: 2px;
+            fill: none;
+        }
+    </style>
     <!-- <script data&#45;main="js/main" src="js/libs/requirejs/require.js"></script> -->
     <!-- <script src="js/libs/requirejs/require.js"></script> -->
     <script src="js/libs/jquery/dist/jquery.js"></script>
@@ -98,7 +113,7 @@
         <div class="row col-xs-12 form-group">
             <div ui-view="receipt"></div>
             <div ui-view="item"></div>
-        	<div ui-view="receipts"></div>
+            <div ui-view="receipts"></div>
         </div>
         <div class="row col-xs-12">
             <div ui-view="items" class="col-xs-12 center"></div>
