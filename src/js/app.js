@@ -52,7 +52,7 @@ app.config(function($translateProvider) {
 app.config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/insert");
     //
     // Now set up the states
     $stateProvider
@@ -77,7 +77,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             }
         })
         .state('table', {
-            url: "/",
+            url: "/list",
             views: {
                 'items': {
                     templateUrl: "js/items/items.html",
