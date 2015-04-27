@@ -5,9 +5,9 @@ function Graphic($scope, d3Svc, itemsSvc, reportingSvc) {
     this.svc = reportingSvc;
     this.items = itemsSvc.getItems();
 
+	var ctrl = this.svc;
     this.svc.setupPropSelects();
-    this.svc.extractMonthYears();
-
+    // this.svc.extractMonthYears();
 }
 var app = angular.module('dispensa');
 app.controller('GraphicController', ['$scope', 'd3Svc', 'itemsSvc', 'reportingSvc', Graphic]);
@@ -20,6 +20,33 @@ app.factory('d3Svc', [
             height = 450,
             radius = Math.min(width, height) / 2;
 
+        _d3.labels = function(data) {
+            var labels = _.chain(data)
+                .groupBy("label")
+                .map(function(value, key) {
+                    return [key, _.reduce(value, function(result, currentObject) {
+                        return {
+                            price: result.price + (currentObject.price * currentObject.count)
+                        }
+                    }, {
+                        price: 0
+                    })];
+                })
+                .object()
+                .value();
+            labels = _.chain(_.keys(labels))
+                .map(function(key) {
+                    return {
+                        label: key,
+                        price: labels[key].price
+                    }
+                })
+                .value();
+            return labels;
+        };
+        _d3.prepareData = function(data) {
+            return _d3.labels(data);
+        };
         _d3.setup = function(ele) {
             var svg = d3.select(ele)
                 .append("svg")
@@ -33,8 +60,8 @@ app.factory('d3Svc', [
                 .attr("class", "labels");
             svg.append("g")
                 .attr("class", "lines");
-        	svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-        	return svg;
+            svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            return svg;
         };
 
         var pie = d3.layout.pie()
@@ -60,8 +87,6 @@ app.factory('d3Svc', [
         var color = d3.scale.category20();
 
         _d3.change = function(data, svg) {
-
-            console.log(data);
             /* ------- PIE SLICES -------*/
             var slice = svg.select(".slices").selectAll("path.slice")
                 .data(pie(data), key);
@@ -164,18 +189,17 @@ app.directive('d3Bars', ['d3Svc', 'itemsSvc',
                 total: '='
             },
             link: function(scope, ele, attrs) {
-                // console.log(d3);
                 scope.data = scope.$eval(scope.items);
-                console.log(scope.data);
                 var svg = d3.setup(ele[0]);
-                d3.change(scope.data, svg);
+                var d = d3.prepareData(scope.data);
+                d3.change(d, svg);
 
                 scope.$watch(function() {
                     return scope.items;
                 }, function(nItems) {
                     scope.data = scope.$eval(nItems);
-                    console.log(scope.data);
-                    d3.change(scope.data, svg);
+                    var d = d3.prepareData(scope.data);
+                    d3.change(d, svg);
                 });
             }
         }

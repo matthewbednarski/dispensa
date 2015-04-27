@@ -3,7 +3,14 @@
 function ReportingService(itemsSvc) {
     var ctrl = this;
     this.filter = {
-        date: {}
+        date: {
+            begin: moment().subtract(3, 'months').format('DD MMMM YYYY'),
+            end: moment().format('DD MMMM YYYY')
+        },
+		moment: {
+			begin: moment().subtract(3, 'months'),
+			end: moment()
+		}
     };
     var props = ['brand', 'store', 'city', 'label', 'store_label'];
     this.month_years = [];
@@ -13,38 +20,18 @@ function ReportingService(itemsSvc) {
     this.label_list = [];
     this.store_label_list = [];
 
-    this.extractMonthYears = function() {
-        var mY = _.chain(itemsSvc.getItems())
-            .map(function(item) {
-                return item.date;
-            })
-            .unique()
-            .map(function(date) {
-                return moment(date);
-            })
-            .map(function(moment) {
-                var key = moment.format('YYYY-MM');
-                var text = moment.format('MMM YYYY');
-                return {
-                    key: key,
-                    text: text
-                }
-            })
-            .unique(function(out) {
-                return out.key;
-            })
-            .sortBy(function(out) {
-                return out.key;
-            })
-            .value();
-
-        _.assign(this.month_years, mY);
-        return this.month_years;
-    };
+	this.dateChange = function(filter, type, newVal){
+		var m = moment(newVal);
+		filter.moment[type] = m;
+		filter.date[type] = m.format('DD MMMM YYYY');
+	};
     this.extractProperty = function(prop, propValArrName) {
         var mY = _.chain(itemsSvc.getItems())
             .map(function(item) {
                 return item[prop];
+            })
+            .filter(function(item) {
+                return item !== undefined && item !== "";
             })
             .unique()
             .map(function(item) {
@@ -76,12 +63,21 @@ function ReportingService(itemsSvc) {
         }
     };
 
+    this.filterDate = function(date) {
+        var min = ctrl.filter.moment.begin;
+        var max = ctrl.filter.moment.end;
+        var d = moment(date);
+
+    	return d.isBetween(min, max);
+    };
     this.itemFilter = function(item, index, array) {
 
         var fItem = item;
         for (var key in item) {
             if (key === 'date') {
-
+            	if( !ctrl.filterDate(item[key])){
+					return;
+				}
             } else if (ctrl.filter[key] !== undefined &&
                 ctrl.filter[key].key !== undefined) {
                 if (item[key] !== ctrl.filter[key].key) {

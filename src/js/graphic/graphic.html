@@ -5,19 +5,32 @@
             <div class="panel-body">
                 <form novalidate name="form" class="simple-form">
                     <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.begin' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.month_years track by item.key"
-                            ng-model="ctrl.svc.filter.date.begin_monthYear">
-								<option value="">--</option>
-                            </select>
+                        <div class="input-group form-group" ng-class="{ 'has-error' : form.begin.$invalid && !form.begin.$pristine }">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i>  {{ 'text.begin' | translate}} </span>
+                            <div class="input-append date">
+                                	<input data-provide="datepicker" 
+									   class="form-control"
+										name="begin" 
+		  								ng-change="ctrl.svc.dateChange(ctrl.svc.filter, 'begin', ctrl.svc.filter.date.begin)"
+		  								data-date-format="dd MM yyyy"
+          								is-open="opened" close-on-date-selection="true"
+          								datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+          								show-button-bar="false" show-weeks="false"
+                                		ng-model="ctrl.svc.filter.date.begin" required />
+                            </div>
                         </div>
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.end' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.month_years track by item.key"
-                            ng-model="ctrl.svc.filter.date.end_monthYear">
-								<option value="">--</option>
-                            </select>
+                        <div class="input-group form-group" ng-class="{ 'has-error' : form.end.$invalid && !form.end.$pristine }">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i>  {{ 'text.end' | translate}} </span>
+                            <div class="input-append date">
+                                	<input data-provide="datepicker" 
+									   class="form-control" 
+										name="begin" data-date-format="dd MM yyyy"
+		  								ng-change="ctrl.svc.dateChange(ctrl.svc.filter, 'end', ctrl.svc.filter.date.end)"
+          								is-open="opened" close-on-date-selection="true"
+          								datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+          								show-button-bar="false" show-weeks="false"
+                                		ng-model="ctrl.svc.filter.date.end" required />
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,8 +38,8 @@
                             <span class="input-group-addon">{{ 'text.store_type' | translate}} </span>
                             <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.store_label_list track by item.key"
                             ng-model="ctrl.svc.filter.store_label">
-								<option value="">--</option>
-							</select>
+                                <option value="">--</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -72,8 +85,8 @@
     <!-- <bar&#45;chart/> -->
     <div class="col-xs-12 col-md-9">
         <div d3-bars items="{{ctrl.items | filter:ctrl.svc.itemFilter }}" bar-height="20"
-        bar-padding="5" total="ctrl.total" ></div>
-		{{ ctrl.total | currency }}
+        bar-padding="5" total="ctrl.total"></div>
+        {{ ctrl.total | currency }}
     </div>
 
 </div>
