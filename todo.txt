@@ -1,4 +1,14 @@
 
-x 2015-04-11 2015-04-11 @graphic add default filter inputs; city, brand, label, store_label, month-year-start, month-year-end
-2015-04-12 @graphic +d3-service create service for managing data
+(A) 2015-05-03 @items +insert +auto-complete labels 
+(A) 2015-05-03 @export +service text/csv application/ms-excel text/plain application/svg
+(A) 2015-05-03 @rename +module/+service application wide renaming of labels and stores
+(B) 2015-05-03 @data +sync date-range filter
+(A) 2015-05-03 @notifications +push +web-sockets???
+
+(A) 2015-05-03 @items +service reorganize and sub-divide services to make more testable and coherent
+(B) 2015-05-03 @test +test suite for main services and controllers 
+(B) 2015-05-03 @test +test suite for directives 
+
+
+
 
