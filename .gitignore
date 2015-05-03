@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 .sync/
 libs/
@@ -14,4 +13,4 @@ bower_components/
 
 build/
 dist/
->>>>>>> e9bc9e00cb5cd1ab61d120bddb84bb3b1962639a
+db/
