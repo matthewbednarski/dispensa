@@ -12,7 +12,7 @@ app.config(function($translateProvider) {
             insert: "Insert Reciept",
             receipt: "Reciept",
             item: "Article",
-            view: "View Table",
+            view: "All Items",
             graphic: "View Graphic",
             login: "Login",
             items: "Items",
