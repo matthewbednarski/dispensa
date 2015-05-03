@@ -11,10 +11,10 @@
                 <th st-sort="receipt">
                     {{ 'item.receipt' | translate }}
                 </th>
-                <th st-sort="label">
+                <th st-sort="store_label">
                     {{ 'item.label' | translate }}
                 </th>
-                <th st-sort="total_price">
+                <th st-sort="price">
                     {{ 'item.total_price' | translate }}
                 </th>
                 <th st-sort="date">
@@ -40,7 +40,7 @@
                 <td>{{item.store }}</td>
                 <td>{{item.city}}</td>
                 <td>{{item.receipt}}</td>
-                <td>{{item.label}} {{item.store_label}}</td>
+                <td>{{item.store_label}}</td>
                 <td>
                     {{item.price | currency:'€ ' }}
                 </td>
