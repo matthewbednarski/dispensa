@@ -5,6 +5,32 @@ function itemsService($http, $q, persistSvc) {
 
     this.url = 'api/item';
     var service = this;
+    this.deleteReceipt = function(receipt) {
+        // { "date", "store", "store_label", "city", "receipt"}
+
+        var items_to_delete = _.chain(service.getItems())
+            .filter(function(item) {
+                return item.date === receipt.date;
+            })
+            .filter(function(item) {
+                return item.store === receipt.store;
+            })
+            .filter(function(item) {
+                return item.city === receipt.city;
+            })
+            .filter(function(item) {
+                return item.receipt === receipt.receipt;
+            })
+            .value();
+
+        var deleted_defereds = _.chain(items_to_delete)
+            .map(function(item) {
+				return service.deleteItem(item);
+            })
+            .value();
+
+			return deleted_defereds;
+    };
     this.deleteItem = function(item) {
         var defer = $q.defer();
         item.is_delete = true;
