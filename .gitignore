@@ -1,16 +1,10 @@
 
 .sync/
 libs/
-node_modules/
-bower_components/
-=======
-dist
-.tmp
-.sass-cache
+db/
 node_modules/
 bower_components/
 *.log
 
-build/
 dist/
 db/
