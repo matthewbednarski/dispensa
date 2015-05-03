@@ -1,0 +1,4 @@
+
+x 2015-04-11 2015-04-11 @graphic add default filter inputs; city, brand, label, store_label, month-year-start, month-year-end
+2015-04-12 @graphic +d3-service create service for managing data
+
