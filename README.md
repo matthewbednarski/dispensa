@@ -1,12 +1,7 @@
 # dispensa
 
-This project is generated with [yo angular-require generator](https://github.com/aaronallport/generator-angular-require)
-version 0.4.2.
+A an app for tracking grocery type expenses.  It was created to replace the excel file my wife and I used to track our expenses; giving me a chance to learn and put into practice some front-end web tecnologies I had wanted to learn.
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests.
+Run `npm update`, then `bower update` and finally `npm start --` 
