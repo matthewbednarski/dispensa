@@ -59,9 +59,6 @@ function persistService($q) {
     };
 }
 
-define(['angular', 'pouchdb', 'app'], function(angular, pouchdb) {
-    window.PouchDB = pouchdb;
-    angular
-        .module('dispensa')
-        .service('persistSvc', ['$q', persistService ]);
-});
+angular
+    .module('dispensa')
+    .service('persistSvc', ['$q', persistService]);

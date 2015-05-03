@@ -1,7 +1,5 @@
 'use strict';
 
-define(['angular', 'moment', 'lodash', 'd3', 'app', 'items-svc'],
-    function(angular, moment, _, d3) {
         var app = angular.module('dispensa');
         app.factory('d3Svc', [
 
@@ -86,5 +84,3 @@ define(['angular', 'moment', 'lodash', 'd3', 'app', 'items-svc'],
 
             }
         ]);
-        return app;
-    });

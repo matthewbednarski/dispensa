@@ -18,6 +18,9 @@ function itemCtrl($scope, itemsSvc) {
     this.brands = itemsSvc.getBrands();
 
     this.nameSelected = function(item) {
+    	if(item === undefined){
+			return;
+		}
         var found = _.chain(itemsSvc.getItems())
             .find(function(it) {
                 return it.name === item.name;
@@ -44,9 +47,7 @@ function itemCtrl($scope, itemsSvc) {
         itemsSvc.loadBrands();
     });
 }
-define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
-    function(angular, moment, _) {
-        angular
-            .module('dispensa')
-            .controller('ItemController', ['$scope', 'itemsSvc', itemCtrl]);
-    });
+
+    angular
+        .module('dispensa')
+        .controller('ItemController', ['$scope', 'itemsSvc', itemCtrl]);

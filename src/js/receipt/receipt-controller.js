@@ -65,8 +65,6 @@ function receiptCtrl($scope, itemsSvc) {
         itemsSvc.canEditItem = n;
     });
 }
-define(['angular', 'moment', 'lodash', 'app', 'items-svc'], function(angular, moment, _) {
     angular
         .module('dispensa')
         .controller('RecieptController', ['$scope', 'itemsSvc', receiptCtrl]);
-});

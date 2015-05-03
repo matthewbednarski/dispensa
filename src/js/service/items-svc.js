@@ -269,6 +269,7 @@ function itemsService($http, $q, persistSvc) {
                     finally(function() {
                         console.log("got it no catch");
                         service.loadStores();
+                        service.loadReceipts();
                     });
                 })
                 .
@@ -278,6 +279,7 @@ function itemsService($http, $q, persistSvc) {
                 finally(function() {
                     console.log("got it catch");
                     service.loadStores();
+                    service.loadReceipts();
                 });
             });
         }
@@ -448,7 +450,6 @@ function itemsService($http, $q, persistSvc) {
     this.getReceipts = function() {
         if (this.getModel().receipts === undefined) {
             this.getModel().receipts = [];
-            this.loadReceipts();
         }
         return this.getModel().receipts;
     };
@@ -457,27 +458,50 @@ function itemsService($http, $q, persistSvc) {
         _.assign(this.getModel().receipts, r);
     };
     this.receipts = function() {
-        var r = _.chain(this.getItems())
+        var items = this.getItems();
+        var r = _.chain(items)
             .map(function(item) {
                 return {
                     'store': item.store,
                     'store_label': item.store_label,
                     'date': item.date,
                     'receipt': item.receipt,
-                    'city': item.city
+                    'city': item.city,
                 };
             })
             .uniq(function(item) {
                 return JSON.stringify(item);
             })
             .sortBy('date')
+            .map(function(item) {
+                var price = _.chain(items)
+                    .filter(function(receipt) {
+                        var props = ['store', 'date', 'city', 'receipt'];
+                        var isReceipt = true;
+                        for (var i = 0; i < props.length; i++) {
+                            var prop = props[i];
+                            if (item[prop] !== receipt[prop]) {
+                                isReceipt = false;
+                                break;
+                            }
+                        }
+                        return isReceipt;
+                    })
+                    .reduce(function(memo, r_item, index, col) {
+                        var p = r_item.count * r_item.price;
+                        memo += p;
+                        return memo;
+                    }, 0)
+                    .value();
+                item.price = price;
+                return item;
+
+            })
             .value();
+
         return r;
     };
 }
-define(['angular', 'moment', 'lodash', 'persist-svc', 'app'],
-    function(angular, moment, _) {
-        angular
-            .module('dispensa')
-            .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService ]);
-    });
+angular
+    .module('dispensa')
+    .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService]);

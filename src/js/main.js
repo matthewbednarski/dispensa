@@ -8,14 +8,6 @@ require.config({
         i18next: 'libs/i18next/i18next.amd.withJQuery',
         offline: 'libs/offline/offline.min',
         pouchdb: 'libs/pouchdb/dist/pouchdb',
-        'persist-svc': 'service/persist-svc',
-        'items-svc': 'service/items-svc',
-        'item-controller': 'item/item-controller',
-        'items-controller': 'items/items-controller',
-        'receipt-items-controller': 'receipt-items/receipt-items-controller',
-        'receipt-controller': 'receipt/receipt-controller',
-        'navbar-controller': 'navbar/navbar-controller',
-        'graphic-controller': 'graphic/graphic-controller',
         'd3': 'libs/d3/d3',
 
         // -AMD
@@ -66,13 +58,9 @@ require.config({
 
 
 require(['app', 'moment', 'bootstrap', 'bootstrap-datepicker', 'd3'], function(app, moment) {
-    require(['persist-svc', 'items-svc'], function(app, moment) {
-        var myApp = require(['app','navbar-controller', 'receipt-items-controller', 'items-controller','graphic-controller', 'receipt-controller', 'item-controller'], function(app) {
-            var app = angular.module('dispensa');
-            angular.element(document).ready(function() {
-                angular.bootstrap(document, ['dispensa']);
-            });
-            return app;
-        });
+    var app = angular.module('dispensa');
+    angular.element(document).ready(function() {
+        angular.bootstrap(document, ['dispensa']);
     });
+    return app;
 });

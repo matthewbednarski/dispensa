@@ -64,9 +64,6 @@ function itemsCtrl($scope, $filter, $state, itemsSvc) {
         return itemsSvc.deleteItem(item);
     };
 }
-define(['angular', 'moment', 'lodash', 'app', 'items-svc'],
-    function(angular, moment, _) {
         angular
             .module('dispensa')
             .controller('ItemsController', ['$scope', '$filter', '$state', 'itemsSvc', itemsCtrl ]);
-    });
