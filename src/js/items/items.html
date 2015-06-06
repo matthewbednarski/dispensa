@@ -1,20 +1,26 @@
-<div class="panel panel-default">
+<div class="panel panel-default table-responsive">
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
             <tr class="sortable">
-                <th st-sort="store">
+				<th></th>
+                <th st-sort="store" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.store' | translate }}
                 </th>
-                <th st-sort="city">
+                <th st-sort="date" class="hidden-lg">
+                    {{ 'item.date' | translate }}
+                </th>
+                <th st-sort="brand" class="hidden-lg">
+                    {{ 'item.brand' | translate }} </th>
+                <th st-sort="city" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.city' | translate }}
                 </th>
                 <th st-sort="name">
                     {{ 'item.name' | translate }}
                 </th>
-                <th st-sort="receipt">
+                <th st-sort="receipt" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.receipt' | translate }}
                 </th>
-                <th st-sort="brand">
+                <th st-sort="brand" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.brand' | translate }}
                 </th>
                 <th st-sort="label">
@@ -23,21 +29,21 @@
                 <th st-sort="count">
                     {{ 'item.count' | translate }}
                 </th>
-                <th st-sort="price">
+                <th st-sort="price" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.price' | translate }}
                 </th>
                 <th st-sort="total_price">
                     {{ 'item.total_price' | translate }}
                 </th>
-                <th st-sort="date">
-                    {{ 'item.date' | translate }}
+                <th st-sort="store" class="hidden-lg">
+                    {{ 'item.store' | translate }}
                 </th>
-                <th>
-                    {{ 'action.actions' | translate }}
+                <th st-sort="date" class="hidden-xs hidden-sm hidden-md">
+                    {{ 'item.date' | translate }}
                 </th>
             </tr>
             <tr>
-                <th>
+                <th colspan="2">
                     <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
                     type="search" />
                 </th>
@@ -49,14 +55,60 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in disItems track by $index">
-                <td>{{item.store }}</td>
-                <td>{{item.city}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false">
+                            <i class="fa fa-bars fa-2x"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <!-- Dropdown menu links -->
+
+                            <li>
+                                <span>
+                                    <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
+                                        <i class="fa fa-trash-o fa-2x">
+			</i>
+                                    </button>
+									</span>
+                                <span>
+                                        {{ 'action.delete' | translate}}
+									</span>
+                            </li>
+                            <li>
+                                <span>
+                                    <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
+                                        <i class="fa fa-pencil-square-o fa-2x">
+			</i>
+                                    </button>
+									</span>
+                                <span>
+                                        {{ 'action.edit' | translate}}
+									</span>
+                            </li>
+                            <li>
+                                <span>
+                                    <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
+                                        <i class="fa fa-external-link fa-2x"></i>
+                                    </button>
+									</span>
+                                <span>
+                                        {{ 'action.new' | translate}}
+									</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="hidden-xs hidden-sm hidden-md">{{item.store}}</td>
+                <td class="hidden-lg">{{item.date}}</td>
+                <td class="hidden-lg">{{item.brand}}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{item.city}}</td>
                 <td>{{item.name}}</td>
-                <td>{{item.receipt}}</td>
-                <td>{{item.brand}}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{item.receipt}}</td>
+                <td class="hidden-xs hidden-sm hidden-md">{{item.brand}}</td>
                 <td>{{item.label}} {{item.store_label}}</td>
                 <td>{{item.count}}</td>
-                <td>
+                <td class="hidden-xs hidden-sm hidden-md">
                     <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
                         {{item.price | currency:'€ ' }}
                     </div>
@@ -67,23 +119,8 @@
                 <td>
                     {{item.price * item.count | currency:'€ ' }}
                 </td>
-                <td>{{item.date}}</td>
-                <td>
-                    <div class="button-group center">
-                        <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
-                            <i class="fa fa-trash-o fa-2x">
-			</i>
-                        </button>
-                        <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
-                            <i class="fa fa-pencil-square-o fa-2x">
-			</i>
-                        </button>
-                        <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
-                            <i class="fa fa-external-link fa-2x">
-			</i>
-                        </button>
-                    </div>
-                </td>
+                <td class="hidden-xs hidden-sm hidden-md">{{item.date}}</td>
+                <td class="hidden-lg">{{item.store}}</td>
             </tr>
         </tbody>
         <tfoot>

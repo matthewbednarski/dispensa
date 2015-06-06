@@ -1,27 +1,32 @@
-<div class="panel panel-default">
+<div class="panel panel-default table-responsive">
     <!-- <table class="table table&#45;striped"> -->
     <table st-table="disItems" st-safe-src="items" class="table table-striped">
         <thead>
             <tr class="sortable">
-                <th st-sort="store">
-                    {{ 'item.store' | translate }} </th>
+				<th></th>
+                <th  st-sort="store" class="hidden-xs hidden-sm hidden-md">
+                    {{ 'item.store' | translate }}
+                </th>
+                <th  st-sort="date" class="hidden-lg">
+                    {{ 'item.date' | translate }}
+                </th>
                 <th st-sort="city">
                     {{ 'item.city' | translate }}
                 </th>
                 <th st-sort="receipt">
                     {{ 'item.receipt' | translate }}
                 </th>
-                <th st-sort="store_label">
+                <th st-sort="store_label" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.label' | translate }}
                 </th>
                 <th st-sort="price">
                     {{ 'item.total_price' | translate }}
                 </th>
-                <th st-sort="date">
+                <th st-sort="date" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.date' | translate }}
                 </th>
-                <th>
-                    {{ 'action.actions' | translate }}
+                <th st-sort="store" class="hidden-lg">
+                    {{ 'item.store' | translate }}
                 </th>
             </tr>
             <tr>
@@ -37,25 +42,59 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in disItems">
-                <td>{{item.store }}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false">
+                            <i class="fa fa-bars fa-2x"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <!-- Dropdown menu links -->
+
+                            <li>
+                                <span>
+                                    <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
+                                        <i class="fa fa-trash-o fa-2x">
+			</i>
+                                    </button>
+									</span>
+                                <span>
+                                        {{ 'action.delete' | translate}}
+									</span>
+                            </li>
+                            <li>
+                                <span>
+                                    <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
+                                        <i class="fa fa-external-link fa-2x"></i>
+                                    </button>
+									</span>
+                                <span>
+                                        {{ 'action.edit' | translate}}
+									</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="hidden-xs hidden-sm hidden-md">
+                    {{item.store }}
+                </td>
+                <td class="hidden-lg">
+                    {{item.date }}
+                </td>
                 <td>{{item.city}}</td>
-                <td>{{item.receipt}}</td>
-                <td>{{item.store_label}}</td>
+                <td>
+                    {{item.receipt}}</td>
+                <td class="hidden-xs hidden-sm hidden-md">
+                    {{item.store_label}}
+                </td>
                 <td>
                     {{item.price | currency:'€ ' }}
                 </td>
-                <td>{{item.date}}</td>
-                <td>
-                    <div class="button-group center">
-                        <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
-                            <i class="fa fa-trash-o fa-2x">
-			</i>
-                        </button>
-                        <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
-                            <i class="fa fa-external-link fa-2x">
-			</i>
-                        </button>
-                    </div>
+                <td class="hidden-xs hidden-sm hidden-md">
+                    {{item.date }}
+                </td>
+                <td class="hidden-lg">
+                    {{item.store }}
                 </td>
             </tr>
         </tbody>

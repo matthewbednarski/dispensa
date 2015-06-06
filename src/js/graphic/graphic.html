@@ -1,4 +1,10 @@
 <div>
+    <!-- <bar&#45;chart/> -->
+    <div class="col-xs-12 col-md-9">
+        <div d3-bars items="{{ctrl.items | filter:ctrl.svc.itemFilter }}" bar-height="20"
+        bar-padding="5" total="ctrl.total"></div>
+        {{ ctrl.total | currency }}
+    </div>
     <div class="col-xs-12 col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">{{ 'app.graphic' | translate }}</div>
@@ -81,12 +87,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <!-- <bar&#45;chart/> -->
-    <div class="col-xs-12 col-md-9">
-        <div d3-bars items="{{ctrl.items | filter:ctrl.svc.itemFilter }}" bar-height="20"
-        bar-padding="5" total="ctrl.total"></div>
-        {{ ctrl.total | currency }}
     </div>
 
 </div>

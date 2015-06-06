@@ -133,7 +133,8 @@ app.config(function($translateProvider) {
             save: "Save",
             delete: "Delete",
             reset: "Reset",
-            new: "Create New"
+            new: "Create New",
+            edit: "Edit"
 
         }
     });
