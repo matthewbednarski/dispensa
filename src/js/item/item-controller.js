@@ -1,6 +1,6 @@
 'use strict';
 
-function itemCtrl($scope, itemsSvc) {
+function itemCtrl($scope, focus, itemsSvc) {
     this.item = itemsSvc.getCurrentItem();
     this.itemsSvc = itemsSvc;
     this.update = function(item) {
@@ -8,11 +8,13 @@ function itemCtrl($scope, itemsSvc) {
             .then(function() {
                 itemsSvc.resetItem();
                 $scope.itemForm.$setPristine();
+                focus('item-start');
             });
     };
     this.reset = function() {
         this.item = itemsSvc.resetItem();
         $scope.itemForm.$setPristine();
+        focus('item-start');
     };
     this.names = itemsSvc.getNames();
     this.brands = itemsSvc.getBrands();
@@ -32,6 +34,7 @@ function itemCtrl($scope, itemsSvc) {
             itemsSvc.getCurrentItem().price = parseFloat(found.price);
             itemsSvc.getCurrentItem().count = parseFloat(found.count);
             itemsSvc.getCurrentItem().on_deal = found.on_deal;
+        	focus('item-price');
         }
     };
     $scope.$watch(function() {
@@ -50,4 +53,4 @@ function itemCtrl($scope, itemsSvc) {
 
     angular
         .module('dispensa')
-        .controller('ItemController', ['$scope', 'itemsSvc', itemCtrl]);
+        .controller('ItemController', ['$scope', 'focus', 'itemsSvc', itemCtrl]);

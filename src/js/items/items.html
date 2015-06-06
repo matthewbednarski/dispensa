@@ -48,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in disItems">
+            <tr ng-repeat="item in disItems track by $index">
                 <td>{{item.store }}</td>
                 <td>{{item.city}}</td>
                 <td>{{item.name}}</td>

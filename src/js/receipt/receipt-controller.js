@@ -1,6 +1,6 @@
 'use strict';
 
-function receiptCtrl($scope, itemsSvc) {
+function receiptCtrl($scope, $state, focus, itemsSvc) {
     this.item = itemsSvc.getCurrentReciept();
     this.storeSelected = function(item) {
         var found = _.chain(itemsSvc.getStores())
@@ -16,6 +16,7 @@ function receiptCtrl($scope, itemsSvc) {
                 .value();
         }
         if (found !== undefined) {
+            focus('receipt-city');
             itemsSvc.getCurrentReciept().store = found.store;
             itemsSvc.getCurrentReciept().store_label = found.store_label;
             itemsSvc.getCurrentReciept().city = found.city;
@@ -24,6 +25,8 @@ function receiptCtrl($scope, itemsSvc) {
     this.reset = function() {
         itemsSvc.resetReciept();
         $scope.receiptForm.$setPristine();
+        focus('receipt-div');
+        focus('receipt-start');
     };
     this.cities = itemsSvc.getCities();
     this.store_labels = itemsSvc.getStoreLabels();
@@ -59,12 +62,27 @@ function receiptCtrl($scope, itemsSvc) {
             .value();
         return total.price;
     };
+    var c = 0;
+    $scope.$watch(function() {
+        return $state.is('insert');
+    }, function(n, o) {
+        if (n) {
+            console.log("Is $state.insert: " + n);
+            console.log(++c);
+            focus('receipt-div');
+            focus('receipt-start');
+        }
+    });
     $scope.$watch(function() {
         return $scope.receiptForm.$valid;
     }, function(n, o) {
         itemsSvc.canEditItem = n;
+        if (n && n !== o) {
+            focus('item-div');
+            focus('item-start');
+        }
     });
 }
-    angular
-        .module('dispensa')
-        .controller('RecieptController', ['$scope', 'itemsSvc', receiptCtrl]);
+angular
+    .module('dispensa')
+    .controller('RecieptController', ['$scope', '$state', 'focus', 'itemsSvc', receiptCtrl]);

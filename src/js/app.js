@@ -4,6 +4,87 @@
 
 var app = angular.module('dispensa', ['ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
 
+app.config(function($stateProvider, $urlRouterProvider) {
+    //
+    // For any unmatched url, redirect to /state1
+    $urlRouterProvider.otherwise("/insert");
+    //
+    // Now set up the states
+    $stateProvider
+        .state('insert', {
+            url: "/insert",
+            views: {
+                'items': {
+                    templateUrl: "js/receipt-items/receipt-items.html",
+                    controller: 'ReceiptItemsController',
+                    controllerAs: 'receipt'
+                },
+                'item': {
+                    templateUrl: "js/item/item.html",
+                    controller: 'ItemController',
+                    controllerAs: 'ctl'
+                },
+                'receipt': {
+                    templateUrl: "js/receipt/receipt.html",
+                    controller: 'RecieptController',
+                    controllerAs: 'ctl'
+                }
+            },
+            onEnter: function($timeout) {
+                $timeout( function() {
+                        // focus('receipt-div');
+                        // focus('receipt-start');
+                    });
+
+            }
+        })
+        .state('table', {
+            url: "/list",
+            views: {
+                'items': {
+                    templateUrl: "js/items/items.html",
+                    controller: 'ItemsController'
+                }
+            }
+        })
+        .state('receipts', {
+            url: "/receipts",
+            views: {
+                'receipts': {
+                    templateUrl: "js/receipts/receipts.html",
+                    controller: 'ReceiptsController'
+                }
+            }
+        })
+        .state('report', {
+            url: "/graphic",
+            views: {
+                'graphic': {
+                    templateUrl: "js/graphic/graphic.html",
+                    controller: 'GraphicController',
+                    controllerAs: 'ctrl'
+                }
+            }
+        });
+});
+app.directive('focusOn', function() {
+    return function(scope, elem, attr) {
+        scope.$on('focusOn', function(e, name) {
+            if (name === attr.focusOn) {
+                elem[0].focus();
+            }
+        });
+    };
+});
+
+app.factory('focus', function($rootScope, $timeout) {
+    return function(name) {
+        $timeout(function() {
+            $rootScope.$broadcast('focusOn', name);
+        });
+    }
+});
+
 app.config(function($translateProvider) {
     $translateProvider.translations('en-US', {
         app: {
@@ -36,14 +117,14 @@ app.config(function($translateProvider) {
             is_receipt: "Show receipt"
         },
         text: {
-			begin: "Begin",
-			end: "End  ",
-			city: "City",
-			store: "Store",
-			brand: "Brand",
-			label: "Label",
-			store_type: "Store Type"
-		},
+            begin: "Begin",
+            end: "End  ",
+            city: "City",
+            store: "Store",
+            brand: "Brand",
+            label: "Label",
+            store_type: "Store Type"
+        },
         symbol: {
             currency: "€"
         },
@@ -57,61 +138,5 @@ app.config(function($translateProvider) {
         }
     });
     $translateProvider.preferredLanguage('en-US');
-});
-app.config(function($stateProvider, $urlRouterProvider) {
-    //
-    // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/insert");
-    //
-    // Now set up the states
-    $stateProvider
-        .state('insert', {
-            url: "/insert",
-            views: {
-                'items': {
-                    templateUrl: "js/receipt-items/receipt-items.html",
-                    controller: 'ReceiptItemsController',
-                    controllerAs: 'receipt'
-                },
-                'item': {
-                    templateUrl: "js/item/item.html",
-                    controller: 'ItemController',
-                    controllerAs: 'ctl'
-                },
-                'receipt': {
-                    templateUrl: "js/receipt/receipt.html",
-                    controller: 'RecieptController',
-                    controllerAs: 'ctl'
-                }
-            }
-        })
-        .state('table', {
-            url: "/list",
-            views: {
-                'items': {
-                    templateUrl: "js/items/items.html",
-                    controller: 'ItemsController'
-                }
-            }
-        })
-        .state('receipts', {
-            url: "/receipts",
-            views: {
-                'receipts': {
-                    templateUrl: "js/receipts/receipts.html",
-                    controller: 'ReceiptsController'
-                }
-            }
-        })
-        .state('report', {
-            url: "/graphic",
-            views: {
-                'graphic': {
-                    templateUrl: "js/graphic/graphic.html",
-                    controller: 'GraphicController',
-                    controllerAs: 'ctrl'
-                }
-            }
-        });
 });
 console.log('1.) ' + app);
