@@ -1,6 +1,6 @@
 'use strict';
 
-function itemCtrl($scope, focus, itemsSvc) {
+function itemCtrl($scope, $timeout, focus, itemsSvc) {
     this.item = itemsSvc.getCurrentItem();
     this.itemsSvc = itemsSvc;
     this.update = function(item) {
@@ -18,6 +18,7 @@ function itemCtrl($scope, focus, itemsSvc) {
     };
     this.names = itemsSvc.getNames();
     this.brands = itemsSvc.getBrands();
+    this.labels = itemsSvc.getLabels();
 
     this.nameSelected = function(item) {
     	if(item === undefined){
@@ -42,15 +43,23 @@ function itemCtrl($scope, focus, itemsSvc) {
     }, function() {
         itemsSvc.loadNames();
         itemsSvc.loadBrands();
+        itemsSvc.loadLabels();
     });
     $scope.$watch(function() {
         return itemsSvc.model.items.length;
     }, function() {
         itemsSvc.loadNames();
         itemsSvc.loadBrands();
+        itemsSvc.loadLabels();
     });
+    $timeout(function(){
+        itemsSvc.loadNames();
+        itemsSvc.loadBrands();
+        itemsSvc.loadStoreLabels();
+        itemsSvc.loadLabels();
+	});
 }
 
     angular
         .module('dispensa')
-        .controller('ItemController', ['$scope', 'focus', 'itemsSvc', itemCtrl]);
+        .controller('ItemController', ['$scope', '$timeout', 'focus', 'itemsSvc', itemCtrl]);

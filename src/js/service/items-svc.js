@@ -343,16 +343,19 @@ function itemsService($http, $q, persistSvc) {
     };
     this.loadType = function(type, field) {
         var vals = _.chain(this.getItems())
-            .map(function(item) {
+            .filter(function(item) {
                 if (item.hasOwnProperty(field)) {
-                    return item[field];
+                    return true;
                 }
             })
-            .uniq(function(item) {
+            .map(function(item) {
                 return item[field];
             })
+            .uniq(function(item) {
+                return item;
+            })
             .sortBy(function(item) {
-                return item[field];
+                return item;
             })
             .value();
         _.assign(this.getModel()[type], vals);
@@ -369,6 +372,12 @@ function itemsService($http, $q, persistSvc) {
             this.getModel().names = [];
         }
         return this.getModel().names;
+    };
+    this.getLabels = function() {
+        if (this.getModel().labels === undefined) {
+            this.getModel().labels = [];
+        }
+        return this.getModel().labels;
     };
     this.getCities = function() {
         if (this.getModel().cities === undefined) {
@@ -431,6 +440,9 @@ function itemsService($http, $q, persistSvc) {
     };
     this.loadStoreLabels = function() {
         return this.loadType('store_labels', 'store_label');
+    };
+    this.loadLabels = function() {
+        return this.loadType('labels', 'label');
     };
     this.loadStores = function() {
         return this.loadTypes('stores', ['store', 'city']);

@@ -22,13 +22,19 @@
                 <div class="form-group" ng-class="{ 'has-error' : itemForm.item_f_brand.$invalid && !itemForm.item_f_brand.$pristine }">
                     <input name="item_f_brand" class="form-control" placeholder="{{ 'item.brand' | translate }}"
                     type="text" ng-model="ctl.item.brand" list="brands" required
-                    /> <datalist id="brands">
+                    /> 
+					<datalist id="brands">
                         <option ng-repeat="item in ctl.brands track by $index" value="{{ item }}"></option>
                     </datalist>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : itemForm.item_f_label.$invalid && !itemForm.item_f_label.$pristine }">
                     <input name="item_f_label" class="form-control" placeholder="{{ 'item.label' | translate }}"
-                    type="text" ng-model="ctl.item.label" required />
+                    type="text" 
+                    list="labels"
+					ng-model="ctl.item.label" required />
+					<datalist id="labels">
+                        <option ng-repeat="item in ctl.labels track by $index" value="{{ item }}"></option>
+                    </datalist>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : itemForm.item_f_count.$invalid && !itemForm.item_f_count.$pristine }">
                     <input name="item_f_count" class="form-control" placeholder="{{ 'item.count' | translate }}"
