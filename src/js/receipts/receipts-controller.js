@@ -18,12 +18,6 @@ function Receipts($scope, $q, $filter, $state, $route, itemsSvc) {
         $state.transitionTo('insert');
     };
 
-	$scope.watch(function(){
-
-		return $scope.items;
-	},function(n, o ){
-
-	});
     var deleting = 0;
     $scope.delete = function(receipt) {
         var p = itemsSvc.deleteReceipt(receipt);
