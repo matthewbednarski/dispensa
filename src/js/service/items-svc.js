@@ -7,6 +7,7 @@ function itemsService($http, $q, persistSvc) {
     var service = this;
     this.deleteReceipt = function(receipt) {
         // { "date", "store", "store_label", "city", "receipt"}
+        var defer = $q.defer();
 
         var items_to_delete = _.chain(service.getItems())
             .filter(function(item) {
@@ -23,65 +24,57 @@ function itemsService($http, $q, persistSvc) {
             })
             .value();
 
-        var deleted_defereds = _.chain(items_to_delete)
+        var deleted_ids = _.chain(items_to_delete)
             .map(function(item) {
-				return service.deleteItem(item);
+                return item.id;
             })
             .value();
-
-			return deleted_defereds;
+        var deleted_defereds = _.chain(items_to_delete)
+            .map(function(item) {
+                return service.deleteItem(item);
+            })
+            .value();
+		
+		defer.resolve([deleted_ids, deleted_defereds]);
+        return defer.promise;
     };
     this.deleteItem = function(item) {
         var defer = $q.defer();
         item.is_delete = true;
-        var res = _.chain(service.getItems())
-            .filter(function(it) {
-                return it.is_delete;
+        var it = item;
+        // var res = _.chain(service.getItems())
+        //     .filter(function(it) {
+        //         return it.is_delete;
+        //     })
+        //     .value();
+        var toDelete = this.deleteItemRest(item);
+        toDelete
+            .then(function(item) {
+                var res = _.chain(service.getItems())
+                    .remove(function(it) {
+                        return it.id === item.id;
+                    })
+                    .value();
+                if (res !== undefined && res.length > 0) {
+                    service.persist();
+                }
             })
-            .value();
-        var p = [];
-        _.forEach(res, function(it) {
-            var toDelete = this.deleteItemRest(it);
-            toDelete.then(function(item) {
-                    var res = _.chain(service.getItems())
-                        .remove(function(it) {
-                            return it.is_delete && it.id === item.id;
-                        })
-                        .value();
-                    if (res !== undefined && res.length > 0) {
-                        service.persist();
-                    }
-                })
-                .
-            catch(function(errorArr) {
+            .catch(function(errorArr) {
                 console.log(errorArr);
                 if (errorArr.length > 1 && errorArr[1] === 404) {
                     console.log("Got 404 Not Found, deleting locally");
-                    var res = _.chain(service.getItems())
-                        .remove(function(removeit) {
-                            return removeit.is_delete && removeit.id === it.id;
-                        })
-                        .value();
-                    if (res !== undefined && res.length > 0) {
-                        service.persist();
-                    }
+
+                    // var res = _.chain(service.getItems())
+                    // 	.remove(function(removeit) {
+                    // 		return removeit.id === it.id;
+                    // 	})
+                    // .value();
+                    // if (res !== undefined && res.length > 0) {
+                    // 	service.persist();
+                    // }
                 }
             });
-            p.push(toDelete);
-        }, this);
-        var pAll = $q.all(p);
-        pAll.then(
-            function(it) {
-                console.log("Finished Deleting ");
-                defer.resolve("Finished Deleting ");
-            }).
-        catch(
-            function(it) {
-                console.error("Finished Deleting: " + it);
-                defer.reject("Finished Deleting ");
-            }
-        );
-        return defer.promise;
+        return toDelete;
     };
     this.deleteItemRest = function(item) {
         var defer = $q.defer();

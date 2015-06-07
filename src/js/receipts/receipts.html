@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in disItems">
+            <tr ng-repeat="item in disItems track by $index">
                 <td>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
