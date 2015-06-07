@@ -1,5 +1,5 @@
 <!-- <div ng&#45;controller="ItemController" class="col&#45;xs&#45;6"> -->
-<div class="col-xs-12 col-md-6" ng-show="ctl.itemsSvc.canEditItem">
+<div class="col-xs-12 col-md-6" ng-show="ctl.itemsSvc.isEditItem">
     <div class="panel panel-primary"
 		 >
         <div class="panel-heading"
@@ -48,7 +48,7 @@
 				    placeholder="{{ 'item.on_deal' | translate }}"
             		type="checkbox" ng-model="ctl.item.on_deal" ng-true-value="1" ng-false-value="0"
             /></span>
-                    <input class="form-control" placeholder="{{ 'item.on_deal' | translate }}" />
+                    <input class="form-control" ng-model="ctl.item.notes"  placeholder="{{ 'item.on_deal' | translate }} / {{ 'item.notes' | translate }}" />
                 </div>
                 <div class="button-group center">
                     <button ng-show="!itemForm.$pristine || itemForm.$valid" class="btn" type="reset"

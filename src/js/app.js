@@ -114,6 +114,7 @@ app.config(function($translateProvider) {
             receipt: "Rec. #",
             date: "Date",
             on_deal: "On Deal",
+            notes: "Notes",
             is_receipt: "Show receipt"
         },
         text: {
@@ -134,6 +135,7 @@ app.config(function($translateProvider) {
             delete: "Delete",
             reset: "Reset",
             new: "Create New",
+            check: "Done",
             edit: "Edit"
 
         }

@@ -16,7 +16,7 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
                 .value();
         }
         if (found !== undefined) {
-            focus('receipt-city');
+            focus('receipt-date');
             itemsSvc.getCurrentReciept().store = found.store;
             itemsSvc.getCurrentReciept().store_label = found.store_label;
             itemsSvc.getCurrentReciept().city = found.city;
@@ -77,11 +77,17 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
         return $scope.receiptForm.$valid;
     }, function(n, o) {
         itemsSvc.canEditItem = n;
-        if (n && n !== o) {
+        if(!n && n !== o){
+        	itemsSvc.isEditItem = false;
+		}
+    });
+    this.toArticle = function() {
+        if (itemsSvc.canEditItem) {
+        	itemsSvc.isEditItem = itemsSvc.canEditItem;
             focus('item-div');
             focus('item-start');
         }
-    });
+    }
 }
 angular
     .module('dispensa')

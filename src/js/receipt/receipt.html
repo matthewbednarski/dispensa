@@ -1,22 +1,17 @@
 <!-- <div ng&#45;controller="RecieptController" class="col&#45;xs&#45;6"> -->
 <div class="col-xs-12 col-md-6">
     <div class="panel panel-primary">
-        <div class="panel-heading"
-					tabindex="-1" 
-	 				focus-on="receipt-div"
-			 >{{ 'app.receipt' | translate }}</div>
+        <div class="panel-heading" tabindex="-1" focus-on="receipt-div">{{ 'app.receipt' | translate }}</div>
         <div class="panel-body">
             <form novalidate name="receiptForm" class="simple-form">
                 <div class="form-group" ng-class="{ 'has-error' : receiptForm.r_f_store.$invalid && !receiptForm.r_f_store.$pristine }">
-                    <input name="r_f_store" 
-						   class="form-control" 
-		 				placeholder="{{ 'item.store' | translate }}"
-                    type="text" ng-model="ctl.item.store" 
-								list="stores" required
-                	focus-on="receipt-start"
-                    ng-change="ctl.storeSelected(ctl.item)" />
+                    <input name="r_f_store" class="form-control" placeholder="{{ 'item.store' | translate }}"
+                    type="text" ng-model="ctl.item.store" list="stores" required
+                    focus-on="receipt-start" ng-change="ctl.storeSelected(ctl.item)"
+                    />
                     <datalist id="stores">
-                        <option ng-repeat="it in ctl.stores track by $index" value="{{ it.store + ' - ' + it.city }}" data-obj="{{ it }}"></option>
+                        <option ng-repeat="it in ctl.stores track by $index" value="{{ it.store + ' - ' + it.city }}"
+                        data-obj="{{ it }}"></option>
                     </datalist>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : receiptForm.r_f_store_label.$invalid && !receiptForm.r_f_store_label.$pristine }">
@@ -32,15 +27,15 @@
 				<i class="fa fa-calendar"></i>
 			</span>
                     <div class="input-append date">
-                        <input data-provide="datepicker" class="form-control" name="r_f_date" data-date-format="yyyy-mm-dd"
-                        ng-model="ctl.item.date" required/>
+                        <input data-provide="datepicker" class="form-control" name="r_f_date" focus-on="receipt-date"
+                        data-date-format="yyyy-mm-dd" ng-model="ctl.item.date"
+                        required/>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error' : receiptForm.r_f_city.$invalid && !receiptForm.r_f_city.$pristine }">
                     <input name="r_f_city" class="form-control" placeholder="{{ 'item.city' | translate }}"
                     type="text" ng-model="ctl.item.city" required ng-model-options="{ updateOn: 'blur' }"
-                    											  focus-on="receipt-city"
-                    list="cities" />
+                    focus-on="receipt-city" list="cities" />
                     <datalist id="cities">
                         <option ng-repeat="item in ctl.cities track by $index" value="{{ item }}"></option>
                     </datalist>
@@ -55,7 +50,17 @@
                     />
                 </div>
                 <div class="button-group">
-                    <button ng-show="!receiptForm.$pristine || receiptForm.$valid" type="rst" class="btn"
+                    <button ng-show="!receiptForm.$pristine || receiptForm.$valid" class="btn" type="submit"
+                    ng-click="ctl.toArticle()" tooltip="{{ 'action.check' | translate}}">
+                        <i class="fa fa-check fa-2x">
+				</i>
+                    </button>
+                    <button ng-show="!receiptForm.$pristine || receiptForm.$valid" class="btn" ng-click="ctl.reset()"
+                    tooltip="{{ 'action.new' | translate}}">
+                        <i class="fa fa-plus fa-2x">
+				</i>
+                    </button>
+                    <button ng-show="!receiptForm.$pristine || receiptForm.$valid" type="reset" class="btn"
                     ng-click="ctl.reset()" tooltip="{{ 'action.reset' | translate}}">
                         <i class="fa fa-eraser fa-2x">
 				</i>
