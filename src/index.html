@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en" manifest="app.manifest">
 
-
 <head>
 	<meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="js/libs/angular-ui/build/angular-ui.css" />
     <link rel="stylesheet" href="js/libs/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="js/libs/bootstrap-datepicker/css/datepicker3.css"
     />
     <link rel="stylesheet" href="js/libs/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <title>Dispensa</title>
 </head>
 
@@ -51,6 +52,7 @@
     <script src="js/service/persist-svc.js"></script>
     <script src="js/service/items-svc.js"></script>
     <script src="js/service/reporting-svc.js"></script>
+    <script src="js/service/login-svc.js"></script>
     <script src="js/item/item-controller.js"></script>
     <script src="js/items/items-controller.js"></script>
     <script src="js/receipt-items/receipt-items-controller.js"></script>
@@ -58,6 +60,7 @@
     <script src="js/receipts/receipts-controller.js"></script>
     <script src="js/navbar/navbar-controller.js"></script>
     <script src="js/graphic/graphic-controller.js"></script>
+    <script src="js/login/login-controller.js"></script>
     <script>
         var app = angular.module('dispensa');
         angular.element(document).ready(function()
@@ -104,7 +107,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="home">{{ 'app.login' | translate }}</a>
+				<li ng-class="{ hidden: ctrl.login.isLoggedIn }"><a ui-sref="login">{{ 'app.login' | translate }}</a>
+                </li>
+				<li ng-class="{ hidden: !ctrl.login.isLoggedIn }" ><a ui-sref="logout">{{ 'app.logout' | translate }}</a>
                 </li>
             </ul>
         </div>
@@ -112,6 +117,8 @@
 
     <div class="container-fluid" ng-cloak>
         <div class="row col-xs-12 form-group">
+            <div ui-view="login"></div>
+            <div ui-view="logout"></div>
             <div ui-view="item"></div>
             <div ui-view="receipt"></div>
             <div ui-view="receipts"></div>

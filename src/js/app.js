@@ -11,6 +11,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //
     // Now set up the states
     $stateProvider
+        .state('logout', {
+            url: "/logout",
+            views: {
+                'login': {
+                    templateUrl: "js/login/logout.html"
+                }
+			}
+		})
+        .state('login', {
+            url: "/login",
+            views: {
+                'login': {
+                    templateUrl: "js/login/login.html",
+                    controller: 'LoginController',
+                    controllerAs: 'ctl'
+                }
+			}
+		})
         .state('insert', {
             url: "/insert",
             views: {
@@ -159,6 +177,8 @@ app.config(function($translateProvider) {
             view: "All Items",
             graphic: "View Graphic",
             login: "Login",
+            logout: "Logout",
+            "logout.success": "You've been successfully logged out!",
             items: "Items",
             search_store: "Filter stores",
             search_global: "Filter by any text",
@@ -205,4 +225,4 @@ app.config(function($translateProvider) {
     });
     $translateProvider.preferredLanguage('en-US');
 });
-console.log('1.) ' + app);
+console.log('1.) %s', app);

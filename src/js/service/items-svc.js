@@ -1,14 +1,13 @@
 'use strict';
 // http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 //
-function itemsService($http, $q, persistSvc) {
+function itemsService($http, $q, $state, persistSvc) {
 
     this.url = 'api/item';
     var service = this;
     this.deleteReceipt = function(receipt) {
         // { "date", "store", "store_label", "city", "receipt"}
         var defer = $q.defer();
-
         var items_to_delete = _.chain(service.getItems())
             .filter(function(item) {
                 return item.date === receipt.date;
@@ -34,8 +33,8 @@ function itemsService($http, $q, persistSvc) {
                 return service.deleteItem(item);
             })
             .value();
-		
-		defer.resolve([deleted_ids, deleted_defereds]);
+
+        defer.resolve([deleted_ids, deleted_defereds]);
         return defer.promise;
     };
     this.deleteItem = function(item) {
@@ -63,15 +62,6 @@ function itemsService($http, $q, persistSvc) {
                 console.log(errorArr);
                 if (errorArr.length > 1 && errorArr[1] === 404) {
                     console.log("Got 404 Not Found, deleting locally");
-
-                    // var res = _.chain(service.getItems())
-                    // 	.remove(function(removeit) {
-                    // 		return removeit.id === it.id;
-                    // 	})
-                    // .value();
-                    // if (res !== undefined && res.length > 0) {
-                    // 	service.persist();
-                    // }
                 }
             });
         return toDelete;
@@ -86,8 +76,11 @@ function itemsService($http, $q, persistSvc) {
                 defer.resolve(item);
                 console.log(results);
             })
-            .error(function(err, e1, e2, e3) {
-                defer.reject([err, e1, e2, e3]);
+            .error(function(err, status, e2, e3) {
+                if (status !== undefined && (status === 401 || status === 403)) {
+                    $state.go('login');
+                }
+                defer.reject([err, status, e2, e3]);
             });
         return defer.promise;
     };
@@ -114,8 +107,11 @@ function itemsService($http, $q, persistSvc) {
                 service.persist();
                 //   console.log(results);
             })
-            .error(function(err) {
+            .error(function(err, status) {
                 console.error(err);
+                if (status !== undefined && (status === 401 || status === 403)) {
+                    $state.go('login');
+                }
                 defer.reject(err);
             });
         return defer.promise;
@@ -163,8 +159,11 @@ function itemsService($http, $q, persistSvc) {
             service.getItems().push(item);
             defer.resolve(item);
             service.persist();
-        }).error(function(data) {
-            defer.reject(new Error(data));
+        }).error(function(data, status) {
+            if (status !== undefined && (status === 401 || status === 403)) {
+                $state.go('login');
+            }
+            defer.reject(data);
         });
         return defer.promise;
     };
@@ -535,4 +534,4 @@ function itemsService($http, $q, persistSvc) {
 }
 angular
     .module('dispensa')
-    .service('itemsSvc', ['$http', '$q', 'persistSvc', itemsService]);
+    .service('itemsSvc', ['$http', '$q', '$state', 'persistSvc', itemsService]);
