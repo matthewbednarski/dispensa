@@ -2,7 +2,7 @@
 <html lang="en" manifest="app.manifest">
 
 <head>
-	<meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="js/libs/angular-ui/build/angular-ui.css" />
     <link rel="stylesheet" href="js/libs/bootstrap/dist/css/bootstrap.min.css" />
@@ -107,9 +107,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-				<li ng-class="{ hidden: ctrl.login.isLoggedIn }"><a ui-sref="login">{{ 'app.login' | translate }}</a>
+                <li ng-class="{ hidden: ctrl.login.isLoggedIn }"><a ui-sref="login">{{ 'app.login' | translate }}</a>
                 </li>
-				<li ng-class="{ hidden: !ctrl.login.isLoggedIn }" ><a ui-sref="logout">{{ 'app.logout' | translate }}</a>
+                <li ng-class="{ hidden: !ctrl.login.isLoggedIn }"><a ui-sref="logout">{{ 'app.logout' | translate }}</a>
                 </li>
             </ul>
         </div>
