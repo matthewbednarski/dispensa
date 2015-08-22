@@ -3,22 +3,10 @@
         <thead>
             <tr>
 				<th></th>
-                <th class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.store' | translate }}
-                </th>
-                <th class="hidden-lg">
-                    {{ 'item.date' | translate }}
-                </th>
                 <th class="hidden-lg">
                     {{ 'item.brand' | translate }} </th>
-                <th class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.city' | translate }}
-                </th>
                 <th>
                     {{ 'item.name' | translate }}
-                </th>
-                <th class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.receipt' | translate }}
                 </th>
                 <th class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.brand' | translate }}
@@ -34,12 +22,6 @@
                 </th>
                 <th>
                     {{ 'item.total_price' | translate }}
-                </th>
-                <th class="hidden-lg">
-                    {{ 'item.store' | translate }}
-                </th>
-                <th class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.date' | translate }}
                 </th>
             </tr>
         </thead>
@@ -90,14 +72,10 @@
                         </ul>
                     </div>
 				</td>
-                <td class="hidden-xs hidden-sm hidden-md">{{item.store}}</td>
-                <td class="hidden-lg">{{item.date}}</td>
                 <td class="hidden-lg">{{item.brand}}</td>
-                <td class="hidden-xs hidden-sm hidden-md">{{item.city}}</td>
                 <td>{{item.name}}</td>
-                <td class="hidden-xs hidden-sm hidden-md">{{item.receipt}}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{{item.brand}}</td>
-                <td>{{item.label}} {{item.store_label}}</td>
+                <td>{{item.label}} {{receipt.receipt.store_label}}</td>
                 <td>{{item.count}}</td>
                 <td class="hidden-xs hidden-sm hidden-md">
                     <div ng-if="item.on_deal === 0 || item.on_deal === undefined" class="inline-block">
@@ -110,8 +88,6 @@
                 <td>
                     {{item.price * item.count | currency:'€ ' }}
                 </td>
-                <td class="hidden-xs hidden-sm hidden-md">{{item.date}}</td>
-                <td class="hidden-lg">{{item.store}}</td>
             </tr>
         </tbody>
     </table>

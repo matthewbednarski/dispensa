@@ -1,7 +1,7 @@
 'use strict';
 
 function receiptCtrl($scope, $state, focus, itemsSvc) {
-    this.item = itemsSvc.getCurrentReciept();
+    this.item = itemsSvc.getCurrentReceipt();
     this.storeSelected = function(item) {
         var found = _.chain(itemsSvc.getStores())
             .find(function(it) {
@@ -17,13 +17,13 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
         }
         if (found !== undefined) {
             focus('receipt-date');
-            itemsSvc.getCurrentReciept().store = found.store;
-            itemsSvc.getCurrentReciept().store_label = found.store_label;
-            itemsSvc.getCurrentReciept().city = found.city;
+            itemsSvc.getCurrentReceipt().store = found.store;
+            itemsSvc.getCurrentReceipt().store_label = found.store_label;
+            itemsSvc.getCurrentReceipt().city = found.city;
         }
     };
     this.reset = function() {
-        itemsSvc.resetReciept();
+        itemsSvc.resetReceipt();
         $scope.receiptForm.$setPristine();
         focus('receipt-div');
         focus('receipt-start');
@@ -33,31 +33,14 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
     this.stores = itemsSvc.getStores();
 
     this.receiptTotal = function() {
-        var total = _.chain(itemsSvc.getItems())
-            .filter(function(item) {
-                var props = ['store', 'date', 'city', 'receipt'];
-                var receipt = itemsSvc.getCurrentReciept();
-                var isReceipt = true;
-                for (var i = 0; i < props.length; i++) {
-                    var prop = props[i];
-                    if (item[prop] !== receipt[prop]) {
-                        isReceipt = false;
-                        break;
-                    }
-                }
-                return isReceipt;
-            })
-            .map(function(memo) {
-                if (memo.price === undefined) {
-                    memo.price = 0;
-                }
-                for (var i = 0; i < items.length; i++) {
-                    var p = item.count * item.price;
-                    memo.price += p;
-                }
-                return memo;
-            }, {})
-            .value();
+        var total = _.reduce(itemsSvc.getCurrentReceipt().items, function(memo, item) {
+            if (memo.price === undefined) {
+                memo.price = 0;
+            }
+            var p = item.count * item.price;
+            memo.price += p;
+            return memo;
+        }, {});
         return total.price;
     };
     var c = 0;
@@ -89,4 +72,4 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
 }
 angular
     .module('dispensa')
-    .controller('RecieptController', ['$scope', '$state', 'focus', 'itemsSvc', receiptCtrl]);
+    .controller('ReceiptController', ['$scope', '$state', 'focus', 'itemsSvc', receiptCtrl]);

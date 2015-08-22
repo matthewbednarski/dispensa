@@ -3,7 +3,7 @@
 (function() {
     var app = angular
         .module('dispensa')
-        .service('login', ['$rootScope', '$state', '$http', '$q', 'persistSvc', 'itemsSvc', Login]);
+        .service('login', ['$rootScope', '$state', '$http', '$q', 'persist', 'itemsSvc', Login]);
 
     function Login($rootScope, $state, $http, $q, persist, itemsSvc) {
         // var orderBy = $filter('orderBy');
