@@ -1,7 +1,7 @@
 'use strict';
 
 function itemCtrl($scope, $timeout, focus, itemsSvc) {
-    this.item = itemsSvc.getCurrentItem();
+    // this.item = itemsSvc.getCurrentItem();
     this.itemsSvc = itemsSvc;
     this.update = function(item) {
         itemsSvc.addItem(item)

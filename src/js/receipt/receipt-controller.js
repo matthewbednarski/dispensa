@@ -47,16 +47,14 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
                 }
                 return isReceipt;
             })
-            .reduce(function(memo, item, index, col) {
-                if (memo === undefined) {
-                    memo = {};
-
-                }
+            .map(function(memo) {
                 if (memo.price === undefined) {
                     memo.price = 0;
                 }
-                var p = item.count * item.price;
-                memo.price += p;
+                for (var i = 0; i < items.length; i++) {
+                    var p = item.count * item.price;
+                    memo.price += p;
+                }
                 return memo;
             }, {})
             .value();
@@ -77,13 +75,13 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
         return $scope.receiptForm.$valid;
     }, function(n, o) {
         itemsSvc.canEditItem = n;
-        if(!n && n !== o){
-        	itemsSvc.isEditItem = false;
-		}
+        if (!n && n !== o) {
+            itemsSvc.isEditItem = false;
+        }
     });
     this.toArticle = function() {
         if (itemsSvc.canEditItem) {
-        	itemsSvc.isEditItem = itemsSvc.canEditItem;
+            itemsSvc.isEditItem = itemsSvc.canEditItem;
             focus('item-div');
             focus('item-start');
         }

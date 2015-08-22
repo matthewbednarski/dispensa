@@ -1,11 +1,20 @@
 
-(A) 2015-05-03 @items +insert +auto-complete labels 
-(A) 2015-05-03 @export +service text/csv application/ms-excel text/plain application/svg
-(A) 2015-05-03 @rename +module/+service application wide renaming of labels and stores
-(B) 2015-05-03 @data +sync date-range filter
-(A) 2015-05-03 @notifications +push +web-sockets???
+(A) 2015-08-22 @refactor +items make receipts the basis 
 
-(A) 2015-05-03 @items +service reorganize and sub-divide services to make more testable and coherent
+
+(C) 2015-08-22 @refactor +cdn remove +bower dependencies and use directly the cdn's 
+(C) 2015-08-22 @refactor +manifest add and use the manifest.appcache for maintaing the app on/offline 
+
+(C) 2015-08-22 @security +ssl read from file
+(C) 2015-08-22 @security +ssl add key and cert from parameter
+
+(B) 2015-05-03 @items +insert +auto-complete labels 
+(B) 2015-05-03 @export +service text/csv application/ms-excel text/plain application/svg
+(B) 2015-05-03 @rename +module/+service application wide renaming of labels and stores
+(B) 2015-05-03 @data +sync date-range filter
+(C) 2015-05-03 @notifications +push +web-sockets???
+
+(B) 2015-05-03 @items +service reorganize and sub-divide services to make more testable and coherent
 (B) 2015-05-03 @test +test suite for main services and controllers 
 (B) 2015-05-03 @test +test suite for directives 
 
