@@ -10,7 +10,6 @@ function ReceiptItems($scope, $filter, $state, itemsSvc) {
     $scope.$on('receiptChanged', function(e, receipt) {
         ctl.receipt = receipt;
         $scope.items = receipt.items;
-
     });
 
 

@@ -22,6 +22,12 @@ function receiptCtrl($scope, $state, focus, itemsSvc) {
             itemsSvc.getCurrentReceipt().city = found.city;
         }
     };
+    this.save = function() {
+        itemsSvc.addReceipt(itemsSvc.getCurrentReceipt());
+        $scope.receiptForm.$setPristine();
+        focus('receipt-div');
+        focus('receipt-start');
+    };
     this.reset = function() {
         itemsSvc.resetReceipt();
         $scope.receiptForm.$setPristine();

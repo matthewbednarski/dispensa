@@ -7,13 +7,44 @@
     function receiptsService($rootScope, $http, $q, $state, persistSvc, uuid) {
         this.url = 'api/item';
         var service = this;
+        this.addReceipt = function(item) {
+            var toAdd = _.cloneDeep(item);
+            var r = this.getCurrentReceipt();
+            var found = _.chain(this.getItems())
+                .find(function(item) {
+                    return item.id === toAdd.id;
+                })
+                .value();
+            if (found) {
+                _.assign(found, toAdd);
+            } else {
+                this.getItems().push(toAdd);
+            }
+            this.persist();
+            var promise = this.putRest(toAdd);
+            promise.then(function(item) {
+            	service.setCurrentReceipt(item);
+                return service.loadStores();
+            });
+            return promise;
+        };
         this.addItem = function(item) {
             var defer = $q.defer();
             if (item === undefined) {
                 item = service.newItem();
             }
-            //todo: add check if item exists
-            this.getCurrentReceipt().items.push(item);
+            var existing = _.chain(this.getCurrentReceipt().items)
+                .filter(function(existing) {
+                    return existing.id === item.id;
+                })
+                .first()
+                .value();
+            if (existing !== undefined && existing.id === item.id) {
+                _.assign(existing, item);
+            } else {
+                //todo: add check if item exists
+                this.getCurrentReceipt().items.push(item);
+            }
             defer.resolve(this.getCurrentReceipt());
             return defer.promise;
         };
@@ -134,13 +165,13 @@
         };
         this.setCurrentItem = function(item) {
             this._current_item = item;
-            if(!_.isNaN(parseFloat(item.price))){
-            	item.price = parseFloat(item.price);
-			}
-            if(!_.isNaN(parseFloat(item.count))){
-            	item.count = parseFloat(item.count);
-			}
-            $rootScope.$broadcast('itemChanged', item);
+            if (!_.isNaN(parseFloat(item.price))) {
+                item.price = parseFloat(item.price);
+            }
+            if (!_.isNaN(parseFloat(item.count))) {
+                item.count = parseFloat(item.count);
+            }
+            $rootScope.$broadcast('itemChanged', _.clone(item));
         };
         this.getCurrentReceipt = function() {
             if (this.getModel().receipt === undefined) {
@@ -154,11 +185,13 @@
         };
         this.resetReceipt = function() {
             var r = this.getCurrentReceipt();
-            _.assign(this.getModel().receipt, this.newReceipt());
-            return this.getCurrentReceipt();
+            // _.assign(this.getModel().receipt, this.newReceipt());
+            this.getModel().receipt = this.newReceipt();
+            $rootScope.$broadcast('receiptChanged', this.getModel().receipt);
+            // return this.getCurrentReceipt();
         };
 
-		this.newReceipt = function(){
+        this.newReceipt = function() {
             var receipt = {
                 id: uuid.newUuid(),
                 store: undefined,
@@ -168,9 +201,9 @@
                 date: moment().format('YYYY-MM-DD'),
                 items: []
             };
-            receipt.items.push(this.newItem());
+            // receipt.items.push(this.newItem());
             return receipt;
-		};
+        };
         this.newItem = function() {
             var item = {
                 id: uuid.newUuid(),
@@ -182,6 +215,7 @@
             };
             return item;
         };
+
         function merge(arr1, arr2) {
             return _.assign(arr1, _.union(arr1, arr2));
         }
