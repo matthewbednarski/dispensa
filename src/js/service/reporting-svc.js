@@ -1,93 +1,97 @@
 'use strict';
 
-function ReportingService(itemsSvc) {
-    var ctrl = this;
-    this.filter = {
-        date: {
-            begin: moment().subtract(3, 'months').format('DD MMMM YYYY'),
-            end: moment().format('DD MMMM YYYY')
-        },
-		moment: {
-			begin: moment().subtract(3, 'months'),
-			end: moment()
-		}
-    };
-    var props = ['brand', 'store', 'city', 'label', 'store_label'];
-    this.month_years = [];
-    this.brand_list = [];
-    this.store_list = [];
-    this.city_list = [];
-    this.label_list = [];
-    this.store_label_list = [];
+(function() {
 
-	this.dateChange = function(filter, type, newVal){
-		var m = moment(newVal);
-		filter.moment[type] = m;
-		filter.date[type] = m.format('DD MMMM YYYY');
-	};
-    this.extractProperty = function(prop, propValArrName) {
-        var mY = _.chain(itemsSvc.getItems())
-            .map(function(item) {
-                return item[prop];
-            })
-            .filter(function(item) {
-                return item !== undefined && item !== "";
-            })
-            .unique()
-            .map(function(item) {
-                var key = item;
-                var text = item;
-                return {
-                    key: key,
-                    text: text
-                }
-            })
-            .sortBy(function(out) {
-                return out.key;
-            })
-            .value();
+    angular
+        .module('dispensa')
+        .service('reportingSvc', ['receipts','receipt','item','lists',  ReportingService]);
 
-        if (propValArrName === undefined) {
-            propValArrName = prop + '_list';
-        }
-        _.assign(this[propValArrName], mY);
-        return this[propValArrName];
-    };
-    this.setupPropSelects = function() {
-        for (var i = 0; i < props.length; i++) {
-            var propValArrName = props[i] + '_list';
-            if (this[propValArrName] === undefined) {
-                this[propValArrName] = [];
+    function ReportingService(receipts, receipt, item, lists) {
+        var ctrl = this;
+        this.filter = {
+            date: {
+                begin: moment().subtract(3, 'months').format('DD MMMM YYYY'),
+                end: moment().format('DD MMMM YYYY')
+            },
+            moment: {
+                begin: moment().subtract(3, 'months'),
+                end: moment()
             }
-            this.extractProperty(props[i]);
-        }
-    };
+        };
+        var props = ['brand', 'store', 'city', 'label', 'store_label'];
+        this.month_years = [];
+        this.brand_list = [];
+        this.store_list = [];
+        this.city_list = [];
+        this.label_list = [];
+        this.store_label_list = [];
 
-    this.filterDate = function(date) {
-        var min = ctrl.filter.moment.begin;
-        var max = ctrl.filter.moment.end;
-        var d = moment(date);
+        this.dateChange = function(filter, type, newVal) {
+            var m = moment(newVal);
+            filter.moment[type] = m;
+            filter.date[type] = m.format('DD MMMM YYYY');
+        };
+        this.extractProperty = function(prop, propValArrName) {
+            var mY = _.chain(receipts.items())
+                .map(function(item) {
+                    return item[prop];
+                })
+                .filter(function(item) {
+                    return item !== undefined && item !== "";
+                })
+                .unique()
+                .map(function(item) {
+                    var key = item;
+                    var text = item;
+                    return {
+                        key: key,
+                        text: text
+                    }
+                })
+                .sortBy(function(out) {
+                    return out.key;
+                })
+                .value();
 
-    	return d.isBetween(min, max);
-    };
-    this.itemFilter = function(item, index, array) {
+            if (propValArrName === undefined) {
+                propValArrName = prop + '_list';
+            }
+            _.assign(this[propValArrName], mY);
+            return this[propValArrName];
+        };
+        this.setupPropSelects = function() {
+            for (var i = 0; i < props.length; i++) {
+                var propValArrName = props[i] + '_list';
+                if (this[propValArrName] === undefined) {
+                    this[propValArrName] = [];
+                }
+                this.extractProperty(props[i]);
+            }
+        };
 
-        var fItem = item;
-        for (var key in item) {
-            if (key === 'date') {
-            	if( !ctrl.filterDate(item[key])){
-					return;
-				}
-            } else if (ctrl.filter[key] !== undefined &&
-                ctrl.filter[key].key !== undefined) {
-                if (item[key] !== ctrl.filter[key].key) {
-                    return;
+        this.filterDate = function(date) {
+            var min = ctrl.filter.moment.begin;
+            var max = ctrl.filter.moment.end;
+            var d = moment(date);
+
+            return d.isBetween(min, max);
+        };
+        this.itemFilter = function(item, index, array) {
+
+            var fItem = item;
+            for (var key in item) {
+                if (key === 'date') {
+                    if (!ctrl.filterDate(item[key])) {
+                        return;
+                    }
+                } else if (ctrl.filter[key] !== undefined &&
+                    ctrl.filter[key].key !== undefined) {
+                    if (item[key] !== ctrl.filter[key].key) {
+                        return;
+                    }
                 }
             }
-        }
-        return fItem;
-    };
-}
-angular
-    .module('dispensa')
-    .service('reportingSvc', ['itemsSvc', ReportingService]);
+            return fItem;
+        };
+    }
+})();

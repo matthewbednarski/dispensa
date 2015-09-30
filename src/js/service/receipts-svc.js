@@ -2,9 +2,9 @@
 (function() {
     angular
         .module('dispensa')
-        .service('itemsSvc', ['$rootScope', '$http', '$q', '$state', 'persist', 'uuid', receiptsService]);
+        .service('receipts', ['$rootScope', '$http', '$q', '$state', 'persist', 'uuid', 'item', 'receipt', receiptsService]);
 
-    function receiptsService($rootScope, $http, $q, $state, persistSvc, uuid) {
+    function receiptsService($rootScope, $http, $q, $state, persistSvc, uuid, item, receipt) {
         this.url = 'api/item';
         var service = this;
         this.addReceipt = function(item) {
@@ -23,30 +23,10 @@
             this.persist();
             var promise = this.putRest(toAdd);
             promise.then(function(item) {
-            	service.setCurrentReceipt(item);
+                service.setCurrentReceipt(item);
                 return service.loadStores();
             });
             return promise;
-        };
-        this.addItem = function(item) {
-            var defer = $q.defer();
-            if (item === undefined) {
-                item = service.newItem();
-            }
-            var existing = _.chain(this.getCurrentReceipt().items)
-                .filter(function(existing) {
-                    return existing.id === item.id;
-                })
-                .first()
-                .value();
-            if (existing !== undefined && existing.id === item.id) {
-                _.assign(existing, item);
-            } else {
-                //todo: add check if item exists
-                this.getCurrentReceipt().items.push(item);
-            }
-            defer.resolve(this.getCurrentReceipt());
-            return defer.promise;
         };
         this.getRest = function() {
             var defer = $q.defer();
@@ -155,65 +135,26 @@
         this.persist_key = 'receipts';
 
         this.getCurrentItem = function() {
-            if (this._current_item === undefined) {
-                if (this.getCurrentReceipt().items.length === 0) {
-                    this.addItem();
-                }
-                this._current_item = this.getCurrentReceipt().items[0];
-            }
-            return this._current_item;
+            return item.current;
         };
-        this.setCurrentItem = function(item) {
-            this._current_item = item;
-            if (!_.isNaN(parseFloat(item.price))) {
-                item.price = parseFloat(item.price);
-            }
-            if (!_.isNaN(parseFloat(item.count))) {
-                item.count = parseFloat(item.count);
-            }
-            $rootScope.$broadcast('itemChanged', _.clone(item));
+        this.setCurrentItem = function(recItem) {
+            item.setCurrent(recItem);
         };
         this.getCurrentReceipt = function() {
-            if (this.getModel().receipt === undefined) {
-                this.getModel().receipt = this.newReceipt();
-            }
-            return this.getModel().receipt;
+            return receipt.current;
         };
-        this.setCurrentReceipt = function(item) {
-            this.getModel().receipt = item;
-            $rootScope.$broadcast('receiptChanged', item);
+        this.setCurrentReceipt = function(recItem) {
+            receipt.setCurrent(recItem);
         };
         this.resetReceipt = function() {
-            var r = this.getCurrentReceipt();
-            // _.assign(this.getModel().receipt, this.newReceipt());
-            this.getModel().receipt = this.newReceipt();
-            $rootScope.$broadcast('receiptChanged', this.getModel().receipt);
-            // return this.getCurrentReceipt();
+            receipt.reset();
         };
 
         this.newReceipt = function() {
-            var receipt = {
-                id: uuid.newUuid(),
-                store: undefined,
-                store_label: undefined,
-                receipt: undefined,
-                city: undefined,
-                date: moment().format('YYYY-MM-DD'),
-                items: []
-            };
-            // receipt.items.push(this.newItem());
-            return receipt;
+            return receipt.newReceipt();
         };
         this.newItem = function() {
-            var item = {
-                id: uuid.newUuid(),
-                name: undefined,
-                brand: undefined,
-                label: undefined,
-                count: undefined,
-                price: undefined,
-            };
-            return item;
+            return item.newItem();
         };
 
         function merge(arr1, arr2) {

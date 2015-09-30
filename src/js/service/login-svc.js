@@ -3,9 +3,9 @@
 (function() {
     var app = angular
         .module('dispensa')
-        .service('login', ['$rootScope', '$state', '$http', '$q', 'persist', 'itemsSvc', Login]);
+        .service('login', ['$rootScope', '$state', '$http', '$q', 'persist', 'receipts', Login]);
 
-    function Login($rootScope, $state, $http, $q, persist, itemsSvc) {
+    function Login($rootScope, $state, $http, $q, persist, receipts) {
         // var orderBy = $filter('orderBy');
         var ctl = this;
         ctl.isLoggedIn = false;
