@@ -27,9 +27,9 @@
 		};
 		this.save = function() {
 			receipts.addReceipt(receipt.current);
+			console.log(receipt.current);
 			$scope.receiptForm.$setPristine();
-			focus('receipt-div');
-			focus('receipt-start');
+			$state.go('receipts');
 		};
 		this.reset = function() {
 			receipt.reset();

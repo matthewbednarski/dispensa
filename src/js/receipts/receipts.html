@@ -1,109 +1,115 @@
-<div class="panel panel-default table-responsive">
-    <!-- <table class="table table&#45;striped"> -->
-    <table st-table="disItems" st-safe-src="items" class="table table-striped">
-        <thead>
-            <tr class="sortable">
-				<th></th>
-                <th  st-sort="store" class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.store' | translate }}
-                </th>
-                <th  st-sort="date" st-sort-default="reverse" class="hidden-lg">
-                    {{ 'item.date' | translate }}
-                </th>
-                <th st-sort="city">
-                    {{ 'item.city' | translate }}
-                </th>
-                <th st-sort="receipt">
-                    {{ 'item.receipt' | translate }}
-                </th>
-                <th st-sort="store_label" class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.label' | translate }}
-                </th>
-                <th st-sort="price">
-                    {{ 'item.total_price' | translate }}
-                </th>
-                <th st-sort="date" st-sort-default="reverse" class="hidden-xs hidden-sm hidden-md">
-                    {{ 'item.date' | translate }}
-                </th>
-                <th st-sort="store" class="hidden-lg">
-                    {{ 'item.store' | translate }}
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
-                    type="search" />
-                </th>
-                <th colspan="10">
-                    <input st-search placeholder="{{ 'app.search_global' | translate }}" class="input-sm form-control"
-                    type="search" />
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in disItems track by $index">
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        aria-expanded="false">
-                            <i class="fa fa-bars fa-2x"></i>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <!-- Dropdown menu links -->
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <!-- <table class="table table&#45;striped"> -->
+                <table st-table="disItems" st-safe-src="items" class="table table-striped">
+                    <thead>
+                        <tr class="sortable">
+                            <th></th>
+                            <th st-sort="store" class="hidden-xs hidden-sm hidden-md">
+                                {{ 'item.store' | translate }}
+                            </th>
+                            <th st-sort="date" st-sort-default="reverse" class="hidden-lg">
+                                {{ 'item.date' | translate }}
+                            </th>
+                            <th st-sort="city">
+                                {{ 'item.city' | translate }}
+                            </th>
+                            <th st-sort="receipt">
+                                {{ 'item.receipt' | translate }}
+                            </th>
+                            <th st-sort="store_label" class="hidden-xs hidden-sm hidden-md">
+                                {{ 'item.label' | translate }}
+                            </th>
+                            <th st-sort="price">
+                                {{ 'item.total_price' | translate }}
+                            </th>
+                            <th st-sort="date" st-sort-default="reverse" class="hidden-xs hidden-sm hidden-md">
+                                {{ 'item.date' | translate }}
+                            </th>
+                            <th st-sort="store" class="hidden-lg">
+                                {{ 'item.store' | translate }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input st-search="store" placeholder="{{ 'app.search_store' | translate }}" class="input-sm form-control"
+                                type="search" />
+                            </th>
+                            <th colspan="10">
+                                <input st-search placeholder="{{ 'app.search_global' | translate }}" class="input-sm form-control"
+                                type="search" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in disItems track by $index">
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                        <i class="fa fa-bars fa-2x"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <!-- Dropdown menu links -->
 
-                            <li>
-                                <span>
+                                        <li>
+                                            <span>
                                     <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
                                         <i class="fa fa-trash-o fa-2x">
 			</i>
                                     </button>
 									</span>
-                                <span>
+                                            <span>
                                         {{ 'action.delete' | translate}}
 									</span>
-                            </li>
-                            <li>
-                                <span>
+                                        </li>
+                                        <li>
+                                            <span>
                                     <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
                                         <i class="fa fa-external-link fa-2x"></i>
                                     </button>
 									</span>
-                                <span>
+                                            <span>
                                         {{ 'action.edit' | translate}}
 									</span>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-                <td class="hidden-xs hidden-sm hidden-md">
-                    {{item.store }}
-                </td>
-                <td class="hidden-lg">
-                    {{item.date }}
-                </td>
-                <td>{{item.city}}</td>
-                <td>
-                    {{item.receipt}}</td>
-                <td class="hidden-xs hidden-sm hidden-md">
-                    {{item.store_label}}
-                </td>
-                <td>
-                    {{item.price | currency:'€ ' }}
-                </td>
-                <td class="hidden-xs hidden-sm hidden-md">
-                    {{item.date }}
-                </td>
-                <td class="hidden-lg">
-                    {{item.store }}
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="12" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="hidden-xs hidden-sm hidden-md">
+                                {{item.store }}
+                            </td>
+                            <td class="hidden-lg">
+                                {{item.date }}
+                            </td>
+                            <td>{{item.city}}</td>
+                            <td>
+                                {{item.receipt}}</td>
+                            <td class="hidden-xs hidden-sm hidden-md">
+                                {{item.store_label}}
+                            </td>
+                            <td>
+                                {{item.price | currency:'€ ' }}
+                            </td>
+                            <td class="hidden-xs hidden-sm hidden-md">
+                                {{item.date }}
+                            </td>
+                            <td class="hidden-lg">
+                                {{item.store }}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="12" class="text-center">
+                                <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

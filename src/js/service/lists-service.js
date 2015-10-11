@@ -58,7 +58,13 @@
             var store = receipts.receiptService.current.store;
             var brands = _.chain(receipts.getItems())
                 .filter(function(item) {
+                    return item.type === 'receipt';
+                })
+                .filter(function(item) {
                     return item.store === store;
+                })
+                .filter(function(item) {
+                    return item.items !== undefined && item.items.length > 0;
                 })
                 .map(function(rec) {
                     return rec.items;
@@ -85,7 +91,13 @@
             var store = receipts.receiptService.current.store;
             var nms = _.chain(receipts.getItems())
                 .filter(function(item) {
+                    return item.type === 'receipt';
+                })
+                .filter(function(item) {
                     return item.store === store;
+                })
+                .filter(function(item) {
+                    return item.items !== undefined && item.items.length > 0;
                 })
                 .map(function(rec) {
                     return rec.items;
@@ -187,6 +199,12 @@
         }
         function loadItemType(type, field) {
             var vals = _.chain(receipts.items())
+                .filter(function(item) {
+                    return item.type === 'receipt';
+                })
+                .filter(function(item) {
+                    return item.items !== undefined && item.items.length > 0;
+                })
                 .map(function(rec) {
                     return rec.items;
                 })

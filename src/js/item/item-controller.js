@@ -7,23 +7,19 @@
     function itemCtrl($scope, $timeout, focus, item, receipt, lists) {
         this.itemsSvc = item;
         var ctl = this;
+        this.receipt = receipt;
         this.item = item.current;
-        // $scope.$on('itemChanged', function(e, item) {
-        //     _.assign(ctl.item, item);
-        // });
-        this.update = function(item) {
-            receipt.addItem(item)
+
+        this.update = function(oItem) {
+            receipt.addItem(oItem)
                 .then(function() {
                     item.reset();
-                    // itemsSvc.resetItem();
                     $scope.itemForm.$setPristine();
                     focus('item-start');
                 });
         };
         this.reset = function() {
-            this.item = {};
             item.reset();
-            // itemsSvc.resetItem();
             $scope.itemForm.$setPristine();
             focus('item-start');
         };
@@ -31,7 +27,7 @@
         this.brands = lists.getBrands();
         this.labels = lists.getLabels();
 
-        this.nameSelected = function(item) {
+        this.nameSelected = function(oItem) {
             // if(item === undefined){
             // 	return;
             // }

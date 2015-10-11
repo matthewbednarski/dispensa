@@ -3,9 +3,9 @@
 (function() {
     var app = angular
         .module('dispensa')
-        .service('login', ['$rootScope', '$state', '$http', '$q', 'persist', 'receipts', Login]);
+        .service('login', ['$rootScope', '$state', '$http', '$q', 'persist', Login]);
 
-    function Login($rootScope, $state, $http, $q, persist, receipts) {
+    function Login($rootScope, $state, $http, $q, persist) {
         // var orderBy = $filter('orderBy');
         var ctl = this;
         ctl.isLoggedIn = false;
@@ -36,6 +36,7 @@
                     persist.store(ctl.persist_key, {
                         header: $http.defaults.headers.common.Authorization
                     });
+                    $rootScope.$broadcast('logged-in');
                     defer.resolve(res);
                 }).catch(function(err) {
                     console.error(err);
@@ -71,6 +72,7 @@
                 if (data !== undefined && data.header !== undefined) {
                     $http.defaults.headers.common.Authorization = data.header;
                     ctl.isLoggedIn = true;
+                    $rootScope.$broadcast('logged-in');
                 }
             });
     }

@@ -170,6 +170,7 @@
 				title: "Dispensa v2",
 				home: "Home",
 				insert: "Insert Receipt",
+				new: "New Receipt",
 				receipt: "Receipt",
 				item: "Article",
 				view: "All Items",

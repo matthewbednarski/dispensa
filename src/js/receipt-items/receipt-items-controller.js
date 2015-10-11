@@ -14,7 +14,7 @@
         $scope.items = receipt.items();
         $scope.$on('receipt.set.current', function(e, rec) {
             ctl.receipt = receipt.current;
-            $scope.items = receipt.currentItems();
+            $scope.items = receipt.items();
         });
 
 

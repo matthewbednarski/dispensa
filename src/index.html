@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="js/libs/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <title>Dispensa</title>
-</head>
 
-<body ng-cloak>
     <style>
         svg {
             width: 100%;
@@ -53,6 +51,9 @@
     <script src="js/app.js"></script>
     <!-- <script src="js/service/items&#45;svc.js"></script> -->
     <script src="js/service/receipts-service.js"></script>
+    <script src="js/service/receipt-service.js"></script>
+    <script src="js/service/item-service.js"></script>
+    <script src="js/service/api-service.js"></script>
     <script src="js/service/lists-service.js"></script>
     <script src="js/service/reporting-svc.js"></script>
     <script src="js/service/login-svc.js"></script>
@@ -86,6 +87,9 @@
             content: '\25BC';
         }
     </style>
+</head>
+
+<body ng-cloak>
     <nav role="navigation" class="navbar navbar-default" ng-controller="NavbarController as ctrl">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -101,6 +105,8 @@
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: ctrl.isActive('/insert') }"><a ui-sref="insert"> {{ 'app.insert' | translate }}</a>
+                </li>
+                <li ><a ng-click="ctrl.newReceipt();"> {{ 'app.new' | translate }}</a>
                 </li>
                 <li ng-class="{ active: ctrl.isActive('/receipts') }"><a ui-sref="receipts"> Receipts</a>
                 </li>
