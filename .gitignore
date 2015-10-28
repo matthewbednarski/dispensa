@@ -1,5 +1,6 @@
 
 .sync/
+certs/
 libs/
 db/
 node_modules/

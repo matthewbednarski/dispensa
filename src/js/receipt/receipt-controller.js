@@ -73,7 +73,6 @@
 		});
 		this.toArticle = function() {
 			if (receipt.canEditItem) {
-				receipt.isEditItem = true;
 				focus('item-div');
 				focus('item-start');
 			}
