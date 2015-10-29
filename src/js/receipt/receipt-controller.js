@@ -6,13 +6,13 @@
 	function receiptCtrl($scope, $state, focus, receipt, receipts, lists) {
 		this.item = receipt.current;
 		this.storeSelected = function(item) {
-			var found = _.chain(lists.getStores())
+			var found = _.chain(this.stores)
 				.find(function(it) {
 					return it.key === item.store;
 				})
 			.value();
 			if (found === undefined) {
-				found = _.chain(lists.getStores())
+				found = _.chain(this.stores)
 					.find(function(it) {
 						return it.store === item.store;
 					})
@@ -75,6 +75,10 @@
 			if (receipt.canEditItem) {
 				focus('item-div');
 				focus('item-start');
+
+				lists.getNames();
+				lists.getLabels();
+				lists.getBrands();
 			}
 		}
 	}

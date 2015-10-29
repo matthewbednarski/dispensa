@@ -2,7 +2,8 @@
 
 
 (function(){
-	var app = angular.module('dispensa', ['mcbUuid','mcbPersist', 'ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
+	var app = angular.module('dispensa', 
+			['mcbUuid','mcbPersist', 'mcbFocus', 'ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
 	app.config(function($stateProvider, $urlRouterProvider) {
 		//
 		// For any unmatched url, redirect to /state1
@@ -47,12 +48,10 @@
 					controllerAs: 'ctl'
 				}
 			},
-			onEnter: function($timeout) {
-				$timeout(function() {
-					// focus('receipt-div');
-					// focus('receipt-start');
-				});
-
+			onEnter: function(lists) {
+				lists.getStores();
+				lists.getCities();
+				lists.getStoreLabels();
 			}
 		})
 		.state('table', {
@@ -60,8 +59,12 @@
 			views: {
 				'items': {
 					templateUrl: "js/items/items.html",
-					controller: 'ItemsController'
+					controller: 'ItemsController',
+					controllerAs: 'ctl'
 				}
+			},
+			onEnter: function($timeout, receipts) {
+				console.log(receipts);
 			}
 		})
 		.state('receipts', {
@@ -146,23 +149,6 @@
 				]);
 			}
 	]);
-	app.directive('focusOn', function() {
-		return function(scope, elem, attr) {
-			scope.$on('focusOn', function(e, name) {
-				if (name === attr.focusOn) {
-					elem[0].focus();
-				}
-			});
-		};
-	});
-
-	app.factory('focus', function($rootScope, $timeout) {
-		return function(name) {
-			$timeout(function() {
-				$rootScope.$broadcast('focusOn', name);
-			});
-		}
-	});
 
 	app.config(function($translateProvider) {
 		$translateProvider.translations('en-US', {

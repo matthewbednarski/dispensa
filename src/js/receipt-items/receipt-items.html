@@ -2,9 +2,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-				<th></th>
+                <th></th>
                 <th class="hidden-lg">
-                    {{ 'item.brand' | translate }} </th>
+                    {{ 'item.brand' | translate }}</th>
                 <th>
                     {{ 'item.name' | translate }}
                 </th>
@@ -28,50 +28,22 @@
         <tbody>
             <tr ng-repeat="item in items | filter:isReceipt">
 
-				<td>
+                <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        aria-expanded="false">
-                            <i class="fa fa-bars fa-2x"></i>
+                        <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
+                            <i class="fa fa-trash-o fa-2x">
+			</i>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <!-- Dropdown menu links -->
+                        <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
+                            <i class="fa fa-pencil-square-o fa-2x">
+			</i>
+                        </button>
+                        <button class="btn" ng-click="duplicate(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
+                            <i class="fa fa-clone fa-2x"></i>
+                        </button>
 
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
-                                        <i class="fa fa-trash-o fa-2x">
-			</i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.delete' | translate}}
-									</span>
-                            </li>
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
-                                        <i class="fa fa-pencil-square-o fa-2x">
-			</i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.edit' | translate}}
-									</span>
-                            </li>
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
-                                        <i class="fa fa-external-link fa-2x"></i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.new' | translate}}
-									</span>
-                            </li>
-                        </ul>
                     </div>
-				</td>
+                </td>
                 <td class="hidden-lg">{{item.brand}}</td>
                 <td>{{item.name}}</td>
                 <td class="hidden-xs hidden-sm hidden-md">{{item.brand}}</td>

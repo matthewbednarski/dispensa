@@ -10,11 +10,11 @@
         angular.element(document).ready(function() {
             // sync();
         });
-        $rootScope.$on('logged-in', function(evt, data){
-        	sync();
-		});
+        $rootScope.$on('logged-in', function(evt, data) {
+            sync();
+        });
         return {
-            list: list,
+            list: getItems,
             getItems: getItems,
             items: getItems,
             add: addReceipt,
@@ -37,12 +37,11 @@
         }
 
         function doFetch() {
-            if (inited) {
-
-            }
+        	return true;
         }
 
         function sync() {
+            var defer = $q.defer();
             var currentId = receipt.current.id;
             api.get()
                 .then(function(results) {
@@ -63,12 +62,15 @@
                             return rec.id === currentId;
                         })
                         .value();
-                    console.log(toCurrent);
-                    console.log(currentId);
                     if (toCurrent !== undefined) {
                         receipt.setCurrent(newCurrent);
                     }
+                    defer.resolve(list);
+                })
+                .catch(function(err) {
+                    defer.reject(err);
                 });
+            return defer.promise;
         }
 
         function getItems() {
@@ -136,6 +138,7 @@
             defer.resolve(oRec);
             return defer.promise;
         }
+
         function merge(arr1, arr2) {
             return _.assign(arr1, _.union(arr1, arr2));
         }

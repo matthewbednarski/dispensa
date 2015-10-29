@@ -47,35 +47,13 @@
                         <tr ng-repeat="item in disItems track by $index">
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-expanded="false">
-                                        <i class="fa fa-bars fa-2x"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <!-- Dropdown menu links -->
-
-                                        <li>
-                                            <span>
                                     <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
                                         <i class="fa fa-trash-o fa-2x">
 			</i>
                                     </button>
-									</span>
-                                            <span>
-                                        {{ 'action.delete' | translate}}
-									</span>
-                                        </li>
-                                        <li>
-                                            <span>
                                     <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
                                         <i class="fa fa-external-link fa-2x"></i>
                                     </button>
-									</span>
-                                            <span>
-                                        {{ 'action.edit' | translate}}
-									</span>
-                                        </li>
-                                    </ul>
                                 </div>
                             </td>
                             <td class="hidden-xs hidden-sm hidden-md">

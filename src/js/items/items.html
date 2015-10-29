@@ -1,8 +1,8 @@
 <div class="panel panel-default table-responsive">
-    <table st-table="disItems" st-safe-src="items" class="table table-striped">
+    <table st-table="ctl.disItems" st-safe-src="ctl.items" class="table table-striped">
         <thead>
             <tr class="sortable">
-				<th></th>
+                <th></th>
                 <th st-sort="store" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.store' | translate }}
                 </th>
@@ -10,7 +10,7 @@
                     {{ 'item.date' | translate }}
                 </th>
                 <th st-sort="brand" class="hidden-lg">
-                    {{ 'item.brand' | translate }} </th>
+                    {{ 'item.brand' | translate }}</th>
                 <th st-sort="city" class="hidden-xs hidden-sm hidden-md">
                     {{ 'item.city' | translate }}
                 </th>
@@ -54,49 +54,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in disItems track by $index">
+            <tr ng-repeat="item in ctl.disItems track by $index">
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        aria-expanded="false">
-                            <i class="fa fa-bars fa-2x"></i>
+                        <button class="btn" ng-click="ctl.delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
+                            <i class="fa fa-trash-o fa-2x">
+			</i>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <!-- Dropdown menu links -->
+                        <button class="btn" ng-click="ctl.edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
+                            <i class="fa fa-pencil-square-o fa-2x">
+			</i>
+                        </button>
 
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="delete(item)" type="delete" tooltip="{{ 'action.delete' | translate}}">
-                                        <i class="fa fa-trash-o fa-2x">
-			</i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.delete' | translate}}
-									</span>
-                            </li>
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="edit(item)" type="edit" tooltip="{{ 'action.edit' | translate}}">
-                                        <i class="fa fa-pencil-square-o fa-2x">
-			</i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.edit' | translate}}
-									</span>
-                            </li>
-                            <li>
-                                <span>
-                                    <button class="btn" ng-click="setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
-                                        <i class="fa fa-external-link fa-2x"></i>
-                                    </button>
-									</span>
-                                <span>
-                                        {{ 'action.new' | translate}}
-									</span>
-                            </li>
-                        </ul>
+                        <button class="btn" ng-click="ctl.setSelected(item)" type="edit" tooltip="{{ 'action.new' | translate}}">
+                            <i class="fa fa-external-link fa-2x"></i>
+                        </button>
+
                     </div>
                 </td>
                 <td class="hidden-xs hidden-sm hidden-md">{{item.store}}</td>
@@ -126,7 +99,7 @@
         <tfoot>
             <tr>
                 <td colspan="12" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="15"></div>
+                    <div st-pagination="" st-items-by-page="ctl.itemsByPage" st-displayed-pages="15"></div>
                 </td>
             </tr>
         </tfoot>

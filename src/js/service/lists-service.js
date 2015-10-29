@@ -7,6 +7,7 @@
     function Lists($rootScope, $q, receipts) {
 
         var model = {
+            all_receipt_items: [],
             brands: [],
             names: [],
             labels: [],
@@ -15,6 +16,7 @@
             stores: []
         };
         return {
+            allItems: allItems,
             getStores: getStores,
             getStoreLabels: getStoreLabels,
             getCities: getCities,
@@ -30,27 +32,50 @@
             loadTypes: loadTypes
         };
 
+        function allItems() {
+            var tmp = _.chain(receipts.list())
+                .map(function(receipt) {
+                    return _.chain(receipt.items)
+                        .map(function(item) {
+                        	var tmp_receipt = _.clone(receipt);
+                        	return _.assign(tmp_receipt, item);
+                        })
+                        .value();
+                })
+                .flatten()
+                .value();
+			_.remove(model.all_receipt_items);
+			_.merge(model.all_receipt_items, tmp);
+            return model.all_receipt_items;
+        }
+
         function getBrands() {
+        	loadBrands();
             return model.brands;
         }
 
         function getNames() {
+        	loadNames();
             return model.names;
         }
 
         function getLabels() {
+        	loadLabels();
             return model.labels;
         }
 
         function getCities() {
+        	loadCities();
             return model.cities;
         }
 
         function getStores() {
+        	loadStores();
             return model.stores;
         }
 
         function getStoreLabels() {
+        	loadStoreLabels();
             return model.store_labels;
         }
 
@@ -58,7 +83,7 @@
             var store = receipts.receiptService.current.store;
             var brands = _.chain(receipts.getItems())
                 .filter(function(item) {
-                    return item.type === 'receipt';
+                    return item.type === 'receipt' || item.items !== undefined;
                 })
                 .filter(function(item) {
                     return item.store === store;
@@ -84,14 +109,14 @@
                 })
                 .value();
             _.assign(model.brands, brands);
-            return getBrands();
+            return model.brands;
         }
 
         function loadNames() {
             var store = receipts.receiptService.current.store;
             var nms = _.chain(receipts.getItems())
                 .filter(function(item) {
-                    return item.type === 'receipt';
+                    return item.type === 'receipt' || item.items !== undefined;
                 })
                 .filter(function(item) {
                     return item.store === store;
@@ -117,7 +142,7 @@
                 })
                 .value();
             _.assign(model.names, nms);
-            return getNames();
+            return model.names;
         }
 
         function loadCities() {
@@ -137,7 +162,7 @@
         }
 
         function loadType(type, field) {
-            var vals = _.chain(receipts.receiptService.items())
+            var vals = _.chain(receipts.items())
                 .filter(function(item) {
                     if (item.hasOwnProperty(field)) {
                         return true;
@@ -161,7 +186,7 @@
         }
 
         function loadTypes(type, fields) {
-            var vals = _.chain(receipts.receiptService.items())
+            var vals = _.chain(receipts.items())
                 .uniq(function(item) {
                     var o = "";
                     _.forEach(fields, function(field) {
@@ -197,11 +222,9 @@
             _.assign(model[type], vals);
             return model[type];
         }
+
         function loadItemType(type, field) {
-            var vals = _.chain(receipts.items())
-                .filter(function(item) {
-                    return item.type === 'receipt';
-                })
+            var vals = _.chain(receipts.getItems())
                 .filter(function(item) {
                     return item.items !== undefined && item.items.length > 0;
                 })
@@ -210,9 +233,7 @@
                 })
                 .flatten()
                 .filter(function(item) {
-                    if (item.hasOwnProperty(field)) {
-                        return true;
-                    }
+                    return item.hasOwnProperty(field);
                 })
                 .map(function(item) {
                     return item[field];
@@ -228,6 +249,7 @@
                 })
                 .value();
             _.assign(model[type], vals);
+            console.log(vals);
             return model[type];
         }
 

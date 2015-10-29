@@ -3,18 +3,20 @@
 (function() {
     angular
         .module('dispensa')
-        .controller('ItemsController', ['$scope', '$filter', '$state', 'receipts', 'receipt','item', itemsCtrl]);
-    function itemsCtrl($scope, $filter, $state, receipts, receipt, item) {
+        .controller('ItemsController', ['$scope', '$filter', '$state', 'receipts', 'receipt','item', 'lists', itemsCtrl]);
+    function itemsCtrl($scope, $filter, $state, receipts, receipt, item, lists) {
         // $scope.model = itemsSvc.getModel();
-        $scope.items = receipt.items();
-        $scope.receipts = receipts;
-        $scope.itemsByPage = 15;
-        $scope.filter = {
+		var ctl = this;
+        this.items = lists.allItems();
+        console.log(this.items);
+        // $scope.receipts = receipts;
+        this.itemsByPage = 15;
+        this.filter = {
             is_receipt: false
         };
 
-        $scope.isReceipt = function(value, index) {
-            if (!$scope.filter.is_receipt) {
+        this.isReceipt = function(value, index) {
+            if (!ctl.filter.is_receipt) {
                 return true;
             }
             var props = ['store', 'date', 'city', 'receipt'];
@@ -30,9 +32,9 @@
             return isReceipt;
         };
 
-        $scope.setSelected = function(item) {
-            $scope.itemsByPage += 1;
-            console.log($scope.itemsByPage);
+        this.setSelected = function(item) {
+            ctl.itemsByPage += 1;
+            console.log(ctl.itemsByPage);
             // receipts.resetItem();
             receipt.reset();
             receipt.current.store = item.store;
@@ -42,7 +44,7 @@
 
             $state.transitionTo('insert');
         };
-        $scope.edit = function(item) {
+        this.edit = function(item) {
             receipt.current.date = item.date;
             receipt.current.store = item.store;
             receipt.current.store_label = item.store_label;
@@ -58,8 +60,7 @@
             $state.transitionTo('insert');
         };
 
-
-        $scope.delete = function(item) {
+        this.delete = function(item) {
             return receipts.remove(item);
         };
     }

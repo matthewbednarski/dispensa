@@ -59,12 +59,6 @@
             lists.loadBrands();
             lists.loadLabels();
         });
-        $timeout(function() {
-            lists.loadNames();
-            lists.loadBrands();
-            lists.loadStoreLabels();
-            lists.loadLabels();
-        });
     }
 
 })();
