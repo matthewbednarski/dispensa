@@ -3,7 +3,7 @@
 
 (function(){
 	var app = angular.module('dispensa', 
-			['mcbUuid','mcbPersist', 'mcbFocus', 'ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
+			['mcbUuid','mcbPersist', 'mcbFocus', 'mcbChart', 'ngLocale', 'ui.router', 'ngRoute', 'pascalprecht.translate', 'autocomplete', 'smart-table']);
 	app.config(function($stateProvider, $urlRouterProvider) {
 		//
 		// For any unmatched url, redirect to /state1

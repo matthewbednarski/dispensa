@@ -1,247 +1,265 @@
 {
-    "gists": {
-        "root": "https://cdnjs.cloudflare.com/ajax/libs",
-        "relative-location": "src/libs",
-        "dependencies": {
-            "smart-table": {
-                "files": {
-                	"file": "smart-table.js",
-                    "url": "https://gist.githubusercontent.com/matthewbednarski/337118803ded7eb7488c/raw/c5fa39ad35525dae39e0c0087562f59825b7c66b/smart-table.js",
-                    "outpath": "custom"
-                }
-            },
-            "pouchdb-service": {
-                "files": {
-                	"file": "pouchdb-service.js",
-                    "url": "https://gist.githubusercontent.com/matthewbednarski/5dd19e501409c386fa92/raw/7e69b3f34fc715f2c8101694ee54f69bdac98c51/pouchdb-service.js",
-                    "outpath": "custom"
-                }
-            },
-            "datepicker-directive": {
-                "files": {
-                	"file": "datepicker-directive.js",
-                    "url": "https://gist.githubusercontent.com/matthewbednarski/bc40eed5614920e194a5/raw/914c026bd0dd31f7a5042fb1058fd182a2634170/datepicker-directive.js",
-                    "outpath": "custom"
-                }
-            },
-            "focus-directive": {
-                "files": {
-                	"file": "focus-directive.js",
-                    "url": "https://gist.githubusercontent.com/matthewbednarski/d3a580c78b873779b931/raw/38ba738e5906dbd31a731575b0ca27e7bcdbdcc9/focus-directive.js",
-                    "outpath": "custom"
-                }
-            },
-            "spinner-directive": {
-                "files": {
-                	"file": "spinner-directive.js",
-                    "url": "https://gist.githubusercontent.com/matthewbednarski/2895fa08c894c5001d5e/raw/24c2500a02b643e26e6b49c550f25cb5ec6f560a/spinner-directive.js",
-                    "outpath": "custom"
-                }
-            }
+  "gists": {
+    "root": "https://cdnjs.cloudflare.com/ajax/libs",
+    "relative-location": "src/libs",
+    "dependencies": {
+      "smart-table": {
+        "files": {
+          "file": "smart-table.js",
+          "url": "https://gist.githubusercontent.com/matthewbednarski/337118803ded7eb7488c/raw/c5fa39ad35525dae39e0c0087562f59825b7c66b/smart-table.js",
+          "outpath": "custom"
         }
-    },
-    "cdnjs": {
-        "root": "https://cdnjs.cloudflare.com/ajax/libs",
-        "relative-location": "src/libs",
-        "dependencies": {
-            "jquery": {
-                "version": "2.1.4",
-                "files": [
-                    "jquery.js",
-                    "jquery.min.js",
-                    "jquery.min.map"
-                ]
-            },
-            "lodash.js": {
-                "version": "3.10.1",
-                "files": [
-                    "lodash.js",
-                    "lodash.min.js"
-                ]
-            },
-            "moment.js": {
-                "version": "2.10.6",
-                "files": [
-                    "locale/de.js",
-                    "locale/it.js",
-                    "moment-with-locales.js",
-                    "moment-with-locales.min.js",
-                    "moment.js",
-                    "moment.min.js"
-                ]
-            },
-            "angular.js": {
-                "version": "1.4.7",
-                "files": [
-                    "angular-animate.js",
-                    "angular-animate.min.js",
-                    "angular-animate.min.js.map",
-                    "angular-aria.js",
-                    "angular-aria.min.js",
-                    "angular-aria.min.js.map",
-                    "angular-cookies.js",
-                    "angular-cookies.min.js",
-                    "angular-cookies.min.js.map",
-                    "angular-csp.css",
-                    "angular-loader.js",
-                    "angular-loader.min.js",
-                    "angular-loader.min.js.map",
-                    "angular-message-format.js",
-                    "angular-message-format.min.js",
-                    "angular-message-format.min.js.map",
-                    "angular-messages.js",
-                    "angular-messages.min.js",
-                    "angular-messages.min.js.map",
-                    "angular-mocks.js",
-                    "angular-resource.js",
-                    "angular-resource.min.js",
-                    "angular-resource.min.js.map",
-                    "angular-route.js",
-                    "angular-route.min.js",
-                    "angular-route.min.js.map",
-                    "angular-sanitize.js",
-                    "angular-sanitize.min.js",
-                    "angular-sanitize.min.js.map",
-                    "angular-scenario.js",
-                    "angular-touch.js",
-                    "angular-touch.min.js",
-                    "angular-touch.min.js.map",
-                    "angular.js",
-                    "angular.min.js",
-                    "angular.min.js.map",
-                    "i18n/angular-locale_de-de.js",
-                    "i18n/angular-locale_de.js",
-                    "i18n/angular-locale_en-iso.js",
-                    "i18n/angular-locale_en-us.js",
-                    "i18n/angular-locale_en.js",
-                    "i18n/angular-locale_it-it.js",
-                    "i18n/angular-locale_it.js"
-                ]
-            },
-            "twitter-bootstrap": {
-                "version": "3.3.5",
-                "files": [
-                    "css/bootstrap-theme.css",
-                    "css/bootstrap-theme.css.map",
-                    "css/bootstrap-theme.min.css",
-                    "css/bootstrap.css",
-                    "css/bootstrap.css.map",
-                    "css/bootstrap.min.css",
-                    "fonts/glyphicons-halflings-regular.eot",
-                    "fonts/glyphicons-halflings-regular.svg",
-                    "fonts/glyphicons-halflings-regular.ttf",
-                    "fonts/glyphicons-halflings-regular.woff",
-                    "fonts/glyphicons-halflings-regular.woff2",
-                    "js/bootstrap.js",
-                    "js/bootstrap.min.js",
-                    "js/npm.js"
-                ]
-            },
-            "font-awesome": {
-                "version": "4.4.0",
-                "files": [
-                    "css/font-awesome.css",
-                    "css/font-awesome.css.map",
-                    "css/font-awesome.min.css",
-                    "fonts/FontAwesome.otf",
-                    "fonts/fontawesome-webfont.eot",
-                    "fonts/fontawesome-webfont.svg",
-                    "fonts/fontawesome-webfont.ttf",
-                    "fonts/fontawesome-webfont.woff",
-                    "fonts/fontawesome-webfont.woff2"
-                ]
-            },
-            "angular-translate": {
-                "version": "2.8.1",
-                "files": [
-                    "angular-translate.js",
-                    "angular-translate.min.js"
-                ]
-            },
-            "pouchdb": {
-                "version": "5.0.0",
-                "files": [
-                    "pouchdb.js",
-                    "pouchdb.min.js"
-                ]
-            },
-            "angular-ui-router": {
-                "version": "0.2.15",
-                "files": [
-                    "angular-ui-router.js",
-                    "angular-ui-router.min.js"
-                ]
-            },
-            "d3": {
-                "version": "3.5.6",
-                "files": [
-                    "d3.js",
-                    "d3.min.js"
-                ]
-            },
-            "allmighty-autocomplete": {
-                "version": "1.0.140706",
-                "files": [
-                    "autocomplete.css",
-                    "autocomplete.js",
-                    "autocomplete.min.css",
-                    "autocomplete.min.js"
-                ]
-            },
-            "angular-ui": {
-                "version": "0.4.0",
-                "files": [
-                    "angular-ui-ieshiv.js",
-                    "angular-ui-ieshiv.min.js",
-                    "angular-ui.css",
-                    "angular-ui.js",
-                    "angular-ui.min.css",
-                    "angular-ui.min.js"
-                ]
-            },
-            "bootstrap-datepicker": {
-                "version": "1.5.0",
-                "files": [
-                    "css/bootstrap-datepicker3.css",
-                    "css/bootstrap-datepicker3.min.css",
-                    "css/bootstrap-datepicker3.standalone.css",
-                    "css/bootstrap-datepicker3.standalone.min.css",
-                    "js/bootstrap-datepicker.js",
-                    "js/bootstrap-datepicker.min.js",
-                    "locales/bootstrap-datepicker.de.min.js",
-                    "locales/bootstrap-datepicker.it.min.js"
-                ]
-            },
-            "offline-js": {
-                "version": "0.7.14",
-                "files": [
-                    "offline.js",
-                    "offline.min.js",
-                    "themes/offline-language-dutch-indicator.css",
-                    "themes/offline-language-dutch.css",
-                    "themes/offline-language-english-indicator.css",
-                    "themes/offline-language-english.css",
-                    "themes/offline-language-french-indicator.css",
-                    "themes/offline-language-french.css",
-                    "themes/offline-language-german-indicator.css",
-                    "themes/offline-language-german.css",
-                    "themes/offline-language-portuguese-brazil-indicator.css",
-                    "themes/offline-language-portuguese-brazil.css",
-                    "themes/offline-language-spanish-indicator.css",
-                    "themes/offline-language-spanish.css",
-                    "themes/offline-language-turkish-indicator.css",
-                    "themes/offline-language-turkish.css",
-                    "themes/offline-theme-chrome-indicator.css",
-                    "themes/offline-theme-chrome.css",
-                    "themes/offline-theme-dark-indicator.css",
-                    "themes/offline-theme-dark.css",
-                    "themes/offline-theme-default-indicator.css",
-                    "themes/offline-theme-default.css",
-                    "themes/offline-theme-hubspot.css",
-                    "themes/offline-theme-slide-indicator.css",
-                    "themes/offline-theme-slide.css"
-                ]
-            }
+      },
+      "pouchdb-service": {
+        "files": {
+          "file": "pouchdb-service.js",
+          "url": "https://gist.githubusercontent.com/matthewbednarski/5dd19e501409c386fa92/raw/7e69b3f34fc715f2c8101694ee54f69bdac98c51/pouchdb-service.js",
+          "outpath": "custom"
         }
+      },
+      "datepicker-directive": {
+        "files": {
+          "file": "datepicker-directive.js",
+          "url": "https://gist.githubusercontent.com/matthewbednarski/bc40eed5614920e194a5/raw/914c026bd0dd31f7a5042fb1058fd182a2634170/datepicker-directive.js",
+          "outpath": "custom"
+        }
+      },
+      "focus-directive": {
+        "files": {
+          "file": "focus-directive.js",
+          "url": "https://gist.githubusercontent.com/matthewbednarski/d3a580c78b873779b931/raw/38ba738e5906dbd31a731575b0ca27e7bcdbdcc9/focus-directive.js",
+          "outpath": "custom"
+        }
+      },
+      "spinner-directive": {
+        "files": {
+          "file": "spinner-directive.js",
+          "url": "https://gist.githubusercontent.com/matthewbednarski/2895fa08c894c5001d5e/raw/24c2500a02b643e26e6b49c550f25cb5ec6f560a/spinner-directive.js",
+          "outpath": "custom"
+        }
+      }
     }
+  },
+  "cdnjs": {
+    "root": "https://cdnjs.cloudflare.com/ajax/libs",
+    "relative-location": "src/libs",
+    "dependencies": {
+      "jquery": {
+        "version": "2.1.4",
+        "files": [
+          "jquery.js",
+          "jquery.min.js",
+          "jquery.min.map"
+        ]
+      },
+      "lodash.js": {
+        "version": "3.10.1",
+        "files": [
+          "lodash.js",
+          "lodash.min.js"
+        ]
+      },
+      "moment.js": {
+        "version": "2.10.6",
+        "files": [
+          "locale/de.js",
+          "locale/it.js",
+          "moment-with-locales.js",
+          "moment-with-locales.min.js",
+          "moment.js",
+          "moment.min.js"
+        ]
+      },
+      "angular.js": {
+        "version": "1.4.7",
+        "files": [
+          "angular-animate.js",
+          "angular-animate.min.js",
+          "angular-animate.min.js.map",
+          "angular-aria.js",
+          "angular-aria.min.js",
+          "angular-aria.min.js.map",
+          "angular-cookies.js",
+          "angular-cookies.min.js",
+          "angular-cookies.min.js.map",
+          "angular-csp.css",
+          "angular-loader.js",
+          "angular-loader.min.js",
+          "angular-loader.min.js.map",
+          "angular-message-format.js",
+          "angular-message-format.min.js",
+          "angular-message-format.min.js.map",
+          "angular-messages.js",
+          "angular-messages.min.js",
+          "angular-messages.min.js.map",
+          "angular-mocks.js",
+          "angular-resource.js",
+          "angular-resource.min.js",
+          "angular-resource.min.js.map",
+          "angular-route.js",
+          "angular-route.min.js",
+          "angular-route.min.js.map",
+          "angular-sanitize.js",
+          "angular-sanitize.min.js",
+          "angular-sanitize.min.js.map",
+          "angular-scenario.js",
+          "angular-touch.js",
+          "angular-touch.min.js",
+          "angular-touch.min.js.map",
+          "angular.js",
+          "angular.min.js",
+          "angular.min.js.map",
+          "i18n/angular-locale_de-de.js",
+          "i18n/angular-locale_de.js",
+          "i18n/angular-locale_en-iso.js",
+          "i18n/angular-locale_en-us.js",
+          "i18n/angular-locale_en.js",
+          "i18n/angular-locale_it-it.js",
+          "i18n/angular-locale_it.js"
+        ]
+      },
+      "twitter-bootstrap": {
+        "version": "3.3.5",
+        "files": [
+          "css/bootstrap-theme.css",
+          "css/bootstrap-theme.css.map",
+          "css/bootstrap-theme.min.css",
+          "css/bootstrap.css",
+          "css/bootstrap.css.map",
+          "css/bootstrap.min.css",
+          "fonts/glyphicons-halflings-regular.eot",
+          "fonts/glyphicons-halflings-regular.svg",
+          "fonts/glyphicons-halflings-regular.ttf",
+          "fonts/glyphicons-halflings-regular.woff",
+          "fonts/glyphicons-halflings-regular.woff2",
+          "js/bootstrap.js",
+          "js/bootstrap.min.js",
+          "js/npm.js"
+        ]
+      },
+      "font-awesome": {
+        "version": "4.4.0",
+        "files": [
+          "css/font-awesome.css",
+          "css/font-awesome.css.map",
+          "css/font-awesome.min.css",
+          "fonts/FontAwesome.otf",
+          "fonts/fontawesome-webfont.eot",
+          "fonts/fontawesome-webfont.svg",
+          "fonts/fontawesome-webfont.ttf",
+          "fonts/fontawesome-webfont.woff",
+          "fonts/fontawesome-webfont.woff2"
+        ]
+      },
+      "angular-translate": {
+        "version": "2.8.1",
+        "files": [
+          "angular-translate.js",
+          "angular-translate.min.js"
+        ]
+      },
+      "pouchdb": {
+        "version": "5.0.0",
+        "files": [
+          "pouchdb.js",
+          "pouchdb.min.js"
+        ]
+      },
+      "angular-ui-router": {
+        "version": "0.2.15",
+        "files": [
+          "angular-ui-router.js",
+          "angular-ui-router.min.js"
+        ]
+      },
+      "d3": {
+        "version": "3.5.6",
+        "files": [
+          "d3.js",
+          "d3.min.js"
+        ]
+      },
+      "allmighty-autocomplete": {
+        "version": "1.0.140706",
+        "files": [
+          "autocomplete.css",
+          "autocomplete.js",
+          "autocomplete.min.css",
+          "autocomplete.min.js"
+        ]
+      },
+      "angular-ui": {
+        "version": "0.4.0",
+        "files": [
+          "angular-ui-ieshiv.js",
+          "angular-ui-ieshiv.min.js",
+          "angular-ui.css",
+          "angular-ui.js",
+          "angular-ui.min.css",
+          "angular-ui.min.js"
+        ]
+      },
+      "bootstrap-datepicker": {
+        "version": "1.5.0",
+        "files": [
+          "css/bootstrap-datepicker3.css",
+          "css/bootstrap-datepicker3.min.css",
+          "css/bootstrap-datepicker3.standalone.css",
+          "css/bootstrap-datepicker3.standalone.min.css",
+          "js/bootstrap-datepicker.js",
+          "js/bootstrap-datepicker.min.js",
+          "locales/bootstrap-datepicker.de.min.js",
+          "locales/bootstrap-datepicker.it.min.js"
+        ]
+      },
+      "offline-js": {
+        "version": "0.7.14",
+        "files": [
+          "offline.js",
+          "offline.min.js",
+          "themes/offline-language-dutch-indicator.css",
+          "themes/offline-language-dutch.css",
+          "themes/offline-language-english-indicator.css",
+          "themes/offline-language-english.css",
+          "themes/offline-language-french-indicator.css",
+          "themes/offline-language-french.css",
+          "themes/offline-language-german-indicator.css",
+          "themes/offline-language-german.css",
+          "themes/offline-language-portuguese-brazil-indicator.css",
+          "themes/offline-language-portuguese-brazil.css",
+          "themes/offline-language-spanish-indicator.css",
+          "themes/offline-language-spanish.css",
+          "themes/offline-language-turkish-indicator.css",
+          "themes/offline-language-turkish.css",
+          "themes/offline-theme-chrome-indicator.css",
+          "themes/offline-theme-chrome.css",
+          "themes/offline-theme-dark-indicator.css",
+          "themes/offline-theme-dark.css",
+          "themes/offline-theme-default-indicator.css",
+          "themes/offline-theme-default.css",
+          "themes/offline-theme-hubspot.css",
+          "themes/offline-theme-slide-indicator.css",
+          "themes/offline-theme-slide.css"
+        ]
+      },
+      "angular-chart.js": {
+        "version": "0.8.5",
+        "files": [
+          "angular-chart.css",
+          "angular-chart.js",
+          "angular-chart.min.css",
+          "angular-chart.min.css.map",
+          "angular-chart.min.js",
+          "angular-chart.min.js.map"
+        ]
+      },
+      "Chart.js": {
+        "version": "1.0.2",
+        "files": [
+          "Chart.js",
+          "Chart.min.js"
+        ]
+      }
+    }
+  }
 }

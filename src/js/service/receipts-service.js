@@ -30,9 +30,9 @@
             if (receiptToSave === undefined) {
                 receiptToSave = receipt.current;
             }
-            api.put(receiptToSave)
+            return api.put(receiptToSave)
                 .then(function() {
-                    persist();
+                    return persist();
                 });
         }
 
@@ -56,7 +56,8 @@
                         })
                         .value();
 
-                    _.merge(list, results);
+                    var tmp = results.concat(list);
+                    _.assign(list, tmp);
                     var toCurrent = _.chain(list)
                         .find(function(rec) {
                             return rec.id === currentId;
@@ -125,7 +126,7 @@
             }
             var existing = _.chain(list)
                 .filter(function(existing) {
-                    return existing.id === item.id;
+                    return existing.id === oRec.id;
                 })
                 .first()
                 .value();
@@ -135,7 +136,10 @@
                 //todo: add check if item exists
                 list.push(_.cloneDeep(oRec));
             }
-            defer.resolve(oRec);
+            return save(oRec).then(function(res){
+            	defer.resolve(oRec);
+            	return res;
+			});
             return defer.promise;
         }
 
