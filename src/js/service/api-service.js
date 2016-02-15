@@ -71,7 +71,7 @@
                     if (status !== undefined && (status === 401 || status === 403)) {
                         $state.go('login');
                     }
-                    console.error(err);
+                    // console.error(err);
                     defer.reject([err, status, e2, e3]);
                 });
             return defer.promise;

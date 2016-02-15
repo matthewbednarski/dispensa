@@ -81,7 +81,8 @@
 			views: {
 				'graphic': {
 					templateUrl: "js/graphic/graphic.html",
-					controller: 'GraphicController',
+					// controller: 'GraphicController',
+					controller: 'chart',
 					controllerAs: 'ctrl'
 				}
 			}

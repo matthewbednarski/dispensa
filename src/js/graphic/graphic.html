@@ -1,90 +1,70 @@
 <div>
     <!-- <bar&#45;chart/> -->
+
     <div class="col-xs-12 col-md-9">
-        <div d3-bars items="{{ctrl.items | filter:ctrl.svc.itemFilter }}" bar-height="20"
-        bar-padding="5" total="ctrl.total"></div>
-        {{ ctrl.total | currency }}
+        <div class="panel panel-default ">
+            <div class="panel-body ">
+                <div class="row hidden-xs " ng-show="ctrl.chartable.data.length>0">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="embed-responsive-item">
+                            <canvas id="pie" class="chart chart-pie" 
+											 chart-data="ctrl.chartable.data"
+                            				 chart-labels="ctrl.chartable.chart_labels"
+							></canvas>
+                        </div>
+                    </div>
+                    <hr class="hidden-xs" />
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-hover" focus-on="table" st-safe-src="ctrl.table.items"
+                        st-table="ctrl.table.safe">
+                            <thead>
+                                <tr ng-show="ctrl.table.items.length > 1">
+                                    <th colspan="{{ ctrl._.keys( ctrl.table.safe[0] ).length }}">
+                                        <input st-search placeholder="{{ ctl.texts.label.search}}" class="input-sm form-control"
+                                        type="search" />
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th st-sort="{{ key }}" ng-repeat="(key, value) in ctrl.table.safe[0]">{{ key }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in ctrl.table.safe" class="{{item.status}}">
+                                    <td ng-repeat="(key, value) in item">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-xs-12 col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">{{ 'app.graphic' | translate }}</div>
             <div class="panel-body">
-                <form novalidate name="form" class="simple-form">
-                    <div class="form-group">
-                        <div class="input-group form-group" ng-class="{ 'has-error' : form.begin.$invalid && !form.begin.$pristine }">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i>  {{ 'text.begin' | translate}} </span>
-                            <div class="input-append date">
-                                	<input data-provide="datepicker" 
-									   class="form-control"
-										name="begin" 
-		  								ng-change="ctrl.svc.dateChange(ctrl.svc.filter, 'begin', ctrl.svc.filter.date.begin)"
-		  								data-date-format="dd MM yyyy"
-          								is-open="opened" close-on-date-selection="true"
-          								datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
-          								show-button-bar="false" show-weeks="false"
-                                		ng-model="ctrl.svc.filter.date.begin" required />
-                            </div>
-                        </div>
-                        <div class="input-group form-group" ng-class="{ 'has-error' : form.end.$invalid && !form.end.$pristine }">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i>  {{ 'text.end' | translate}} </span>
-                            <div class="input-append date">
-                                	<input data-provide="datepicker" 
-									   class="form-control" 
-										name="begin" data-date-format="dd MM yyyy"
-		  								ng-change="ctrl.svc.dateChange(ctrl.svc.filter, 'end', ctrl.svc.filter.date.end)"
-          								is-open="opened" close-on-date-selection="true"
-          								datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
-          								show-button-bar="false" show-weeks="false"
-                                		ng-model="ctrl.svc.filter.date.end" required />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.store_type' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.store_label_list track by item.key"
-                            ng-model="ctrl.svc.filter.store_label">
-                                <option value="">--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.city' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.city_list track by item.key"
-                            ng-model="ctrl.svc.filter.city">
-                                <option value="">--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.store' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.store_list track by item.key"
-                            ng-model="ctrl.svc.filter.store">
-                                <option value="">--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.brand' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.brand_list track by item.key"
-                            ng-model="ctrl.svc.filter.brand">
-                                <option value="">--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group" ng-class="{ 'has-error' : form.label.$invalid && !form.label.$pristine }">
-                            <span class="input-group-addon">{{ 'text.label' | translate}} </span>
-                            <select class="selectpicker form-control" ng-options="item.text for item in ctrl.svc.label_list track by item.key"
-                            ng-model="ctrl.svc.filter.label">
-                                <option value="">--</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
+				<div>
+					<div >
+						<button class="btn btn-primary"
+									  data-toggle="collapse"
+		   							  data-target="#collapse-labels"  >Labels</button>
+						<div class="collapse" id="collapse-labels">
+							<div ng-repeat="label in ctrl.chartable.chart_labels">
+			{{label}}
+							</div>
+						</div>
+					</div>
+					<div ng-repeat="(key, value) in ctrl.chartable.datasets">
+						<button class="btn btn-primary" ng-click="ctrl.chartable.update( key );"
+									  data-toggle="collapse"
+		   							  data-target="#collapse-{{key}}"  >{{key}}</button>
+						<div class="collapse" id="collapse-{{key}}">
+							{{ctrl.chartable.datasets[key] }}
+						</div>
+					</div>
+				</div>
             </div>
         </div>
     </div>

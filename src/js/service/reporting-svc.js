@@ -4,7 +4,7 @@
 
     angular
         .module('dispensa')
-        .service('reportingSvc', ['receipts','receipt','item','lists',  ReportingService]);
+        .service('reportingSvc', ['receipts', 'receipt', 'item', 'lists', ReportingService]);
 
     function ReportingService(receipts, receipt, item, lists) {
         var ctrl = this;
@@ -32,26 +32,64 @@
             filter.date[type] = m.format('DD MMMM YYYY');
         };
         this.extractProperty = function(prop, propValArrName) {
-            var mY = _.chain(receipts.items())
-                .map(function(item) {
-                    return item[prop];
-                })
-                .filter(function(item) {
-                    return item !== undefined && item !== "";
-                })
-                .unique()
-                .map(function(item) {
-                    var key = item;
-                    var text = item;
-                    return {
-                        key: key,
-                        text: text
-                    }
-                })
-                .sortBy(function(out) {
-                    return out.key;
-                })
-                .value();
+        	var mY = undefined;
+            if (prop === 'store' || prop === 'city' || prop === 'store_label') {
+                mY = _.chain(receipts.items())
+                    .filter(function(item) {
+                        return item.hasOwnProperty(prop);
+                    })
+                    .map(function(item) {
+                        return item[prop];
+                    })
+                    .filter(function(val) {
+                        return val !== undefined && val !== "";
+                    })
+                    .unique()
+                    .map(function(item) {
+                        var key = item;
+                        var text = item;
+                        return {
+                            key: key,
+                            text: text
+                        }
+                    })
+                    .sortBy(function(out) {
+                        return out.key;
+                    })
+                    .value();
+            }else{
+                mY = _.chain(receipts.items())
+                    .filter(function(item) {
+                        return item.hasOwnProperty('items');
+                    })
+                    .map(function(item) {
+                        return item.items;
+                    })
+                    .flatten()
+                    .filter(function(item) {
+                        return item.hasOwnProperty(prop);
+                    })
+                    .map(function(item) {
+                        return item[prop];
+                    })
+                    .filter(function(val) {
+                        return val !== undefined && val !== "";
+                    })
+                    .unique()
+                    .map(function(item) {
+                        var key = item;
+                        var text = item;
+                        return {
+                            key: key,
+                            text: text
+                        }
+                    })
+                    .sortBy(function(out) {
+                        return out.key;
+                    })
+                    .value();
+
+			}
 
             if (propValArrName === undefined) {
                 propValArrName = prop + '_list';
